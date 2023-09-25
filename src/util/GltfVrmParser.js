@@ -1,5 +1,11 @@
 import { parseHeader, parseJsonChunk, validateHeader } from './vrmParserUtils';
 
+function parseJson(jsonChunk) {
+  const decoder = new TextDecoder('utf8');
+  const jsonText = decoder.decode(jsonChunk.chunkUint8Array);
+  return JSON.parse(jsonText);
+}
+
 /**
  * Based on VRMParser Copyright (c) 2022 Nobuyuki Furukawa (tfuru)
  */
@@ -24,16 +30,7 @@ export default class GltfVrmParser {
 
   jsonChunk;
 
-  get json() {
-    if (this.jsonChunk) {
-      const decoder = new TextDecoder('utf8');
-      const jsonText = decoder.decode(this.jsonChunk.chunkUint8Array);
-      console.log('JSONTEXT:', jsonText);
-      return JSON.parse(jsonText);
-    }
-
-    return null;
-  }
+  json;
 
   constructor(file) {
     console.log('INIT...');
@@ -56,5 +53,7 @@ export default class GltfVrmParser {
     this.header = parseHeader(this.fileDataView);
     validateHeader(this.header);
     this.jsonChunk = parseJsonChunk(this.fileDataView, this.header);
+    this.json = parseJson(this.jsonChunk);
+    console.log('JSON:', this.json);
   }
 }
