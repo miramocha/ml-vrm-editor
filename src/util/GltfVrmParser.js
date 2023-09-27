@@ -3,21 +3,21 @@ import * as GltfParserUtils from './GltfParserUtils';
 export default class GltfVrmParser {
   fileName;
 
-  set file(file) {
-    this.parse(file);
-  }
-
   fileDataView;
 
   header;
 
   jsonChunk;
 
+  binaryChunk;
+
+  set file(file) {
+    this.parse(file);
+  }
+
   get json() {
     return this.jsonChunk ? GltfParserUtils.parseJson(this.jsonChunk) : null;
   }
-
-  binaryChunk;
 
   constructor(file) {
     this.file = file;
