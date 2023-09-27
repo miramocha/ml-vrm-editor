@@ -15,9 +15,12 @@ export default function App() {
   useEffect(() => {
     fetch(defaultVrmPath)
       .then((response) => response.blob())
-      .then((blob) =>
-        setVrmParser(new GltfVrmParser(new File([blob], 'TestVrm0'))),
-      );
+      .then(async (blob) => {
+        const newVrmParser = new GltfVrmParser();
+        await newVrmParser.parseFile(new File([blob], 'TestVrm0'));
+
+        setVrmParser(newVrmParser);
+      });
   }, []);
 
   return (
