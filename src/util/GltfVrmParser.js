@@ -7,6 +7,8 @@ export default class GltfVrmParser {
 
   header;
 
+  version;
+
   jsonChunk;
 
   binaryChunk;
@@ -15,8 +17,8 @@ export default class GltfVrmParser {
     return this.jsonChunk ? GltfParserUtils.parseJson(this.jsonChunk) : null;
   }
 
-  constructor(file) {
-    this.file = file;
+  set json(json) {
+    this.jsonChunk = null;
   }
 
   async parseFile(file) {
@@ -24,10 +26,12 @@ export default class GltfVrmParser {
     this.fileName = file.name;
 
     const fileDataView = new DataView(await file.arrayBuffer());
-    this.header = GltfParserUtils.parseHeader({
+    const [magic, version] = GltfParserUtils.parseHeader({
       fileDataView,
     });
-    GltfParserUtils.validateHeader(this.header);
+
+    this.version = version;
+    GltfParserUtils.validateMagic(magic);
 
     this.jsonChunk = GltfParserUtils.parseJsonChunk({
       fileDataView,

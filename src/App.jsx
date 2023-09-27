@@ -1,40 +1,53 @@
 import { useEffect, useState } from 'react';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Tab, Tabs, Container, Row, Col, Form } from 'react-bootstrap';
 
 import './App.css';
 import defaultVrmPath from './resources/TestVrm0.vrm';
 import GltfVrmParser from './util/GltfVrmParser';
+import GltfJsonEditorTab from './components/gltfJsonEditorTab';
 
 export default function App() {
-  const [vrmParser, setVrmParser] = useState(null);
+  const [gltfVrmParser, setGltfVrmParser] = useState(null);
 
   useEffect(() => {
     fetch(defaultVrmPath)
       .then((response) => response.blob())
       .then(async (blob) => {
-        const newVrmParser = new GltfVrmParser();
-        await newVrmParser.parseFile(new File([blob], 'TestVrm0'));
+        const newGltfVrmParser = new GltfVrmParser();
+        await newGltfVrmParser.parseFile(new File([blob], 'TestVrm0'));
 
-        setVrmParser(newVrmParser);
+        console.log('PARSER:', newGltfVrmParser);
+
+        setGltfVrmParser(newGltfVrmParser);
       });
   }, []);
+
+  const handleFileChange = async (event) => {
+    const newGltfVrmParser = new GltfVrmParser();
+    await newGltfVrmParser.parseFile(event.target.files[0]);
+
+    console.log('PARSER:', newGltfVrmParser);
+
+    setGltfVrmParser(newGltfVrmParser);
+  };
 
   return (
     <div className="App">
       <Container>
         <Row>
-          <Col md={6}>VIEWER</Col>
           <Col md={6}>
-            <Tabs
-              defaultActiveKey="materialProperties"
-              className="material-tab"
-            >
-              <Tab eventKey="materialProperties" title="Material Properties">
-                {JSON.stringify(vrmParser?.json)}
+            VIEWER: {gltfVrmParser?.fileName}
+            <Form.Group controlId="formFile" className="mb-3">
+              <Form.Label>Upload VRM0</Form.Label>
+              <Form.Control type="file" onChange={handleFileChange} />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Tabs defaultActiveKey="gltfJsonEditorTab" className="editor-tabs">
+              <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
+                <GltfJsonEditorTab
+                  gltfVrmJsonString={JSON.stringify(gltfVrmParser?.json)}
+                />
               </Tab>
             </Tabs>
           </Col>
