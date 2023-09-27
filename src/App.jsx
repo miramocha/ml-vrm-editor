@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Tab, Tabs, Container, Row, Col, Form } from 'react-bootstrap';
+import { Tab, Tabs, Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 import './App.css';
 import defaultVrmPath from './resources/TestVrm0.vrm';
@@ -14,7 +14,7 @@ export default function App() {
       .then((response) => response.blob())
       .then(async (blob) => {
         const newGltfVrmParser = new GltfVrmParser();
-        await newGltfVrmParser.parseFile(new File([blob], 'TestVrm0'));
+        await newGltfVrmParser.parseFile(new File([blob], 'TestVrm0.vrm'));
 
         console.log('PARSER:', newGltfVrmParser);
 
