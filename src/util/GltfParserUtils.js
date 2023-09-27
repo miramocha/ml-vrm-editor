@@ -27,8 +27,7 @@ function parseHeader({ fileDataView }) {
   return [magic, version, length];
 }
 
-function validateHeader(header) {
-  const [magic] = header;
+function validateMagic(magic) {
   if (magic !== GLTF_HEADER_MAGIC) {
     throw new Error('Invalid GLTF File.');
   }
@@ -92,7 +91,7 @@ function parseJson(jsonChunk) {
   return JSON.parse(jsonText);
 }
 
-function buildGltfFile({ fileName, jsonChunk, binaryChunk, header }) {
+function buildGltfFile({ fileName, jsonChunk, binaryChunk, version }) {
   const arrayBuffer = new ArrayBuffer(
     GLTF_CHUNK_HEADER_LENGTH + // 12-Byte Header (4 + 4 + 4)
       GLTF_UINT32_CHUNK_LENGTH + // 4 Byte containing length of JSON chunk
@@ -109,14 +108,17 @@ function buildGltfFile({ fileName, jsonChunk, binaryChunk, header }) {
   let byteOffset = 0;
 
   // Build 12-byte Header
-  const [magic, version, length] = header;
-  fileDataView.setUint32(byteOffset, magic, GLTF_LITTLE_ENDIAN);
+  fileDataView.setUint32(byteOffset, GLTF_HEADER_MAGIC, GLTF_LITTLE_ENDIAN);
   byteOffset += GLTF_UINT32_CHUNK_LENGTH;
 
   fileDataView.setUint32(byteOffset, version, GLTF_LITTLE_ENDIAN);
   byteOffset += GLTF_UINT32_CHUNK_LENGTH;
 
-  fileDataView.setUint32(byteOffset, length, GLTF_LITTLE_ENDIAN);
+  fileDataView.setUint32(
+    byteOffset,
+    GLTF_CHUNK_HEADER_LENGTH + jsonChunk.chunkLength + binaryChunk.chunkLength,
+    GLTF_LITTLE_ENDIAN,
+  );
   byteOffset += GLTF_UINT32_CHUNK_LENGTH;
 
   // Build Chunk 0 (JSON)
@@ -155,7 +157,7 @@ function buildGltfFile({ fileName, jsonChunk, binaryChunk, header }) {
 
 export {
   parseHeader,
-  validateHeader,
+  validateMagic,
   parseJsonChunk,
   parseBinaryChunk,
   parseJson,
