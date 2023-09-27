@@ -11,6 +11,15 @@ export default class GltfVrmParser {
 
   binaryChunk;
 
+  get file() {
+    return GltfParserUtils.buildGltfFile({
+      fileName: this.fileName,
+      jsonChunk: this.jsonChunk,
+      binaryChunk: this.binaryChunk,
+      header: this.header,
+    });
+  }
+
   set file(file) {
     this.parse(file);
   }
@@ -34,19 +43,19 @@ export default class GltfVrmParser {
   handleFileReaderLoad(event) {
     console.log('HANDLING...', event.currentTarget.result);
 
-    this.fileDataView = new DataView(event.currentTarget.result);
+    const fileDataView = new DataView(event.currentTarget.result);
     this.header = GltfParserUtils.parseHeader({
-      fileDataView: this.fileDataView,
+      fileDataView,
     });
     GltfParserUtils.validateHeader(this.header);
 
     this.jsonChunk = GltfParserUtils.parseJsonChunk({
-      fileDataView: this.fileDataView,
+      fileDataView,
       header: this.header,
     });
 
     this.binaryChunk = GltfParserUtils.parseBinaryChunk({
-      fileDataView: this.fileDataView,
+      fileDataView,
       jsonChunkLength: this.jsonChunk.chunkLength,
     });
 
