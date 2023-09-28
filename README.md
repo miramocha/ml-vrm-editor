@@ -1,6 +1,9 @@
-# Getting Started with Create React App
+# Introduction
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ML VRM Material editor is a React web application that allows user to import VRM file for editing on the web.
+
+## Features
+- Edit JSON of VRM file
 
 ## Available Scripts
 
