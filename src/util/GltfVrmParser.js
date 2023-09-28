@@ -33,7 +33,7 @@ export default class GltfVrmParser {
       throw new Error('Invalid GLTF.');
     }
 
-    const [version] = GltfParserUtils.parseHeader({
+    const { version } = GltfParserUtils.parseHeader({
       fileDataView,
     });
 
