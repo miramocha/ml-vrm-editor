@@ -1,11 +1,10 @@
+import { validateBytes } from 'gltf-validator';
 import * as GltfParserUtils from './GltfParserUtils';
 
 export default class GltfVrmParser {
   fileName;
 
   fileDataView;
-
-  header;
 
   version;
 
@@ -26,13 +25,19 @@ export default class GltfVrmParser {
     this.fileName = file.name;
 
     const fileDataView = new DataView(await file.arrayBuffer());
-    const [magic, version] = GltfParserUtils.parseHeader({
+
+    console.log('VALIDATING IMPORTED FILE...');
+    const report = await validateBytes(new Uint8Array(fileDataView.buffer));
+    console.info('Validation succeeded: ', report);
+    if (report.issues.numErrors > 0) {
+      throw new Error('Invalid GLTF.');
+    }
+
+    const [version] = GltfParserUtils.parseHeader({
       fileDataView,
     });
 
     this.version = version;
-    GltfParserUtils.validateMagic(magic);
-
     this.jsonChunk = GltfParserUtils.parseJsonChunk({
       fileDataView,
       header: this.header,
@@ -46,12 +51,24 @@ export default class GltfVrmParser {
     console.log('JSON:', GltfParserUtils.parseJson(this.jsonChunk));
   }
 
-  buildGltfFile() {
-    return GltfParserUtils.buildGltfFile({
+  async buildFile() {
+    console.log('BUILDING FILE');
+    const file = GltfParserUtils.buildGltfFile({
       fileName: this.fileName,
       jsonChunk: this.jsonChunk,
       binaryChunk: this.binaryChunk,
-      header: this.header,
+      version: this.version,
     });
+
+    console.log('VALIDATING BUILT FILE...');
+    const report = await validateBytes(
+      new Uint8Array(await file.arrayBuffer()),
+    );
+    console.info('Validation succeeded: ', report);
+    if (report.issues.numErrors > 0) {
+      throw new Error('Invalid GLTF.');
+    }
+
+    return file;
   }
 }

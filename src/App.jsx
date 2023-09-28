@@ -31,6 +31,17 @@ export default function App() {
     setGltfVrmParser(newGltfVrmParser);
   };
 
+  const handleDownloadButtonClick = async () => {
+    const blobURL = window.URL.createObjectURL(await gltfVrmParser.buildFile());
+    const tempLink = document.createElement('a');
+    tempLink.style.display = 'none';
+    tempLink.href = blobURL;
+    tempLink.setAttribute('download', gltfVrmParser.fileName);
+    document.body.appendChild(tempLink);
+    // tempLink.click();
+    document.body.removeChild(tempLink);
+  };
+
   return (
     <div className="App">
       <Container>
@@ -41,6 +52,9 @@ export default function App() {
               <Form.Label>Upload VRM0</Form.Label>
               <Form.Control type="file" onChange={handleFileChange} />
             </Form.Group>
+            <Button variant="primary" onClick={handleDownloadButtonClick}>
+              Download File
+            </Button>
           </Col>
           <Col md={6}>
             <Tabs defaultActiveKey="gltfJsonEditorTab" className="editor-tabs">
