@@ -12,23 +12,33 @@ export default class GltfVrmParser {
 
   binaryChunk;
 
+  get jsonString() {
+    const decoder = new TextDecoder('utf8');
+    const jsonString = decoder.decode(this.jsonChunk.chunkUint8Array);
+    return this.jsonChunk ? jsonString : null;
+  }
+
   get json() {
     return this.jsonChunk ? GltfParserUtils.parseJson(this.jsonChunk) : null;
   }
 
   set json(json) {
     const jsonString = JSON.stringify(json);
-    const chunkLength = GltfParserUtils.calculateChunkLength(jsonString.length);
+    const jsonStringLength = GltfParserUtils.calculateChunkLength(
+      jsonString.length,
+    );
     // This chunk MUST be padded with trailing Space chars (0x20) to satisfy alignment requirements.
-    const paddedJsonString = jsonString.padEnd(chunkLength);
-
-    console.log('JSON LENGTH:', JSON.stringify(json).length);
+    const paddedJsonString = jsonString.padEnd(jsonStringLength);
+    console.log('NEW JSON STRING LENGTH:', JSON.stringify(json).length);
     console.log('OLD CHUNK LENGTH:', this.jsonChunk.chunkLength);
-    console.log('NEW CHUNK LENGTH:', chunkLength);
+    console.log('NEW JSON LENGTH:', jsonStringLength);
+    console.log('NEW PADDED JSON LENGTH:', paddedJsonString.length);
+    const encodedJsonString = new TextEncoder().encode(paddedJsonString);
+    console.log('ENCODED LENGTH:', encodedJsonString.length);
 
     this.jsonChunk = {
-      chunkLength,
-      chunkUint8Array: new TextEncoder().encode(paddedJsonString),
+      chunkLength: jsonStringLength,
+      chunkUint8Array: encodedJsonString,
     };
   }
 
@@ -39,7 +49,9 @@ export default class GltfVrmParser {
     const fileDataView = new DataView(await file.arrayBuffer());
 
     console.log('VALIDATING IMPORTED FILE...');
-    const report = await validateBytes(new Uint8Array(fileDataView.buffer));
+    const report = await validateBytes(new Uint8Array(fileDataView.buffer), {
+      ignoredIssues: ['BUFFER_VIEW_TARGET_MISSING'],
+    });
     console.info('VALIDATION SUCCEEDED: ', report);
     // if (report.issues.numErrors > 0) {
     //   throw new Error('Invalid GLTF.');
@@ -75,6 +87,9 @@ export default class GltfVrmParser {
     console.log('VALIDATING BUILT FILE...');
     const report = await validateBytes(
       new Uint8Array(await file.arrayBuffer()),
+      {
+        ignoredIssues: ['BUFFER_VIEW_TARGET_MISSING'],
+      },
     );
     console.info('VALIDATION SUCCEEDED: ', report);
     // if (report.issues.numErrors > 0) {

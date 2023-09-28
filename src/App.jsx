@@ -1,5 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Tab, Tabs, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import {
+  Tab,
+  Tabs,
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  ButtonGroup,
+} from 'react-bootstrap';
 
 import './App.css';
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
@@ -47,6 +56,10 @@ export default function App() {
     document.body.removeChild(tempLink);
   };
 
+  const handleValidateButtonClick = () => {
+    gltfVrmParser.buildFile();
+  };
+
   return (
     <div className="App">
       <Container>
@@ -57,19 +70,20 @@ export default function App() {
               <Form.Label>Upload VRM0</Form.Label>
               <Form.Control type="file" onChange={handleFileChange} />
             </Form.Group>
-            <Button variant="primary" onClick={handleDownloadButtonClick}>
-              Download File
-            </Button>
+            <ButtonGroup>
+              <Button variant="primary" onClick={handleValidateButtonClick}>
+                Validate GLTF
+              </Button>
+              <Button variant="primary" onClick={handleDownloadButtonClick}>
+                Download File
+              </Button>
+            </ButtonGroup>
           </Col>
           <Col md={6}>
             <Tabs defaultActiveKey="gltfJsonEditorTab" className="editor-tabs">
               <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
                 <GltfJsonEditorTab
-                  gltfVrmJsonString={JSON.stringify(
-                    gltfVrmParser?.json,
-                    null,
-                    4,
-                  )}
+                  gltfVrmJsonString={JSON.stringify(gltfVrmParser?.json)}
                   submitCallback={gltfJsonEditorSubmitCallback}
                 />
               </Tab>

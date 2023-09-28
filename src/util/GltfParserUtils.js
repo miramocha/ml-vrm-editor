@@ -96,8 +96,9 @@ function parseBinaryChunk({ fileDataView, jsonChunkLength }) {
 
 function parseJson(jsonChunk) {
   const decoder = new TextDecoder('utf8');
-  const jsonText = decoder.decode(jsonChunk.chunkUint8Array);
-  return JSON.parse(jsonText);
+  const jsonString = decoder.decode(jsonChunk.chunkUint8Array);
+  console.log('JSON STRING LENGTH:', jsonString.length);
+  return JSON.parse(jsonString);
 }
 
 function buildGltfFile({ fileName, jsonChunk, binaryChunk, version }) {
@@ -175,6 +176,11 @@ function buildGltfFile({ fileName, jsonChunk, binaryChunk, version }) {
 }
 
 function calculateChunkLength(length) {
+  console.log('---CALCULATING LENGTH---');
+  console.log('LENGTH / 4:', length / 4);
+  console.log('CEIL LENGTH / 4:', Math.ceil(length / 4));
+  console.log('------------------------');
+
   return Math.ceil(length / 4) * 4;
 }
 

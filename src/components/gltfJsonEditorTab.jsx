@@ -8,9 +8,11 @@ export default function GltfJsonEditorTab({
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
+    console.log('JSON FORMDATA:', formData.get('gltfVrmJsonString'));
 
     submitCallback(
-      JSON.parse(formData.get('gltfVrmJsonString').replace(/\r?\n|\r/g, '')),
+      // JSON.parse(formData.get('gltfVrmJsonString').replace(/\r?\n|\r/g, '')),
+      JSON.parse(formData.get('gltfVrmJsonString')),
     );
   };
 
