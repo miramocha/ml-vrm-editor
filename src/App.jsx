@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Tab, Tabs, Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 import './App.css';
-import defaultVrmPath from './resources/TestVrm0.vrm';
+import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './util/GltfVrmParser';
 import GltfJsonEditorTab from './components/gltfJsonEditorTab';
 
@@ -14,7 +14,7 @@ export default function App() {
       .then((response) => response.blob())
       .then(async (blob) => {
         const newGltfVrmParser = new GltfVrmParser();
-        await newGltfVrmParser.parseFile(new File([blob], 'TestVrm0.vrm'));
+        await newGltfVrmParser.parseFile(new File([blob], 'AvatarSampleB.vrm'));
 
         console.log('PARSER:', newGltfVrmParser);
 
@@ -43,7 +43,7 @@ export default function App() {
     tempLink.href = blobURL;
     tempLink.setAttribute('download', gltfVrmParser.fileName);
     document.body.appendChild(tempLink);
-    // tempLink.click();
+    tempLink.click();
     document.body.removeChild(tempLink);
   };
 
