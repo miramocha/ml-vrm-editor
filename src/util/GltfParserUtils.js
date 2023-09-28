@@ -131,7 +131,9 @@ function buildGltfFile({ fileName, jsonChunk, binaryChunk, version }) {
   console.log('WRITING HEADER LENGTH', arrayBufferLength);
 
   // Build Chunk 0 (JSON)
-  console.log('WRITING JSON CHUNK LENGTH AT OFFSET:', byteOffset);
+  console.log(
+    `WRITING JSON CHUNK LENGTH ${jsonChunk.chunkLength} AT OFFSET:${byteOffset}`,
+  );
   fileDataView.setUint32(byteOffset, jsonChunk.chunkLength, GLTF_LITTLE_ENDIAN);
   byteOffset += GLTF_UINT32_CHUNK_LENGTH;
 
@@ -148,7 +150,9 @@ function buildGltfFile({ fileName, jsonChunk, binaryChunk, version }) {
   byteOffset += jsonChunk.chunkLength;
 
   // Build Chunk 1 (Binary)
-  console.log('WRITING BINARY CHUNK LENGTH AT OFFSET:', byteOffset);
+  console.log(
+    `WRITING BINARY CHUNK LENGTH ${binaryChunk.chunkLength} AT OFFSET:${byteOffset}`,
+  );
   fileDataView.setUint32(
     byteOffset,
     binaryChunk.chunkLength,
@@ -170,10 +174,15 @@ function buildGltfFile({ fileName, jsonChunk, binaryChunk, version }) {
   return new File([fileDataView], fileName);
 }
 
+function calculateChunkLength(length) {
+  return Math.ceil(length / 4) * 4;
+}
+
 export {
   parseHeader,
   parseJsonChunk,
   parseBinaryChunk,
   parseJson,
   buildGltfFile,
+  calculateChunkLength,
 };

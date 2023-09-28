@@ -31,6 +31,11 @@ export default function App() {
     setGltfVrmParser(newGltfVrmParser);
   };
 
+  const gltfJsonEditorSubmitCallback = (json) => {
+    console.log('JSON CHANGED:', json);
+    gltfVrmParser.json = json;
+  };
+
   const handleDownloadButtonClick = async () => {
     const blobURL = window.URL.createObjectURL(await gltfVrmParser.buildFile());
     const tempLink = document.createElement('a');
@@ -60,7 +65,12 @@ export default function App() {
             <Tabs defaultActiveKey="gltfJsonEditorTab" className="editor-tabs">
               <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
                 <GltfJsonEditorTab
-                  gltfVrmJsonString={JSON.stringify(gltfVrmParser?.json)}
+                  gltfVrmJsonString={JSON.stringify(
+                    gltfVrmParser?.json,
+                    null,
+                    4,
+                  )}
+                  submitCallback={gltfJsonEditorSubmitCallback}
                 />
               </Tab>
             </Tabs>

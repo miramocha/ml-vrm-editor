@@ -1,31 +1,45 @@
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
 
-function handleChange(event) {
-  console.log(event);
-}
+export default function GltfJsonEditorTab({
+  gltfVrmJsonString,
+  submitCallback,
+}) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
 
-export default function GltfJsonEditorTab({ gltfVrmJsonString }) {
+    submitCallback(
+      JSON.parse(formData.get('gltfVrmJsonString').replace(/\r?\n|\r/g, '')),
+    );
+  };
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Form.Group
         className="gltf-json-form"
         controlId="gltf-json-form.gltf-json-form-textarea"
       >
         <Form.Label>GLTF JSON</Form.Label>
         <Form.Control
+          name="gltfVrmJsonString"
           as="textarea"
           rows={10}
-          value={gltfVrmJsonString}
-          onChange={handleChange}
+          defaultValue={gltfVrmJsonString}
         />
+        <Button variant="primary" type="submit">
+          Save JSON
+        </Button>
       </Form.Group>
-      <Button variant="primary">Save JSON</Button>
     </Form>
   );
 }
 
 GltfJsonEditorTab.propTypes = {
   gltfVrmJsonString: PropTypes.string,
+  submitCallback: PropTypes.func,
 };
-GltfJsonEditorTab.defaultProps = { gltfVrmJsonString: '' };
+GltfJsonEditorTab.defaultProps = {
+  gltfVrmJsonString: '',
+  submitCallback: () => {},
+};
