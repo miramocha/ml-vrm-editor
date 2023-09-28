@@ -65,7 +65,7 @@ function parseChunk({ fileDataView, byteOffset, chunkNumber }) {
 
 function parseJsonChunk({ fileDataView }) {
   try {
-    console.log('PARSE JSON CHUNK END');
+    console.log('PARSE JSON CHUNK START');
     return parseChunk({
       fileDataView,
       byteOffset: GLTF_CHUNK_HEADER_LENGTH,
@@ -78,6 +78,7 @@ function parseJsonChunk({ fileDataView }) {
 
 function parseBinaryChunk({ fileDataView, jsonChunkLength }) {
   try {
+    console.log('PARSE BINARY CHUNK START');
     const byteOffset =
       GLTF_CHUNK_HEADER_LENGTH +
       GLTF_UINT32_CHUNK_LENGTH +
