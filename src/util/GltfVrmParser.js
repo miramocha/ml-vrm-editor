@@ -27,14 +27,36 @@ export default class GltfVrmParser {
     const jsonStringLength = GltfParserUtils.calculateChunkLength(
       jsonString.length,
     );
+
     // This chunk MUST be padded with trailing Space chars (0x20) to satisfy alignment requirements.
     const paddedJsonString = jsonString.padEnd(jsonStringLength);
     console.log('NEW JSON STRING LENGTH:', JSON.stringify(json).length);
     console.log('OLD CHUNK LENGTH:', this.jsonChunk.chunkLength);
     console.log('NEW JSON LENGTH:', jsonStringLength);
     console.log('NEW PADDED JSON LENGTH:', paddedJsonString.length);
-    const encodedJsonString = new TextEncoder().encode(paddedJsonString);
+
+    let hasDoubleByteChars = false;
+    const encodedJsonString = new TextEncoder()
+      .encode(paddedJsonString)
+      .map((value, index) => {
+        // TO DO: handle double byte chars
+        if (value > 127) {
+          hasDoubleByteChars = true;
+          console.log(
+            `DOUBLE BYTE CHAR FOUND AT ${index}:`,
+            paddedJsonString[index],
+          );
+        }
+
+        return value;
+      });
+
+    if (hasDoubleByteChars) {
+      throw new Error('DOUBLE BYTE CHARACTER DETECTED. ABORTING PARSE.');
+    }
+
     console.log('ENCODED LENGTH:', encodedJsonString.length);
+    console.log(encodedJsonString);
 
     this.jsonChunk = {
       chunkLength: jsonStringLength,
