@@ -46,6 +46,7 @@ function parseChunk({ fileDataView, byteOffset, chunkNumber }) {
   );
   console.log('CHUNK TYPE NUMBER:', typeNumber);
 
+  // TO DO: Remove this check and throw error earlier with gltf-validator
   if (chunkNumber !== typeNumber) {
     throw new Error('Invalid Chunk Number.');
   }
@@ -64,35 +65,25 @@ function parseChunk({ fileDataView, byteOffset, chunkNumber }) {
 }
 
 function parseJsonChunk({ fileDataView }) {
-  try {
-    console.log('PARSE JSON CHUNK START');
-    return parseChunk({
-      fileDataView,
-      byteOffset: GLTF_CHUNK_HEADER_LENGTH,
-      chunkNumber: GLTF_JSON_CHUNK_TYPE_NUMBER,
-    });
-  } catch (error) {
-    throw new Error('Invalid JSON Chunk Number.');
-  }
+  return parseChunk({
+    fileDataView,
+    byteOffset: GLTF_CHUNK_HEADER_LENGTH,
+    chunkNumber: GLTF_JSON_CHUNK_TYPE_NUMBER,
+  });
 }
 
 function parseBinaryChunk({ fileDataView, jsonChunkLength }) {
-  try {
-    console.log('PARSE BINARY CHUNK START');
-    const byteOffset =
-      GLTF_CHUNK_HEADER_LENGTH +
-      GLTF_UINT32_CHUNK_LENGTH +
-      GLTF_UINT32_CHUNK_LENGTH +
-      jsonChunkLength;
-    console.log('READING BINARY AT OFFSET:', byteOffset);
-    return parseChunk({
-      fileDataView,
-      byteOffset,
-      chunkNumber: GLTF_BINARY_CHUNK_TYPE_NUMBER,
-    });
-  } catch (error) {
-    throw new Error('Invalid Binary Chunk Number.');
-  }
+  const byteOffset =
+    GLTF_CHUNK_HEADER_LENGTH +
+    GLTF_UINT32_CHUNK_LENGTH +
+    GLTF_UINT32_CHUNK_LENGTH +
+    jsonChunkLength;
+
+  return parseChunk({
+    fileDataView,
+    byteOffset,
+    chunkNumber: GLTF_BINARY_CHUNK_TYPE_NUMBER,
+  });
 }
 
 function parseJson(jsonChunk) {
@@ -114,7 +105,6 @@ function buildGltfFile({ fileName, jsonChunk, binaryChunk, version }) {
   const arrayBuffer = new ArrayBuffer(arrayBufferLength);
 
   console.log('ARRAY BUFFER LENGTH:', arrayBufferLength);
-
   const fileDataView = new DataView(arrayBuffer);
   const uInt8Array = new Uint8Array(arrayBuffer);
 
@@ -177,11 +167,6 @@ function buildGltfFile({ fileName, jsonChunk, binaryChunk, version }) {
 }
 
 function calculateChunkLength(length) {
-  console.log('---CALCULATING LENGTH---');
-  console.log('LENGTH / 4:', length / 4);
-  console.log('CEIL LENGTH / 4:', Math.ceil(length / 4));
-  console.log('------------------------');
-
   return Math.ceil(length / 4) * 4;
 }
 
