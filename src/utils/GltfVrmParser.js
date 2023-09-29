@@ -60,20 +60,34 @@ export default class GltfVrmParser {
     this.json = json;
   }
 
-  setMaterialGlobalFloatProperties({ propertyNameToFloatMap }) {
+  get materialNames() {
+    return this.json?.extensions.VRM.materialProperties.map(
+      (material) => material.name,
+    );
+  }
+
+  setMaterialGlobalFloatProperties({
+    propertyNameToFloatMap,
+    skipMaterialNameSet,
+  }) {
     this.setJson(
       VrmJsonMaterialUtils.setGlobalFloatProperties({
         json: this.json,
         propertyNameToFloatMap,
+        skipMaterialNameSet,
       }),
     );
   }
 
-  setMaterialGlobalVectorProperties({ propertyNameToVectorMap }) {
+  setMaterialGlobalVectorProperties({
+    propertyNameToVectorMap,
+    skipMaterialNameSet,
+  }) {
     this.setJson(
       VrmJsonMaterialUtils.setGlobalVectorProperties({
         json: this.json,
         propertyNameToVectorMap,
+        skipMaterialNameSet,
       }),
     );
   }

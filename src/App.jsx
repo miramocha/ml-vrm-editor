@@ -14,8 +14,8 @@ import './App.css';
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
 import GltfJsonEditorTab from './components/gltfJsonEditorTab';
-import GlobalVrmOutlineSettingsForm from './components/globalVrmOutlineSettingsForm';
-import GlobalVrmLightingSettingsForm from './components/globalVrmLightingSettingsForm';
+import GlobalVrmMToonOutlineSettingsForm from './components/globalVrmMToonOutlineSettingsForm';
+import GlobalVrmMToonLightingSettingsForm from './components/globalVrmMToonLightingSettingsForm';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
@@ -62,10 +62,9 @@ export default function App() {
       <h2>File Upload</h2>
       <Row>
         <Col>
-          <h3>File Name: {gltfVrmParser?.fileName}</h3>
           <Form.Group controlId="formFile" className="mb-3">
-            <Form.Label>Upload VRM0</Form.Label>
             <Form.Control type="file" onChange={handleFileChange} />
+            <Form.Text>Only UniVRM (VRM0) is supported currently.</Form.Text>
           </Form.Group>
           <ButtonGroup>
             <Button variant="primary" onClick={handleValidateButtonClick}>
@@ -77,21 +76,22 @@ export default function App() {
           </ButtonGroup>
         </Col>
         <Col>
-          <Tabs
-            defaultActiveKey="globalVrmMaterialSettingsTab"
-            className="editor-tabs"
-          >
+          <Tabs defaultActiveKey="globalMToonOutlineSettingsTab">
             <Tab
-              eventKey="globalVrmMaterialSettingsTab"
-              title="Global VRM Material Settings"
+              eventKey="globalMToonOutlineSettingsTab"
+              title="Global MToon Outline Settings"
             >
-              <GlobalVrmOutlineSettingsForm gltfVrmParser={gltfVrmParser} />
+              <GlobalVrmMToonOutlineSettingsForm
+                gltfVrmParser={gltfVrmParser}
+              />
             </Tab>
             <Tab
-              eventKey="globalVrmLightingSettingsTab"
-              title="Global VRM Lighting Settings"
+              eventKey="globalMToonLightingSettingsTab"
+              title="Global MToon Lighting Settings"
             >
-              <GlobalVrmLightingSettingsForm gltfVrmParser={gltfVrmParser} />
+              <GlobalVrmMToonLightingSettingsForm
+                gltfVrmParser={gltfVrmParser}
+              />
             </Tab>
             <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
               <GltfJsonEditorTab gltfVrmParser={gltfVrmParser} />
