@@ -1,10 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Tab, Tabs, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import {
+  Tab,
+  Tabs,
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  ButtonGroup,
+} from 'react-bootstrap';
 
 import './App.css';
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
-import GltfVrmParser from './util/GltfVrmParser';
+import GltfVrmParser from './utils/GltfVrmParser';
 import GltfJsonEditorTab from './components/gltfJsonEditorTab';
+import GlobalVrmMToonOutlineSettingsForm from './components/globalVrmMToonOutlineSettingsForm';
+import GlobalVrmMToonLightingSettingsForm from './components/globalVrmMToonLightingSettingsForm';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
@@ -31,11 +42,6 @@ export default function App() {
     setGltfVrmParser(newGltfVrmParser);
   };
 
-  const gltfJsonEditorSubmitCallback = (json) => {
-    console.log('JSON CHANGED:', json);
-    gltfVrmParser.json = json;
-  };
-
   const handleDownloadButtonClick = async () => {
     const blobURL = window.URL.createObjectURL(await gltfVrmParser.buildFile());
     const tempLink = document.createElement('a');
@@ -47,36 +53,52 @@ export default function App() {
     document.body.removeChild(tempLink);
   };
 
+  const handleValidateButtonClick = () => {
+    gltfVrmParser.buildFile();
+  };
+
   return (
-    <div className="App">
-      <Container>
-        <Row>
-          <Col md={6}>
-            VIEWER: {gltfVrmParser?.fileName}
-            <Form.Group controlId="formFile" className="mb-3">
-              <Form.Label>Upload VRM0</Form.Label>
-              <Form.Control type="file" onChange={handleFileChange} />
-            </Form.Group>
+    <Container>
+      <h2>File Upload</h2>
+      <Row>
+        <Col>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Control type="file" onChange={handleFileChange} />
+            <Form.Text>Only UniVRM (VRM0) is supported currently.</Form.Text>
+          </Form.Group>
+          <ButtonGroup>
+            <Button variant="primary" onClick={handleValidateButtonClick}>
+              Validate GLTF
+            </Button>
             <Button variant="primary" onClick={handleDownloadButtonClick}>
               Download File
             </Button>
-          </Col>
-          <Col md={6}>
-            <Tabs defaultActiveKey="gltfJsonEditorTab" className="editor-tabs">
-              <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
-                <GltfJsonEditorTab
-                  gltfVrmJsonString={JSON.stringify(
-                    gltfVrmParser?.json,
-                    null,
-                    4,
-                  )}
-                  submitCallback={gltfJsonEditorSubmitCallback}
-                />
-              </Tab>
-            </Tabs>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+          </ButtonGroup>
+        </Col>
+        <Col>
+          <Tabs defaultActiveKey="globalMToonOutlineSettingsTab">
+            <Tab
+              eventKey="globalMToonOutlineSettingsTab"
+              title="Global MToon Outline Settings"
+            >
+              <GlobalVrmMToonOutlineSettingsForm
+                gltfVrmParser={gltfVrmParser}
+              />
+            </Tab>
+            <Tab
+              eventKey="globalMToonLightingSettingsTab"
+              title="Global MToon Lighting Settings"
+            >
+              <GlobalVrmMToonLightingSettingsForm
+                gltfVrmParser={gltfVrmParser}
+              />
+            </Tab>
+            <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
+              <GltfJsonEditorTab gltfVrmParser={gltfVrmParser} />
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
+    </Container>
   );
 }
