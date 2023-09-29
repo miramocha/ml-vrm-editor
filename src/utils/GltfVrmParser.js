@@ -4,19 +4,11 @@ import * as GltfParserUtils from './GltfParserUtils';
 export default class GltfVrmParser {
   fileName;
 
-  fileDataView;
-
   version;
 
   jsonChunk;
 
   binaryChunk;
-
-  get jsonString() {
-    const decoder = new TextDecoder('utf8');
-    const jsonString = decoder.decode(this.jsonChunk.chunkUint8Array);
-    return this.jsonChunk ? jsonString : null;
-  }
 
   get json() {
     return this.jsonChunk ? GltfParserUtils.parseJson(this.jsonChunk) : null;
@@ -56,7 +48,6 @@ export default class GltfVrmParser {
     }
 
     console.log('ENCODED LENGTH:', encodedJsonString.length);
-    console.log(encodedJsonString);
 
     this.jsonChunk = {
       chunkLength: jsonStringLength,
@@ -65,7 +56,6 @@ export default class GltfVrmParser {
   }
 
   async parseFile(file) {
-    console.log(file);
     this.fileName = file.name;
 
     const fileDataView = new DataView(await file.arrayBuffer());

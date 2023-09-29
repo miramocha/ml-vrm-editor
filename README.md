@@ -1,9 +1,11 @@
 # Introduction
 
-ML VRM Material editor is a React web application that allows user to import VRM file for editing on the web.
+ML VRM Material editor is a React application that allows user to import VRM file for editing on web browser.
 
 ## Features
+
 - Edit JSON of VRM file
+- Change global material properties
 
 ## Available Scripts
 

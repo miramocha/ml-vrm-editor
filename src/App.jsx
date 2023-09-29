@@ -12,8 +12,9 @@ import {
 
 import './App.css';
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
-import GltfVrmParser from './util/GltfVrmParser';
+import GltfVrmParser from './utils/GltfVrmParser';
 import GltfJsonEditorTab from './components/gltfJsonEditorTab';
+import GlobalVrmOutlineSettingsForm from './components/globalVrmOutlineSettingsForm';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
@@ -40,11 +41,6 @@ export default function App() {
     setGltfVrmParser(newGltfVrmParser);
   };
 
-  const gltfJsonEditorSubmitCallback = (json) => {
-    console.log('JSON CHANGED:', json);
-    gltfVrmParser.json = json;
-  };
-
   const handleDownloadButtonClick = async () => {
     const blobURL = window.URL.createObjectURL(await gltfVrmParser.buildFile());
     const tempLink = document.createElement('a');
@@ -60,37 +56,53 @@ export default function App() {
     gltfVrmParser.buildFile();
   };
 
+  const gltfJsonChangeCallback = (json) => {
+    console.log('JSON CHANGED:', json);
+    gltfVrmParser.json = json;
+  };
+
   return (
-    <div className="App">
-      <Container>
-        <Row>
-          <Col md={6}>
-            VIEWER: {gltfVrmParser?.fileName}
-            <Form.Group controlId="formFile" className="mb-3">
-              <Form.Label>Upload VRM0</Form.Label>
-              <Form.Control type="file" onChange={handleFileChange} />
-            </Form.Group>
-            <ButtonGroup>
-              <Button variant="primary" onClick={handleValidateButtonClick}>
-                Validate GLTF
-              </Button>
-              <Button variant="primary" onClick={handleDownloadButtonClick}>
-                Download File
-              </Button>
-            </ButtonGroup>
-          </Col>
-          <Col md={6}>
-            <Tabs defaultActiveKey="gltfJsonEditorTab" className="editor-tabs">
-              <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
-                <GltfJsonEditorTab
-                  gltfVrmJsonString={JSON.stringify(gltfVrmParser?.json)}
-                  submitCallback={gltfJsonEditorSubmitCallback}
-                />
-              </Tab>
-            </Tabs>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+    <Container>
+      <h2>File Upload</h2>
+      <Row>
+        <Col>
+          <h3>File Name: {gltfVrmParser?.fileName}</h3>
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Upload VRM0</Form.Label>
+            <Form.Control type="file" onChange={handleFileChange} />
+          </Form.Group>
+          <ButtonGroup>
+            <Button variant="primary" onClick={handleValidateButtonClick}>
+              Validate GLTF
+            </Button>
+            <Button variant="primary" onClick={handleDownloadButtonClick}>
+              Download File
+            </Button>
+          </ButtonGroup>
+        </Col>
+        <Col>
+          <Tabs
+            defaultActiveKey="globalVrmMaterialSettingsTab"
+            className="editor-tabs"
+          >
+            <Tab
+              eventKey="globalVrmMaterialSettingsTab"
+              title="Global VRM Material Settings"
+            >
+              <GlobalVrmOutlineSettingsForm
+                gltfVrmJsonString={JSON.stringify(gltfVrmParser?.json)}
+                submitCallback={gltfJsonChangeCallback}
+              />
+            </Tab>
+            <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
+              <GltfJsonEditorTab
+                gltfVrmJsonString={JSON.stringify(gltfVrmParser?.json)}
+                submitCallback={gltfJsonChangeCallback}
+              />
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
+    </Container>
   );
 }

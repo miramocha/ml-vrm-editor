@@ -8,7 +8,6 @@ export default function GltfJsonEditorTab({
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    console.log('JSON FORMDATA:', formData.get('gltfVrmJsonString'));
 
     submitCallback(
       // JSON.parse(formData.get('gltfVrmJsonString').replace(/\r?\n|\r/g, '')),
@@ -18,6 +17,7 @@ export default function GltfJsonEditorTab({
 
   return (
     <Form onSubmit={handleSubmit}>
+      <h2>GLTF JSON Editor</h2>
       <Form.Group
         className="gltf-json-form"
         controlId="gltf-json-form.gltf-json-form-textarea"

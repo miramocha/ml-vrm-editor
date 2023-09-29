@@ -10,7 +10,7 @@ const GLTF_UINT32_CHUNK_LENGTH = 4;
 const GLTF_CHUNK_HEADER_LENGTH = 3 * GLTF_UINT32_CHUNK_LENGTH;
 const GLTF_LITTLE_ENDIAN = true;
 
-function parseHeader({ fileDataView }) {
+export const parseHeader = ({ fileDataView }) => {
   let byteOffset = 0;
 
   // magic MUST be equal to equal 0x46546C67. It is ASCII string glTF and can be used to identify data as Binary glTF.
@@ -28,9 +28,9 @@ function parseHeader({ fileDataView }) {
   console.log('READING HEADER LENGTH:', length);
 
   return { magic, version, length };
-}
+};
 
-function parseChunk({ fileDataView, byteOffset, chunkNumber }) {
+const parseChunk = ({ fileDataView, byteOffset, chunkNumber }) => {
   const chunkLength = fileDataView.getUint32(byteOffset, GLTF_LITTLE_ENDIAN);
 
   console.log('READING CHUNK LENGTH AT OFFSET:', byteOffset);
@@ -62,17 +62,17 @@ function parseChunk({ fileDataView, byteOffset, chunkNumber }) {
   );
 
   return { chunkLength, chunkUint8Array };
-}
+};
 
-function parseJsonChunk({ fileDataView }) {
+export const parseJsonChunk = ({ fileDataView }) => {
   return parseChunk({
     fileDataView,
     byteOffset: GLTF_CHUNK_HEADER_LENGTH,
     chunkNumber: GLTF_JSON_CHUNK_TYPE_NUMBER,
   });
-}
+};
 
-function parseBinaryChunk({ fileDataView, jsonChunkLength }) {
+export const parseBinaryChunk = ({ fileDataView, jsonChunkLength }) => {
   const byteOffset =
     GLTF_CHUNK_HEADER_LENGTH +
     GLTF_UINT32_CHUNK_LENGTH +
@@ -84,16 +84,21 @@ function parseBinaryChunk({ fileDataView, jsonChunkLength }) {
     byteOffset,
     chunkNumber: GLTF_BINARY_CHUNK_TYPE_NUMBER,
   });
-}
+};
 
-function parseJson(jsonChunk) {
+export const parseJson = (jsonChunk) => {
   const decoder = new TextDecoder('utf8');
   const jsonString = decoder.decode(jsonChunk.chunkUint8Array);
   console.log('JSON STRING LENGTH:', jsonString.length);
   return JSON.parse(jsonString);
-}
+};
 
-function buildGltfFile({ fileName, jsonChunk, binaryChunk, version }) {
+export const buildGltfFile = ({
+  fileName,
+  jsonChunk,
+  binaryChunk,
+  version,
+}) => {
   const arrayBufferLength =
     GLTF_CHUNK_HEADER_LENGTH + // 12-Byte Header (4 + 4 + 4)
     GLTF_UINT32_CHUNK_LENGTH + // 4 Byte containing length of JSON chunk
@@ -164,17 +169,8 @@ function buildGltfFile({ fileName, jsonChunk, binaryChunk, version }) {
   uInt8Array.set(binaryChunk.chunkUint8Array, byteOffset);
 
   return new File([fileDataView], fileName);
-}
+};
 
-function calculateChunkLength(length) {
+export const calculateChunkLength = (length) => {
   return Math.ceil(length / 4) * 4;
-}
-
-export {
-  parseHeader,
-  parseJsonChunk,
-  parseBinaryChunk,
-  parseJson,
-  buildGltfFile,
-  calculateChunkLength,
 };

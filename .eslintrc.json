@@ -12,6 +12,7 @@
     "react/jsx-uses-react": "off",
     "prettier/prettier": "error",
     "operator-linebreak": "off",
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "no-underscore-dangle": "off"
   }
 }
