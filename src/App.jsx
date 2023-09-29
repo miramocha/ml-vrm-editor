@@ -15,6 +15,7 @@ import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
 import GltfJsonEditorTab from './components/gltfJsonEditorTab';
 import GlobalVrmOutlineSettingsForm from './components/globalVrmOutlineSettingsForm';
+import GlobalVrmLightingSettingsForm from './components/globalVrmLightingSettingsForm';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
@@ -90,6 +91,15 @@ export default function App() {
               title="Global VRM Material Settings"
             >
               <GlobalVrmOutlineSettingsForm
+                gltfVrmJsonString={JSON.stringify(gltfVrmParser?.json)}
+                submitCallback={gltfJsonChangeCallback}
+              />
+            </Tab>
+            <Tab
+              eventKey="globalVrmLightingSettingsTab"
+              title="Global VRM Lighting Settings"
+            >
+              <GlobalVrmLightingSettingsForm
                 gltfVrmJsonString={JSON.stringify(gltfVrmParser?.json)}
                 submitCallback={gltfJsonChangeCallback}
               />

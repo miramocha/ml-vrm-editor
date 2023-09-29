@@ -55,6 +55,10 @@ export default class GltfVrmParser {
     };
   }
 
+  setJson(json) {
+    this.json = json;
+  }
+
   async parseFile(file) {
     this.fileName = file.name;
 
