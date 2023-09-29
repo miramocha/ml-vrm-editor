@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
+import GltfVrmParser from '../utils/GltfVrmParser';
 
-export default function GltfJsonEditorTab({
-  gltfVrmJsonString,
-  submitCallback,
-}) {
+export default function GltfJsonEditorTab({ gltfVrmParser }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
 
-    submitCallback(
-      // JSON.parse(formData.get('gltfVrmJsonString').replace(/\r?\n|\r/g, '')),
-      JSON.parse(formData.get('gltfVrmJsonString')),
-    );
+    gltfVrmParser?.setJson(JSON.parse(formData.get('gltfVrmJsonString')));
+
+    // submitCallback(
+    //   // JSON.parse(formData.get('gltfVrmJsonString').replace(/\r?\n|\r/g, '')),
+    //   JSON.parse(formData.get('gltfVrmJsonString')),
+    // );
   };
 
   return (
@@ -27,7 +27,7 @@ export default function GltfJsonEditorTab({
           name="gltfVrmJsonString"
           as="textarea"
           rows={10}
-          defaultValue={gltfVrmJsonString}
+          defaultValue={JSON.stringify(gltfVrmParser?.json)}
         />
         <Button variant="primary" type="submit">
           Save JSON
@@ -38,10 +38,8 @@ export default function GltfJsonEditorTab({
 }
 
 GltfJsonEditorTab.propTypes = {
-  gltfVrmJsonString: PropTypes.string,
-  submitCallback: PropTypes.func,
+  gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
 };
 GltfJsonEditorTab.defaultProps = {
-  gltfVrmJsonString: '',
-  submitCallback: () => {},
+  gltfVrmParser: null,
 };

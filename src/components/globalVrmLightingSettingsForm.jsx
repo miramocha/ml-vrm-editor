@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
-import * as VrmJsonMaterialUtils from '../utils/VrmJsonMaterialUtils';
+import GltfVrmParser from '../utils/GltfVrmParser';
 
-export default function GlobalVrmLightingSettingsForm({
-  gltfVrmJsonString,
-  submitCallback,
-}) {
+export default function GlobalVrmLightingSettingsForm({ gltfVrmParser }) {
   const handleLightingChangeSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -17,12 +14,7 @@ export default function GlobalVrmLightingSettingsForm({
       Number(formData.get('_LightColorAttenuation')),
     );
 
-    const updatedJson = VrmJsonMaterialUtils.setGlobalFloatProperties({
-      json: JSON.parse(gltfVrmJsonString),
-      propertyNameToFloatMap,
-    });
-
-    submitCallback(updatedJson);
+    gltfVrmParser.setMaterialGlobalFloatProperties({ propertyNameToFloatMap });
   };
 
   return (
@@ -40,10 +32,8 @@ export default function GlobalVrmLightingSettingsForm({
 }
 
 GlobalVrmLightingSettingsForm.propTypes = {
-  gltfVrmJsonString: PropTypes.string,
-  submitCallback: PropTypes.func,
+  gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
 };
 GlobalVrmLightingSettingsForm.defaultProps = {
-  gltfVrmJsonString: '',
-  submitCallback: () => {},
+  gltfVrmParser: null,
 };

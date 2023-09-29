@@ -57,11 +57,6 @@ export default function App() {
     gltfVrmParser.buildFile();
   };
 
-  const gltfJsonChangeCallback = (json) => {
-    console.log('JSON CHANGED:', json);
-    gltfVrmParser.json = json;
-  };
-
   return (
     <Container>
       <h2>File Upload</h2>
@@ -90,25 +85,16 @@ export default function App() {
               eventKey="globalVrmMaterialSettingsTab"
               title="Global VRM Material Settings"
             >
-              <GlobalVrmOutlineSettingsForm
-                gltfVrmJsonString={JSON.stringify(gltfVrmParser?.json)}
-                submitCallback={gltfJsonChangeCallback}
-              />
+              <GlobalVrmOutlineSettingsForm gltfVrmParser={gltfVrmParser} />
             </Tab>
             <Tab
               eventKey="globalVrmLightingSettingsTab"
               title="Global VRM Lighting Settings"
             >
-              <GlobalVrmLightingSettingsForm
-                gltfVrmJsonString={JSON.stringify(gltfVrmParser?.json)}
-                submitCallback={gltfJsonChangeCallback}
-              />
+              <GlobalVrmLightingSettingsForm gltfVrmParser={gltfVrmParser} />
             </Tab>
             <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
-              <GltfJsonEditorTab
-                gltfVrmJsonString={JSON.stringify(gltfVrmParser?.json)}
-                submitCallback={gltfJsonChangeCallback}
-              />
+              <GltfJsonEditorTab gltfVrmParser={gltfVrmParser} />
             </Tab>
           </Tabs>
         </Col>

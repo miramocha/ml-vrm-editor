@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
-import * as VrmJsonMaterialUtils from '../utils/VrmJsonMaterialUtils';
+import GltfVrmParser from '../utils/GltfVrmParser';
 
-export default function GlobalVrmOutlineSettingsForm({
-  gltfVrmJsonString,
-  submitCallback,
-}) {
+export default function GlobalVrmOutlineSettingsForm({ gltfVrmParser }) {
   const handleOutlineChangeSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -23,16 +20,10 @@ export default function GlobalVrmOutlineSettingsForm({
       Number(formData.get('_OutlineWidth')),
     );
 
-    let updatedJson = VrmJsonMaterialUtils.setGlobalVectorProperties({
-      json: JSON.parse(gltfVrmJsonString),
+    gltfVrmParser.setMaterialGlobalFloatProperties({ propertyNameToFloatMap });
+    gltfVrmParser.setMaterialGlobalVectorProperties({
       propertyNameToVectorMap,
     });
-    updatedJson = VrmJsonMaterialUtils.setGlobalFloatProperties({
-      json: updatedJson,
-      propertyNameToFloatMap,
-    });
-
-    submitCallback(updatedJson);
   };
 
   return (
@@ -55,10 +46,8 @@ export default function GlobalVrmOutlineSettingsForm({
 }
 
 GlobalVrmOutlineSettingsForm.propTypes = {
-  gltfVrmJsonString: PropTypes.string,
-  submitCallback: PropTypes.func,
+  gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
 };
 GlobalVrmOutlineSettingsForm.defaultProps = {
-  gltfVrmJsonString: '',
-  submitCallback: () => {},
+  gltfVrmParser: null,
 };

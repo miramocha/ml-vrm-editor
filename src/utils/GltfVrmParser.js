@@ -1,5 +1,6 @@
 import { validateBytes } from 'gltf-validator';
 import * as GltfParserUtils from './GltfParserUtils';
+import * as VrmJsonMaterialUtils from './VrmJsonMaterialUtils';
 
 export default class GltfVrmParser {
   fileName;
@@ -57,6 +58,24 @@ export default class GltfVrmParser {
 
   setJson(json) {
     this.json = json;
+  }
+
+  setMaterialGlobalFloatProperties({ propertyNameToFloatMap }) {
+    this.setJson(
+      VrmJsonMaterialUtils.setGlobalFloatProperties({
+        json: this.json,
+        propertyNameToFloatMap,
+      }),
+    );
+  }
+
+  setMaterialGlobalVectorProperties({ propertyNameToVectorMap }) {
+    this.setJson(
+      VrmJsonMaterialUtils.setGlobalVectorProperties({
+        json: this.json,
+        propertyNameToVectorMap,
+      }),
+    );
   }
 
   async parseFile(file) {
