@@ -42,8 +42,6 @@ export default class MaterialModel {
     const colorVector = this.json.vectorProperties._ShadeColor;
     const colorHex = ColorUtils.colorUIVectorToHex(colorVector);
 
-    console.log('SHADE HEX:', colorHex);
-
     return {
       colorHex,
       alpha: colorVector[VECTOR_ALPHA_INDEX],

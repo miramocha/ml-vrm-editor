@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 import { Button, Form, Stack } from 'react-bootstrap';
 import GltfVrmParser from '../utils/GltfVrmParser';
 
-export default function GltfJsonEditorTab({ gltfVrmParser }) {
+export default function GltfJsonEditor({ gltfVrmParser }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
 
-    gltfVrmParser?.setJson(JSON.parse(formData.get('gltfVrmJsonString')));
+    if (gltfVrmParser) {
+      gltfVrmParser.setJson(JSON.parse(formData.get('gltfVrmJsonString')));
+    }
   };
 
   return (
@@ -34,9 +36,9 @@ export default function GltfJsonEditorTab({ gltfVrmParser }) {
   );
 }
 
-GltfJsonEditorTab.propTypes = {
+GltfJsonEditor.propTypes = {
   gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
 };
-GltfJsonEditorTab.defaultProps = {
+GltfJsonEditor.defaultProps = {
   gltfVrmParser: null,
 };

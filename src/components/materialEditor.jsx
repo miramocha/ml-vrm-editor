@@ -8,7 +8,7 @@ import MToonOutlineForm from './forms/mToonOutlineForm';
 import MToonLightningForm from './forms/mToonLightningForm';
 
 export default function MaterialEditor({ gltfVrmParser }) {
-  const [currentMaterialIndex, setCurrentMaterialIndex] = useState(0);
+  const [currentMaterialIndex, setCurrentMaterialIndex] = useState(-1);
   //   const [currentMaterialModel, setCurrentMaterialModel] = useState(null);
 
   const handleMaterialSelectorSelect = (event) => {
@@ -31,9 +31,8 @@ export default function MaterialEditor({ gltfVrmParser }) {
           ))}
         </Form.Select>
       </Form.Group>
-
       <Form>
-        <Accordion defaultActiveKey="lightingSettingsAccordionItem" alwaysOpen>
+        <Accordion defaultActiveKey="outlineSettingsAccordionItem">
           <Accordion.Item eventKey="shadingSettingsAccordionItem">
             <Accordion.Header>
               <i className="bi bi-shadows me-2" /> Shading Settings

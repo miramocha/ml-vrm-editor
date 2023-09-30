@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Tab, Tabs, Accordion } from 'react-bootstrap';
 import GltfVrmParser from '../utils/GltfVrmParser';
-import GltfJsonEditorTab from './gltfJsonEditorTab';
+import GltfJsonEditor from './gltfJsonEditor';
 import GlobalVrmMToonOutlineSettingsForm from './globalVrmMToonOutlineSettingsForm';
 import GlobalVrmMToonLightingSettingsForm from './globalVrmMToonLightingSettingsForm';
 import MaterialEditor from './materialEditor';
@@ -14,7 +14,7 @@ export default function EditorTabs({ gltfVrmParser }) {
         title="MToon Material Editor"
         className="pt-2"
       >
-        <MaterialEditor gltfVrmParser={gltfVrmParser} />
+        && <MaterialEditor gltfVrmParser={gltfVrmParser} />
       </Tab>
       <Tab
         eventKey="applyGlobalMToonSettingsTab"
@@ -49,7 +49,7 @@ export default function EditorTabs({ gltfVrmParser }) {
         title="GLTF JSON Editor"
         className="pt-2"
       >
-        <GltfJsonEditorTab gltfVrmParser={gltfVrmParser} />
+        <GltfJsonEditor gltfVrmParser={gltfVrmParser} />
       </Tab>
     </Tabs>
   );
