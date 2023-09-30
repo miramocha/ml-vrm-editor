@@ -13,4 +13,8 @@ export default class MaterialModel {
     this.materialIndex = materialIndex;
     this.json = json;
   }
+
+  get name() {
+    return this.json.name;
+  }
 }

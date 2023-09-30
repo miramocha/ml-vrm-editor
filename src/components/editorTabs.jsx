@@ -4,6 +4,7 @@ import GltfVrmParser from '../utils/GltfVrmParser';
 import GltfJsonEditorTab from './gltfJsonEditorTab';
 import GlobalVrmMToonOutlineSettingsForm from './globalVrmMToonOutlineSettingsForm';
 import GlobalVrmMToonLightingSettingsForm from './globalVrmMToonLightingSettingsForm';
+import MaterialEditor from './materialEditor';
 
 export default function EditorTabs({ gltfVrmParser }) {
   return (
@@ -15,13 +16,14 @@ export default function EditorTabs({ gltfVrmParser }) {
       <Tab
         eventKey="applyGlobalMToonSettingsTab"
         title="Apply Global MToon Settings"
+        className="pt-2"
       >
-        <Accordion alwaysOpen>
-          <Accordion.Item defaultActiveKey="outlineSettingsAccordionItem">
+        <Accordion defaultActiveKey="outlineSettingsAccordionItem" alwaysOpen>
+          <Accordion.Item eventKey="outlineSettingsAccordionItem">
             <Accordion.Header>
               <i className="bi bi-pencil-fill me-2" /> Outline Settings
             </Accordion.Header>
-            <Accordion.Body eventKey="outlineSettingsAccordionItem">
+            <Accordion.Body>
               <GlobalVrmMToonOutlineSettingsForm
                 gltfVrmParser={gltfVrmParser}
               />
@@ -39,10 +41,18 @@ export default function EditorTabs({ gltfVrmParser }) {
           </Accordion.Item>
         </Accordion>
       </Tab>
-      <Tab eventKey="mToonMaterialsEditorTab" title="MToon Material Editor">
-        MATERIAL EDITOR
+      <Tab
+        eventKey="mToonMaterialsEditorTab"
+        title="MToon Material Editor"
+        className="pt-2"
+      >
+        <MaterialEditor gltfVrmParser={gltfVrmParser} />
       </Tab>
-      <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
+      <Tab
+        eventKey="gltfJsonEditorTab"
+        title="GLTF JSON Editor"
+        className="pt-2"
+      >
         <GltfJsonEditorTab gltfVrmParser={gltfVrmParser} />
       </Tab>
     </Tabs>

@@ -30,7 +30,7 @@ export default class GltfVrmParser {
    * @returns {materialModel[]}
    */
   get materialModels() {
-    return this.json.materialProperties.map(
+    return this.json?.extensions.VRM.materialProperties.map(
       (material, materialIndex) =>
         new MaterialModel({ json: material, materialIndex }),
     );
