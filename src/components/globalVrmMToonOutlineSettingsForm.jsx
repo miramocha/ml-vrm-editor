@@ -72,12 +72,12 @@ export default function globalVrmMToonOutlineSettingsForm({ gltfVrmParser }) {
         <Form.Group>
           <Form.Label>Material Skips</Form.Label>
           <Form.Control as="select" name="skipMaterialName" multiple>
-            {gltfVrmParser?.materialNames.map((materialName) => (
+            {gltfVrmParser?.materialModels.map((materialModel) => (
               <option
-                value={materialName}
-                key={`skipMaterialName.${materialName}`}
+                value={materialModel.name}
+                key={`skipMaterialName.${materialModel.name}`}
               >
-                {materialName}
+                {materialModel.name}
               </option>
             ))}
           </Form.Control>

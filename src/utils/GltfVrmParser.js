@@ -26,21 +26,36 @@ export default class GltfVrmParser {
    */
   binaryChunk;
 
-  /**
-   * @returns {materialModel[]}
-   */
-  get materialModels() {
-    return this.json?.extensions.VRM.materialProperties.map(
+  // CACHING
+  jsonCache;
+
+  materialModelsCache;
+
+  textureModelsCache;
+
+  clearCaches() {
+    this.jsonCache = null;
+    this.materialModelsCache = null;
+    this.textureModelsCache = null;
+  }
+
+  rebuildJsonCache() {
+    this.jsonCache = GltfParserUtils.parseJson(this.jsonChunk);
+
+    return this.jsonCache;
+  }
+
+  rebuildMaterialModelsCache() {
+    this.materialModelsCache = this.json?.extensions.VRM.materialProperties.map(
       (material, materialIndex) =>
         new MaterialModel({ json: material, materialIndex }),
     );
+
+    return this;
   }
 
-  /**
-   * @returns {TextureModel[]}
-   */
-  get textureModels() {
-    return this.json.images.map((image, imagesIndex) => {
+  rebuildTextureModelsCache() {
+    this.textureModelsCache = this.json.images.map((image, imagesIndex) => {
       const bufferView = this.json.bufferViews[image.bufferView];
       const imageBuffer = this.binaryChunk.chunkUint8Array.slice(
         bufferView.byteOffset,
@@ -56,27 +71,62 @@ export default class GltfVrmParser {
         blob,
       });
     });
+
+    return this;
   }
 
+  // GETTERS
   /**
    * @returns {any}
    */
   get json() {
-    return this.jsonChunk ? GltfParserUtils.parseJson(this.jsonChunk) : null;
+    if (!this.jsonCache) {
+      this.rebuildJsonCache();
+    }
+
+    return this.jsonCache;
   }
 
   /**
-   * @param {any}
+   * @returns {materialModel[]}
    */
-  set json(json) {
-    const jsonString = JSON.stringify(json);
+  get materialModels() {
+    if (!this.materialModelsCache) {
+      this.rebuildMaterialModelsCache();
+    }
+
+    return this.materialModelsCache;
+  }
+
+  /**
+   * @returns {TextureModel[]}
+   */
+  get textureModels() {
+    if (!this.textureModelsCache) {
+      this.rebuildTextureModelsCache();
+    }
+
+    return this.textureModelsCache;
+  }
+
+  setJson(json) {
+    this.jsonCache = json;
+
+    return this;
+  }
+
+  writeJsonChangesToChunk() {
+    const jsonString = JSON.stringify(this.jsonCache);
     const jsonStringLength = GltfParserUtils.calculateChunkLength(
       jsonString.length,
     );
 
     // This chunk MUST be padded with trailing Space chars (0x20) to satisfy alignment requirements.
     const paddedJsonString = jsonString.padEnd(jsonStringLength);
-    console.log('NEW JSON STRING LENGTH:', JSON.stringify(json).length);
+    console.log(
+      'NEW JSON STRING LENGTH:',
+      JSON.stringify(this.jsonCache).length,
+    );
     console.log('OLD CHUNK LENGTH:', this.jsonChunk.chunkLength);
     console.log('NEW JSON LENGTH:', jsonStringLength);
     console.log('NEW PADDED JSON LENGTH:', paddedJsonString.length);
@@ -107,29 +157,23 @@ export default class GltfVrmParser {
       chunkLength: jsonStringLength,
       chunkUint8Array: encodedJsonString,
     });
-  }
 
-  setJson(json) {
-    this.json = json;
-  }
-
-  get materialNames() {
-    return this.json?.extensions.VRM.materialProperties.map(
-      (material) => material.name,
-    );
+    return this;
   }
 
   setMaterialGlobalFloatProperties({
     propertyNameToFloatMap,
     skipMaterialNameSet,
   }) {
-    this.setJson(
-      VrmJsonMaterialUtils.setGlobalFloatProperties({
-        json: this.json,
-        propertyNameToFloatMap,
-        skipMaterialNameSet,
-      }),
-    );
+    // this.json = VrmJsonMaterialUtils.setGlobalFloatProperties({
+    //   json: this.json,
+    //   propertyNameToFloatMap,
+    //   skipMaterialNameSet,
+    // });
+
+    this.writeJsonChangesToChunk();
+
+    return this;
   }
 
   setMaterialGlobalVectorProperties({
@@ -175,6 +219,7 @@ export default class GltfVrmParser {
     });
 
     console.log('JSON:', GltfParserUtils.parseJson(this.jsonChunk));
+    this.clearCaches();
   }
 
   async buildFile() {

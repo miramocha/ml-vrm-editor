@@ -5,7 +5,7 @@ import './App.css';
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
 import EditorTabs from './components/editorTabs';
-// import TextureBrowser from './components/textureBrowser';
+import TextureBrowser from './components/textureBrowser';
 import TopNavigation from './components/topNavigation';
 
 export default function App() {
@@ -57,7 +57,7 @@ export default function App() {
           <Offcanvas.Title>Texture Browser</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          {/* <TextureBrowser gltfVrmParser={gltfVrmParser} /> */}
+          <TextureBrowser gltfVrmParser={gltfVrmParser} />
         </Offcanvas.Body>
       </Offcanvas>
       <Offcanvas
