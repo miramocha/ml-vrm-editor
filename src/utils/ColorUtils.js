@@ -14,9 +14,9 @@ export const hexToColorUIVector = (hex) => {
   }
 
   const colorUIVector = [
-    Number(r / 255).toFixed(4),
-    Number(g / 255).toFixed(4),
-    Number(b / 255).toFixed(4),
+    Number((r / 255).toFixed(4)),
+    Number((g / 255).toFixed(4)),
+    Number((b / 255).toFixed(4)),
   ];
 
   return colorUIVector;
