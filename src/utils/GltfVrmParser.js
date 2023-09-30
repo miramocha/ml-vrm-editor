@@ -2,6 +2,7 @@ import { validateBytes } from 'gltf-validator';
 import * as GltfParserUtils from './GltfParserUtils';
 import * as VrmJsonMaterialUtils from './VrmJsonMaterialUtils';
 import TextureModel from '../models/TextureModel';
+import MaterialModel from '../models/MaterialModel';
 import GltfChunkModel from '../models/GltfChunkModel';
 
 export default class GltfVrmParser {
@@ -24,6 +25,16 @@ export default class GltfVrmParser {
    * @type {GltfChunkModel}
    */
   binaryChunk;
+
+  /**
+   * @returns {materialModel[]}
+   */
+  get materialModels() {
+    return this.json.materialProperties.map(
+      (material, materialIndex) =>
+        new MaterialModel({ json: material, materialIndex }),
+    );
+  }
 
   /**
    * @returns {TextureModel[]}

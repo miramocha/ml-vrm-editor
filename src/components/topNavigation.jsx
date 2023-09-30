@@ -49,7 +49,7 @@ export default function TopNavigation({
     <Navbar className="justify-content-between bg-primary" data-bs-theme="dark">
       <Button
         className="ms-2"
-        variant="outline-primary"
+        variant="outline-light"
         onClick={handleToggleTextureBrowserButtonClick}
       >
         Toggle Texture Browser
@@ -83,7 +83,7 @@ export default function TopNavigation({
       </Container>
       <Button
         className="me-2"
-        variant="outline-primary"
+        variant="outline-light"
         onClick={handleToggleEditorButtonClick}
       >
         <i className="bi bi-arrow-bar-left me-2" />

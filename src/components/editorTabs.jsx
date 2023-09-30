@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Tab, Tabs } from 'react-bootstrap';
+import { Tab, Tabs, Accordion } from 'react-bootstrap';
 import GltfVrmParser from '../utils/GltfVrmParser';
 import GltfJsonEditorTab from './gltfJsonEditorTab';
 import GlobalVrmMToonOutlineSettingsForm from './globalVrmMToonOutlineSettingsForm';
@@ -8,21 +8,36 @@ import GlobalVrmMToonLightingSettingsForm from './globalVrmMToonLightingSettings
 export default function EditorTabs({ gltfVrmParser }) {
   return (
     <Tabs
-      defaultActiveKey="globalMToonOutlineSettingsTab"
+      defaultActiveKey="applyGlobalMToonSettingsTab"
       variant="underline"
       fill
     >
       <Tab
-        eventKey="globalMToonOutlineSettingsTab"
-        title="Global MToon Outline Settings"
+        eventKey="applyGlobalMToonSettingsTab"
+        title="Apply Global MToon Settings"
       >
-        <GlobalVrmMToonOutlineSettingsForm gltfVrmParser={gltfVrmParser} />
-      </Tab>
-      <Tab
-        eventKey="globalMToonLightingSettingsTab"
-        title="Global MToon Lighting Settings"
-      >
-        <GlobalVrmMToonLightingSettingsForm gltfVrmParser={gltfVrmParser} />
+        <Accordion alwaysOpen>
+          <Accordion.Item defaultActiveKey="outlineSettingsAccordionItem">
+            <Accordion.Header>
+              <i className="bi bi-pencil-fill me-2" /> Outline Settings
+            </Accordion.Header>
+            <Accordion.Body eventKey="outlineSettingsAccordionItem">
+              <GlobalVrmMToonOutlineSettingsForm
+                gltfVrmParser={gltfVrmParser}
+              />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="lightingSettingsAccordionItem">
+            <Accordion.Header>
+              <i className="bi  bi-lightbulb-fill me-2" /> Lighting Settings
+            </Accordion.Header>
+            <Accordion.Body>
+              <GlobalVrmMToonLightingSettingsForm
+                gltfVrmParser={gltfVrmParser}
+              />
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
       </Tab>
       <Tab eventKey="mToonMaterialsEditorTab" title="MToon Material Editor">
         MATERIAL EDITOR
