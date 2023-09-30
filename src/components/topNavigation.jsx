@@ -14,6 +14,7 @@ export default function TopNavigation({
   gltfVrmParser,
   setGltfVrmParser,
   toggleHideOffcanvasEditor,
+  toggleHideOffcanvasTextureBrowser,
 }) {
   const handleFileChange = async (event) => {
     const newGltfVrmParser = new GltfVrmParser();
@@ -41,8 +42,19 @@ export default function TopNavigation({
 
   const handleToggleEditorButtonClick = () => toggleHideOffcanvasEditor();
 
+  const handleToggleTextureBrowserButtonClick = () =>
+    toggleHideOffcanvasTextureBrowser();
+
   return (
     <Navbar className="justify-content-between bg-primary" data-bs-theme="dark">
+      <Button
+        className="ms-2"
+        variant="outline-primary"
+        onClick={handleToggleTextureBrowserButtonClick}
+      >
+        Toggle Texture Browser
+        <i className="bi bi-arrow-bar-right ms-2" />
+      </Button>
       <Container>
         <Navbar.Brand>
           <i className="bi bi-brush me-2 text-light" />
@@ -85,9 +97,11 @@ TopNavigation.propTypes = {
   gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
   setGltfVrmParser: PropTypes.func,
   toggleHideOffcanvasEditor: PropTypes.func,
+  toggleHideOffcanvasTextureBrowser: PropTypes.func,
 };
 TopNavigation.defaultProps = {
   gltfVrmParser: null,
   setGltfVrmParser: () => {},
   toggleHideOffcanvasEditor: () => {},
+  toggleHideOffcanvasTextureBrowser: () => {},
 };

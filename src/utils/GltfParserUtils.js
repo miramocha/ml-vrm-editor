@@ -3,6 +3,8 @@
  * Copyright (c) 2022 Nobuyuki Furukawa (tfuru)
  */
 
+import GltfChunkModel from '../models/GltfChunkModel';
+
 const GLTF_HEADER_MAGIC = 0x46546c67;
 const GLTF_JSON_CHUNK_TYPE_NUMBER = 0x4e4f534a;
 const GLTF_BINARY_CHUNK_TYPE_NUMBER = 0x004e4942;
@@ -61,7 +63,7 @@ const parseChunk = ({ fileDataView, byteOffset, chunkNumber }) => {
     chunkLength,
   );
 
-  return { chunkLength, chunkUint8Array };
+  return new GltfChunkModel({ chunkLength, chunkUint8Array });
 };
 
 export const parseJsonChunk = ({ fileDataView }) => {

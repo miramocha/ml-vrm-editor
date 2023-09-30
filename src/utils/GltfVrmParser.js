@@ -1,20 +1,62 @@
 import { validateBytes } from 'gltf-validator';
 import * as GltfParserUtils from './GltfParserUtils';
 import * as VrmJsonMaterialUtils from './VrmJsonMaterialUtils';
+import TextureModel from '../models/TextureModel';
+import GltfChunkModel from '../models/GltfChunkModel';
 
 export default class GltfVrmParser {
+  /**
+   * @type {string}
+   */
   fileName;
 
+  /**
+   * @type {string}
+   */
   version;
 
+  /**
+   * @type {GltfChunkModel}
+   */
   jsonChunk;
 
+  /**
+   * @type {GltfChunkModel}
+   */
   binaryChunk;
 
+  /**
+   * @returns {TextureModel[]}
+   */
+  get textureModels() {
+    return this.json.images.map((image, imagesIndex) => {
+      const bufferView = this.json.bufferViews[image.bufferView];
+      const imageBuffer = this.binaryChunk.chunkUint8Array.slice(
+        bufferView.byteOffset,
+        bufferView.byteOffset + bufferView.byteLength,
+      );
+      const blob = new Blob([imageBuffer], { type: image.mimeType });
+
+      return new TextureModel({
+        imagesIndex,
+        bufferViewsIndex: image.bufferView,
+        name: image.name,
+        mimeType: image.mimeType,
+        blob,
+      });
+    });
+  }
+
+  /**
+   * @returns {any}
+   */
   get json() {
     return this.jsonChunk ? GltfParserUtils.parseJson(this.jsonChunk) : null;
   }
 
+  /**
+   * @param {any}
+   */
   set json(json) {
     const jsonString = JSON.stringify(json);
     const jsonStringLength = GltfParserUtils.calculateChunkLength(
@@ -50,10 +92,10 @@ export default class GltfVrmParser {
 
     console.log('ENCODED LENGTH:', encodedJsonString.length);
 
-    this.jsonChunk = {
+    this.jsonChunk = new GltfChunkModel({
       chunkLength: jsonStringLength,
       chunkUint8Array: encodedJsonString,
-    };
+    });
   }
 
   setJson(json) {
