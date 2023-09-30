@@ -8,11 +8,14 @@ import MaterialEditor from './materialEditor';
 
 export default function EditorTabs({ gltfVrmParser }) {
   return (
-    <Tabs
-      defaultActiveKey="applyGlobalMToonSettingsTab"
-      variant="underline"
-      fill
-    >
+    <Tabs defaultActiveKey="mToonMaterialsEditorTab" variant="underline" fill>
+      <Tab
+        eventKey="mToonMaterialsEditorTab"
+        title="MToon Material Editor"
+        className="pt-2"
+      >
+        <MaterialEditor gltfVrmParser={gltfVrmParser} />
+      </Tab>
       <Tab
         eventKey="applyGlobalMToonSettingsTab"
         title="Apply Global MToon Settings"
@@ -40,13 +43,6 @@ export default function EditorTabs({ gltfVrmParser }) {
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
-      </Tab>
-      <Tab
-        eventKey="mToonMaterialsEditorTab"
-        title="MToon Material Editor"
-        className="pt-2"
-      >
-        <MaterialEditor gltfVrmParser={gltfVrmParser} />
       </Tab>
       <Tab
         eventKey="gltfJsonEditorTab"

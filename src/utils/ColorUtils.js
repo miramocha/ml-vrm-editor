@@ -22,4 +22,19 @@ export const hexToColorUIVector = (hex) => {
   return colorUIVector;
 };
 
-export const colorUIVectorToHex = () => {};
+export const colorUIVectorToHex = (rgbVector) => {
+  const [r, g, b] = rgbVector;
+
+  return [
+    '#',
+    Math.ceil(r * 255)
+      .toString(16)
+      .padStart(2, '0'),
+    Math.ceil(g * 255)
+      .toString(16)
+      .padStart(2, '0'),
+    Math.ceil(b * 255)
+      .toString(16)
+      .padStart(2, '0'),
+  ].join('');
+};

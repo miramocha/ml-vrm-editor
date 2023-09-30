@@ -58,11 +58,20 @@ export default class GltfVrmParser {
     });
   }
 
+  jsonCache = null;
+
   /**
    * @returns {any}
    */
   get json() {
-    return this.jsonChunk ? GltfParserUtils.parseJson(this.jsonChunk) : null;
+    if (!this.jsonCache) {
+      console.log('JSON CACHE IS EMPTY. REFRESHING CACHE.');
+      this.jsonCache = this.jsonChunk
+        ? GltfParserUtils.parseJson(this.jsonChunk)
+        : null;
+    }
+
+    return this.jsonCache;
   }
 
   /**
@@ -107,6 +116,8 @@ export default class GltfVrmParser {
       chunkLength: jsonStringLength,
       chunkUint8Array: encodedJsonString,
     });
+
+    this.jsonCache = null;
   }
 
   setJson(json) {

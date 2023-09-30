@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Button, Form, Stack, InputGroup } from 'react-bootstrap';
 import GltfVrmParser from '../utils/GltfVrmParser';
 import * as ColorUtils from '../utils/ColorUtils';
+import RgbaInput from './rgbaInput';
 
 export default function globalVrmMToonOutlineSettingsForm({ gltfVrmParser }) {
   const handleOutlineChangeSubmit = (event) => {
@@ -15,7 +16,7 @@ export default function globalVrmMToonOutlineSettingsForm({ gltfVrmParser }) {
     const propertyNameToVectorMap = new Map();
     propertyNameToVectorMap.set('_OutlineColor', [
       ...ColorUtils.hexToColorUIVector(formData.get('_OutlineColorHex')),
-      Number(formData.get('_OutlineColorAlpha')),
+      Number(formData.get('_OutlineAlpha')),
     ]);
 
     const propertyNameToFloatMap = new Map();
@@ -39,25 +40,7 @@ export default function globalVrmMToonOutlineSettingsForm({ gltfVrmParser }) {
       <Stack gap={2} className="mx-auto">
         <Form.Label>Outline Color</Form.Label>
         <InputGroup>
-          {/* <Form.Control
-            name="_OutlineColor"
-            defaultValue="[0.40, 0.31, 0.37, 1]"
-          /> */}
-          <InputGroup.Text>Color</InputGroup.Text>
-          <Form.Control
-            name="_OutlineColorHex"
-            type="color"
-            defaultValue="#67505F"
-          />
-          <InputGroup.Text>Alpha</InputGroup.Text>
-          <Form.Control
-            name="_OutlineColorAlpha"
-            type="number"
-            defaultValue={1.0}
-            step={0.01}
-            min={0}
-            max={1}
-          />
+          <RgbaInput name="_Outline" defaultColorHex="#67505F" />
         </InputGroup>
         <Form.Group>
           <Form.Label>Outline Width</Form.Label>

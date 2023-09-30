@@ -6,7 +6,7 @@ export default function TextureBrowser({ gltfVrmParser }) {
   return (
     <Stack gap={2}>
       {gltfVrmParser?.textureModels.map((textureModel) => (
-        <Card>
+        <Card key={textureModel.imagesIndex}>
           <Card.Img variant="top" src={textureModel.imageSrc} />
           <Card.Body>
             <Card.Title>{textureModel.name}</Card.Title>
