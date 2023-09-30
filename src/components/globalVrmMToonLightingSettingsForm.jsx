@@ -42,10 +42,20 @@ export default function GlobalVrmMToonLightingSettingsForm({ gltfVrmParser }) {
             step={1}
           />
           <Form.Text>
-            Set the influence of the light source color. <code>0</code>:
-            Affected by the light source color. <code>1</code>: Not affected by
-            the light source color. It only reflects the luminance of the light
-            source color.
+            Set the influence of the light source color.
+            <dl>
+              <dt>
+                <code>0</code>
+              </dt>
+              <dd>Affected by the light source color.</dd>
+              <dt>
+                <code>1</code>
+              </dt>
+              <dd>
+                Not affected by the light source color. It only reflects the
+                luminance of the light source color.
+              </dd>
+            </dl>
           </Form.Text>
         </Form.Group>
         <Form.Group>

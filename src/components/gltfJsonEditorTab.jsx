@@ -8,11 +8,6 @@ export default function GltfJsonEditorTab({ gltfVrmParser }) {
     const formData = new FormData(event.target);
 
     gltfVrmParser?.setJson(JSON.parse(formData.get('gltfVrmJsonString')));
-
-    // submitCallback(
-    //   // JSON.parse(formData.get('gltfVrmJsonString').replace(/\r?\n|\r/g, '')),
-    //   JSON.parse(formData.get('gltfVrmJsonString')),
-    // );
   };
 
   return (
