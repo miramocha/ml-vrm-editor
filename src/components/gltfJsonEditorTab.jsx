@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Stack } from 'react-bootstrap';
 import GltfVrmParser from '../utils/GltfVrmParser';
 
 export default function GltfJsonEditorTab({ gltfVrmParser }) {
@@ -17,22 +17,24 @@ export default function GltfJsonEditorTab({ gltfVrmParser }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <h2>GLTF JSON Editor</h2>
-      <Form.Group
-        className="gltf-json-form"
-        controlId="gltf-json-form.gltf-json-form-textarea"
-      >
-        <Form.Label>GLTF JSON</Form.Label>
-        <Form.Control
-          name="gltfVrmJsonString"
-          as="textarea"
-          rows={10}
-          defaultValue={JSON.stringify(gltfVrmParser?.json)}
-        />
+      <Stack gap={2} className="mx-auto">
+        <Form.Group
+          className="gltf-json-form"
+          controlId="gltf-json-form.gltf-json-form-textarea"
+        >
+          <Form.Label>GLTF JSON</Form.Label>
+          <Form.Control
+            name="gltfVrmJsonString"
+            as="textarea"
+            rows={10}
+            defaultValue={JSON.stringify(gltfVrmParser?.json)}
+            key={JSON.stringify(gltfVrmParser?.json)}
+          />
+        </Form.Group>
         <Button variant="primary" type="submit">
           Save JSON
         </Button>
-      </Form.Group>
+      </Stack>
     </Form>
   );
 }

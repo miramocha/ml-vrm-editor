@@ -8,6 +8,8 @@ import {
   Form,
   Button,
   ButtonGroup,
+  Navbar,
+  Offcanvas,
 } from 'react-bootstrap';
 
 import './App.css';
@@ -19,6 +21,7 @@ import GlobalVrmMToonLightingSettingsForm from './components/globalVrmMToonLight
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
+  const [hideOffcanvas, setHideOffcanvas] = useState(false);
 
   useEffect(() => {
     fetch(defaultVrmPath)
@@ -57,26 +60,73 @@ export default function App() {
     gltfVrmParser.buildFile();
   };
 
+  const handleHideOffcanvas = () => setHideOffcanvas(true);
+
+  const handleToggleEditorButtonClick = () => setHideOffcanvas(!hideOffcanvas);
+
   return (
-    <Container>
-      <h2>File Upload</h2>
-      <Row>
-        <Col>
-          <Form.Group controlId="formFile" className="mb-3">
-            <Form.Control type="file" onChange={handleFileChange} />
-            <Form.Text>Only UniVRM (VRM0) is supported currently.</Form.Text>
-          </Form.Group>
-          <ButtonGroup>
-            <Button variant="primary" onClick={handleValidateButtonClick}>
-              Validate GLTF
-            </Button>
-            <Button variant="primary" onClick={handleDownloadButtonClick}>
-              Download File
-            </Button>
-          </ButtonGroup>
-        </Col>
-        <Col>
-          <Tabs defaultActiveKey="globalMToonOutlineSettingsTab">
+    <>
+      <Navbar
+        className="justify-content-between bg-primary"
+        data-bs-theme="dark"
+      >
+        <Container>
+          <Navbar.Brand>
+            <i className="bi bi-brush me-2 text-light" />
+            ML VRM Material Editor
+          </Navbar.Brand>
+          <Navbar.Text>Upload UniVRM (VRM0)</Navbar.Text>
+          <Form>
+            <Row>
+              <Col>
+                <Form.Control type="file" onChange={handleFileChange} />
+              </Col>
+              <Col xs="auto">
+                <ButtonGroup>
+                  <Button
+                    variant="secondary"
+                    onClick={handleValidateButtonClick}
+                  >
+                    <i className="bi bi-check2-circle me-2" />
+                    Validate
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    onClick={handleDownloadButtonClick}
+                  >
+                    <i className="bi bi-download me-2" />
+                    Build and Download
+                  </Button>
+                </ButtonGroup>
+              </Col>
+            </Row>
+          </Form>
+        </Container>
+        <Button
+          className="me-2"
+          variant="outline-primary"
+          onClick={handleToggleEditorButtonClick}
+        >
+          <i className="bi bi-arrow-bar-left me-2" />
+          Toggle Editor
+        </Button>
+      </Navbar>
+      <Offcanvas
+        show={!hideOffcanvas}
+        placement="end"
+        onHide={handleHideOffcanvas}
+        scroll={false}
+        backdrop={false}
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Editor</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <Tabs
+            defaultActiveKey="globalMToonOutlineSettingsTab"
+            variant="underline"
+            fill
+          >
             <Tab
               eventKey="globalMToonOutlineSettingsTab"
               title="Global MToon Outline Settings"
@@ -93,12 +143,18 @@ export default function App() {
                 gltfVrmParser={gltfVrmParser}
               />
             </Tab>
+            <Tab
+              eventKey="mToonMaterialsEditorTab"
+              title="MToon Material Editor"
+            >
+              MATERIAL EDITOR
+            </Tab>
             <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
               <GltfJsonEditorTab gltfVrmParser={gltfVrmParser} />
             </Tab>
           </Tabs>
-        </Col>
-      </Row>
-    </Container>
+        </Offcanvas.Body>
+      </Offcanvas>
+    </>
   );
 }
