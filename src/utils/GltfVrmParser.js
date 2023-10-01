@@ -213,6 +213,16 @@ export default class GltfVrmParser {
     console.log('JSON:', GltfParserUtils.parseJson(this.jsonChunk));
   }
 
+  fileCache;
+
+  async getFile() {
+    if (!this.fileCache) {
+      this.fileCache = await this.buildFile();
+    }
+
+    return this.fileCache;
+  }
+
   async buildFile() {
     console.log('BUILDING FILE');
     const file = GltfParserUtils.buildGltfFile({

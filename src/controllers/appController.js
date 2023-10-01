@@ -1,7 +1,32 @@
+import { MeshBuilder } from '@babylonjs/core';
+// import defaultAvatar from '../resources/AvatarSampleB.gltf';
+
 export default class AppController {
   idToRefreshFunctionMap = new Map();
 
   groupNameToIdSet = new Map();
+
+  mainScene;
+
+  mainEngine;
+
+  async loadVrm(file) {
+    console.log(file);
+    console.log(this.mainEngine);
+
+    const box = MeshBuilder.CreateBox('box2', { size: 2 }, this.mainScene);
+
+    // Move the box upward 1/2 its height
+    box.position.z = 15;
+    // console.log('LOADING:', file);
+    // this.mainScene = await SceneLoader.LoadAsync(
+    //   'file:',
+    //   file,
+    //   this.mainEngine,
+    // );
+
+    // await SceneLoader.AppendAsync('model', file, this.mainScene, null, '.gltf');
+  }
 
   refreshView(id) {
     const refreshFunction = this.idToRefreshFunctionMap.get(id);
