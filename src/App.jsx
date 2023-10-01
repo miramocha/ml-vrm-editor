@@ -1,24 +1,30 @@
-import { useEffect, useState } from 'react';
-import {
-  Tab,
-  Tabs,
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  ButtonGroup,
-} from 'react-bootstrap';
+import { useEffect, useState, useContext } from 'react';
+import { Offcanvas } from 'react-bootstrap';
 
-import './App.css';
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
-import GltfJsonEditorTab from './components/gltfJsonEditorTab';
-import GlobalVrmMToonOutlineSettingsForm from './components/globalVrmMToonOutlineSettingsForm';
-import GlobalVrmMToonLightingSettingsForm from './components/globalVrmMToonLightingSettingsForm';
+import EditorTabs from './components/editorTabs';
+import TextureBrowser from './components/textureBrowser';
+import TopNavigation from './components/topNavigation';
+import { AppControllerContext, GltfVrmParserContext } from './AppContext';
+
+const REFRESH_FUNCTION_ID = 'app';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
+  const [hideOffcanvasEditor, setHideOffcanvasEditor] = useState(false);
+  const [hideOffcanvasTextureBrowser, setHideOffcanvasTextureBrowser] =
+    useState(false);
+  const appController = useContext(AppControllerContext);
+
+  const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
+  const refreshComponent = () => {
+    setRenderId(REFRESH_FUNCTION_ID + Math.random());
+  };
+  appController.setRefreshFunction({
+    id: REFRESH_FUNCTION_ID,
+    refreshFunction: refreshComponent,
+  });
 
   useEffect(() => {
     fetch(defaultVrmPath)
@@ -33,72 +39,58 @@ export default function App() {
       });
   }, []);
 
-  const handleFileChange = async (event) => {
-    const newGltfVrmParser = new GltfVrmParser();
-    await newGltfVrmParser.parseFile(event.target.files[0]);
+  const toggleHideOffcanvasEditor = () =>
+    setHideOffcanvasEditor(!hideOffcanvasEditor);
 
-    console.log('PARSER:', newGltfVrmParser);
+  const handleHideOffcanvasEditor = () => setHideOffcanvasEditor(true);
 
-    setGltfVrmParser(newGltfVrmParser);
-  };
+  const toggleHideOffcanvasTextureBrowser = () =>
+    setHideOffcanvasTextureBrowser(!hideOffcanvasTextureBrowser);
 
-  const handleDownloadButtonClick = async () => {
-    const blobURL = window.URL.createObjectURL(await gltfVrmParser.buildFile());
-    const tempLink = document.createElement('a');
-    tempLink.style.display = 'none';
-    tempLink.href = blobURL;
-    tempLink.setAttribute('download', gltfVrmParser.fileName);
-    document.body.appendChild(tempLink);
-    tempLink.click();
-    document.body.removeChild(tempLink);
-  };
-
-  const handleValidateButtonClick = () => {
-    gltfVrmParser.buildFile();
-  };
+  const handleHideOffcanvasTextureBrowser = () =>
+    setHideOffcanvasTextureBrowser(true);
 
   return (
-    <Container>
-      <h2>File Upload</h2>
-      <Row>
-        <Col>
-          <Form.Group controlId="formFile" className="mb-3">
-            <Form.Control type="file" onChange={handleFileChange} />
-            <Form.Text>Only UniVRM (VRM0) is supported currently.</Form.Text>
-          </Form.Group>
-          <ButtonGroup>
-            <Button variant="primary" onClick={handleValidateButtonClick}>
-              Validate GLTF
-            </Button>
-            <Button variant="primary" onClick={handleDownloadButtonClick}>
-              Download File
-            </Button>
-          </ButtonGroup>
-        </Col>
-        <Col>
-          <Tabs defaultActiveKey="globalMToonOutlineSettingsTab">
-            <Tab
-              eventKey="globalMToonOutlineSettingsTab"
-              title="Global MToon Outline Settings"
-            >
-              <GlobalVrmMToonOutlineSettingsForm
-                gltfVrmParser={gltfVrmParser}
-              />
-            </Tab>
-            <Tab
-              eventKey="globalMToonLightingSettingsTab"
-              title="Global MToon Lighting Settings"
-            >
-              <GlobalVrmMToonLightingSettingsForm
-                gltfVrmParser={gltfVrmParser}
-              />
-            </Tab>
-            <Tab eventKey="gltfJsonEditorTab" title="GLTF JSON Editor">
-              <GltfJsonEditorTab gltfVrmParser={gltfVrmParser} />
-            </Tab>
-          </Tabs>
-        </Col>
-      </Row>
-    </Container>
+    <GltfVrmParserContext.Provider value={gltfVrmParser}>
+      <AppControllerContext.Provider value={appController}>
+        <TopNavigation
+          key={`${renderId}-1`}
+          gltfVrmParser={gltfVrmParser}
+          setGltfVrmParser={setGltfVrmParser}
+          toggleHideOffcanvasTextureBrowser={toggleHideOffcanvasTextureBrowser}
+          toggleHideOffcanvasEditor={toggleHideOffcanvasEditor}
+        />
+        <Offcanvas
+          key={`${renderId}-2`}
+          show={!hideOffcanvasTextureBrowser}
+          onHide={handleHideOffcanvasTextureBrowser}
+          placement="start"
+          scroll={false}
+          backdrop={false}
+        >
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Texture Browser</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <TextureBrowser gltfVrmParser={gltfVrmParser} />
+          </Offcanvas.Body>
+        </Offcanvas>
+        <Offcanvas
+          key={`${renderId}-3`}
+          show={!hideOffcanvasEditor}
+          onHide={handleHideOffcanvasEditor}
+          placement="end"
+          scroll={false}
+          backdrop={false}
+        >
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Editor</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <EditorTabs gltfVrmParser={gltfVrmParser} />
+          </Offcanvas.Body>
+        </Offcanvas>
+      </AppControllerContext.Provider>
+    </GltfVrmParserContext.Provider>
   );
 }
