@@ -1,12 +1,14 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import { Tab, Tabs, Accordion } from 'react-bootstrap';
-import GltfVrmParser from '../utils/GltfVrmParser';
 import GltfJsonEditor from './gltfJsonEditor';
 import GlobalVrmMToonOutlineSettingsForm from './globalVrmMToonOutlineSettingsForm';
 import GlobalVrmMToonLightingSettingsForm from './globalVrmMToonLightingSettingsForm';
 import MaterialEditor from './materialEditor';
+import { GltfVrmParserContext } from '../AppContext';
 
-export default function EditorTabs({ gltfVrmParser }) {
+export default function EditorTabs() {
+  const gltfVrmParser = useContext(GltfVrmParserContext);
+
   return (
     <Tabs defaultActiveKey="mToonMaterialsEditorTab" variant="underline" fill>
       <Tab
@@ -54,10 +56,3 @@ export default function EditorTabs({ gltfVrmParser }) {
     </Tabs>
   );
 }
-
-EditorTabs.propTypes = {
-  gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
-};
-EditorTabs.defaultProps = {
-  gltfVrmParser: null,
-};

@@ -7,6 +7,7 @@ import GltfVrmParser from './utils/GltfVrmParser';
 import EditorTabs from './components/editorTabs';
 import TextureBrowser from './components/textureBrowser';
 import TopNavigation from './components/topNavigation';
+import { GltfVrmParserContext } from './AppContext';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
@@ -14,12 +15,12 @@ export default function App() {
   const [hideOffcanvasTextureBrowser, setHideOffcanvasTextureBrowser] =
     useState(false);
 
-  const [commitId, setCommitId] = useState(Math.random());
-  const saveCallback = () => {
-    const newCommitId = Math.random();
-    console.log('GENERATING NEW COMMIT ID:', newCommitId);
-    setCommitId(Math.random());
-  };
+  // eslint-disable-next-line no-unused-vars
+  // const [appRenderId, setAppRenderId] = useState(Math.random());
+  // const refreshAppComponent = () => {
+  //   const renderId = Math.random();
+  //   setAppRenderId(Math.random());
+  // };
 
   useEffect(() => {
     fetch(defaultVrmPath)
@@ -27,8 +28,6 @@ export default function App() {
       .then(async (blob) => {
         const newGltfVrmParser = new GltfVrmParser();
         await newGltfVrmParser.parseFile(new File([blob], 'AvatarSampleB.vrm'));
-
-        newGltfVrmParser.saveCallback = saveCallback;
 
         console.log('PARSER:', newGltfVrmParser);
 
@@ -48,14 +47,16 @@ export default function App() {
     setHideOffcanvasTextureBrowser(true);
 
   return (
-    <>
+    <GltfVrmParserContext.Provider value={gltfVrmParser}>
       <TopNavigation
+        // key={appRenderId}
         gltfVrmParser={gltfVrmParser}
         setGltfVrmParser={setGltfVrmParser}
         toggleHideOffcanvasTextureBrowser={toggleHideOffcanvasTextureBrowser}
         toggleHideOffcanvasEditor={toggleHideOffcanvasEditor}
       />
       <Offcanvas
+        // key={appRenderId}
         show={!hideOffcanvasTextureBrowser}
         onHide={handleHideOffcanvasTextureBrowser}
         placement="start"
@@ -70,7 +71,7 @@ export default function App() {
         </Offcanvas.Body>
       </Offcanvas>
       <Offcanvas
-        key={commitId}
+        // key={appRenderId}
         show={!hideOffcanvasEditor}
         onHide={handleHideOffcanvasEditor}
         placement="end"
@@ -84,6 +85,6 @@ export default function App() {
           <EditorTabs gltfVrmParser={gltfVrmParser} />
         </Offcanvas.Body>
       </Offcanvas>
-    </>
+    </GltfVrmParserContext.Provider>
   );
 }

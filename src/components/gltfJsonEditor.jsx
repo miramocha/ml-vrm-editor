@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import { Button, Form, Stack } from 'react-bootstrap';
-import GltfVrmParser from '../utils/GltfVrmParser';
+import { GltfVrmParserContext } from '../AppContext';
 
-export default function GltfJsonEditor({ gltfVrmParser }) {
+export default function GltfJsonEditor() {
+  const gltfVrmParser = useContext(GltfVrmParserContext);
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -35,10 +36,3 @@ export default function GltfJsonEditor({ gltfVrmParser }) {
     </Form>
   );
 }
-
-GltfJsonEditor.propTypes = {
-  gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
-};
-GltfJsonEditor.defaultProps = {
-  gltfVrmParser: null,
-};

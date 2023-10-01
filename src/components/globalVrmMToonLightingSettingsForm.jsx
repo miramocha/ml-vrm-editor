@@ -1,8 +1,10 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import { Button, Form, Stack } from 'react-bootstrap';
-import GltfVrmParser from '../utils/GltfVrmParser';
+import { GltfVrmParserContext } from '../AppContext';
 
-export default function GlobalVrmMToonLightingSettingsForm({ gltfVrmParser }) {
+export default function GlobalVrmMToonLightingSettingsForm() {
+  const gltfVrmParser = useContext(GltfVrmParserContext);
+
   const handleLightingChangeSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -91,10 +93,3 @@ export default function GlobalVrmMToonLightingSettingsForm({ gltfVrmParser }) {
     </Form>
   );
 }
-
-GlobalVrmMToonLightingSettingsForm.propTypes = {
-  gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
-};
-GlobalVrmMToonLightingSettingsForm.defaultProps = {
-  gltfVrmParser: null,
-};

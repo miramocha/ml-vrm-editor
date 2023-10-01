@@ -1,13 +1,12 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useContext, useState } from 'react';
 import { Accordion, Form, Stack } from 'react-bootstrap';
-import GltfVrmParser from '../utils/GltfVrmParser';
-// import MaterialModel from '../models/MaterialModel';
 import MToonShadingForm from './forms/mToonShadingForm';
 import MToonOutlineForm from './forms/mToonOutlineForm';
 import MToonLightningForm from './forms/mToonLightningForm';
+import { GltfVrmParserContext } from '../AppContext';
 
-export default function MaterialEditor({ gltfVrmParser }) {
+export default function MaterialEditor() {
+  const gltfVrmParser = useContext(GltfVrmParserContext);
   const [currentMaterialIndex, setCurrentMaterialIndex] = useState(0);
   //   const [currentMaterialModel, setCurrentMaterialModel] = useState(null);
 
@@ -74,10 +73,3 @@ export default function MaterialEditor({ gltfVrmParser }) {
     </Stack>
   );
 }
-
-MaterialEditor.propTypes = {
-  gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
-};
-MaterialEditor.defaultProps = {
-  gltfVrmParser: null,
-};

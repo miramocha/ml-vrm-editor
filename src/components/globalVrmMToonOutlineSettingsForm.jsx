@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import { Button, Form, Stack, InputGroup } from 'react-bootstrap';
-import GltfVrmParser from '../utils/GltfVrmParser';
 import * as ColorUtils from '../utils/ColorUtils';
 import RgbaInput from './rgbaInput';
+import { GltfVrmParserContext } from '../AppContext';
 
-export default function globalVrmMToonOutlineSettingsForm({ gltfVrmParser }) {
+export default function globalVrmMToonOutlineSettingsForm() {
+  const gltfVrmParser = useContext(GltfVrmParserContext);
   const handleOutlineChangeSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -75,10 +76,3 @@ export default function globalVrmMToonOutlineSettingsForm({ gltfVrmParser }) {
     </Form>
   );
 }
-
-globalVrmMToonOutlineSettingsForm.propTypes = {
-  gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
-};
-globalVrmMToonOutlineSettingsForm.defaultProps = {
-  gltfVrmParser: null,
-};

@@ -1,8 +1,10 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import { Card, Stack, ListGroup } from 'react-bootstrap';
-import GltfVrmParser from '../utils/GltfVrmParser';
+import { GltfVrmParserContext } from '../AppContext';
 
-export default function TextureBrowser({ gltfVrmParser }) {
+export default function TextureBrowser() {
+  const gltfVrmParser = useContext(GltfVrmParserContext);
+
   return (
     <Stack gap={2}>
       {gltfVrmParser?.textureModels.map((textureModel) => (
@@ -25,10 +27,3 @@ export default function TextureBrowser({ gltfVrmParser }) {
     </Stack>
   );
 }
-
-TextureBrowser.propTypes = {
-  gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
-};
-TextureBrowser.defaultProps = {
-  gltfVrmParser: null,
-};
