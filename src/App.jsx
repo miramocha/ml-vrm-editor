@@ -14,12 +14,21 @@ export default function App() {
   const [hideOffcanvasTextureBrowser, setHideOffcanvasTextureBrowser] =
     useState(false);
 
+  const [commitId, setCommitId] = useState(Math.random());
+  const saveCallback = () => {
+    const newCommitId = Math.random();
+    console.log('GENERATING NEW COMMIT ID:', newCommitId);
+    setCommitId(Math.random());
+  };
+
   useEffect(() => {
     fetch(defaultVrmPath)
       .then((response) => response.blob())
       .then(async (blob) => {
         const newGltfVrmParser = new GltfVrmParser();
         await newGltfVrmParser.parseFile(new File([blob], 'AvatarSampleB.vrm'));
+
+        newGltfVrmParser.saveCallback = saveCallback;
 
         console.log('PARSER:', newGltfVrmParser);
 
@@ -61,6 +70,7 @@ export default function App() {
         </Offcanvas.Body>
       </Offcanvas>
       <Offcanvas
+        key={commitId}
         show={!hideOffcanvasEditor}
         onHide={handleHideOffcanvasEditor}
         placement="end"
