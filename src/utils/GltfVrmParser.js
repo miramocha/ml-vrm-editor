@@ -42,8 +42,12 @@ export default class GltfVrmParser {
     if (!this.materialModelsCache) {
       this.materialModelsCache =
         this.json?.extensions.VRM.materialProperties.map(
-          (material, materialIndex) =>
-            new MaterialModel({ json: material, materialIndex }),
+          (vrmMaterialJson, materialIndex) =>
+            new MaterialModel({
+              materialIndex,
+              vrmMaterialJson,
+              pbrMaterialJson: this.json?.materials[materialIndex],
+            }),
         );
     }
 

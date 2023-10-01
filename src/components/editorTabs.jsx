@@ -14,7 +14,7 @@ export default function EditorTabs({ gltfVrmParser }) {
         title="MToon Material Editor"
         className="pt-2"
       >
-        && <MaterialEditor gltfVrmParser={gltfVrmParser} />
+        <MaterialEditor gltfVrmParser={gltfVrmParser} />
       </Tab>
       <Tab
         eventKey="applyGlobalMToonSettingsTab"

@@ -8,7 +8,7 @@ import MToonOutlineForm from './forms/mToonOutlineForm';
 import MToonLightningForm from './forms/mToonLightningForm';
 
 export default function MaterialEditor({ gltfVrmParser }) {
-  const [currentMaterialIndex, setCurrentMaterialIndex] = useState(-1);
+  const [currentMaterialIndex, setCurrentMaterialIndex] = useState(0);
   //   const [currentMaterialModel, setCurrentMaterialModel] = useState(null);
 
   const handleMaterialSelectorSelect = (event) => {

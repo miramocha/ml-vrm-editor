@@ -11,35 +11,59 @@ export default class MaterialModel {
   /**
    * @type {any}
    */
-  json;
+  vrmMaterialJson;
 
-  constructor({ materialIndex, json }) {
+  /**
+   * @type {any}
+   */
+  pbrMaterialJson;
+
+  constructor({ materialIndex, vrmMaterialJson, pbrMaterialJson }) {
     this.materialIndex = materialIndex;
-    this.json = json;
+    this.vrmMaterialJson = vrmMaterialJson;
+    this.pbrMaterialJson = pbrMaterialJson;
   }
 
   get name() {
-    return this.json.name;
+    return this.vrmMaterialJson.name;
   }
 
   get lightColorAttunation() {
-    return this.json?.floatProperties._LightColorAttenuation;
+    return this.vrmMaterialJson.floatProperties._LightColorAttenuation;
   }
 
   set lightColorAttunation(lightColorAttunation) {
-    this.json.floatProperties._LightColorAttenuation = lightColorAttunation;
+    this.vrmMaterialJson.floatProperties._LightColorAttenuation =
+      lightColorAttunation;
   }
 
   get indirectLightIntensity() {
-    return this.json?.floatProperties._IndirectLightIntensity;
+    return this.vrmMaterialJson?.floatProperties._IndirectLightIntensity;
   }
 
   set indirectLightIntensity(indirectLightIntensity) {
-    this.json.floatProperties._IndirectLightIntensity = indirectLightIntensity;
+    this.vrmMaterialJson.floatProperties._IndirectLightIntensity =
+      indirectLightIntensity;
+  }
+
+  get mainColor() {
+    const colorVector = this.vrmMaterialJson.vectorProperties._Color;
+    const colorHex = ColorUtils.colorUIVectorToHex(colorVector);
+
+    return {
+      colorHex,
+      alpha: colorVector[VECTOR_ALPHA_INDEX],
+    };
+  }
+
+  set mainColor({ colorHex, alpha }) {
+    const rgbaColorVector = [...ColorUtils.hexToColorUIVector(colorHex), alpha];
+    this.vrmMaterialJson.vectorProperties._Color = rgbaColorVector;
+    this.pbrMaterialJson.baseColorFactor = rgbaColorVector;
   }
 
   get shadeColor() {
-    const colorVector = this.json.vectorProperties._ShadeColor;
+    const colorVector = this.vrmMaterialJson.vectorProperties._ShadeColor;
     const colorHex = ColorUtils.colorUIVectorToHex(colorVector);
 
     return {
@@ -49,22 +73,24 @@ export default class MaterialModel {
   }
 
   set shadeColor({ colorHex, alpha }) {
-    this.json.vectorProperties._ShadeColor = [
+    this.vrmMaterialJson.vectorProperties._ShadeColor = [
       ...ColorUtils.hexToColorUIVector(colorHex),
       alpha,
     ];
   }
 
   get outlineColor() {
-    const colorVector = this.json.vectorProperties._OutlineColor;
+    const colorVector = this.vrmMaterialJson.vectorProperties._OutlineColor;
+    const colorHex = ColorUtils.colorUIVectorToHex(colorVector);
+
     return {
-      colorHex: ColorUtils.colorUIVectorToHex(colorVector),
+      colorHex,
       alpha: colorVector[VECTOR_ALPHA_INDEX],
     };
   }
 
   set outlineColor({ colorHex, alpha }) {
-    this.json.vectorProperties._OutlineColor = [
+    this.vrmMaterialJson.vectorProperties._OutlineColor = [
       ...ColorUtils.hexToColorUIVector(colorHex),
       alpha,
     ];
