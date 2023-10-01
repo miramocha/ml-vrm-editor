@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Container,
@@ -9,13 +10,16 @@ import {
   Navbar,
 } from 'react-bootstrap';
 import GltfVrmParser from '../utils/GltfVrmParser';
+import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
 export default function TopNavigation({
-  gltfVrmParser,
   setGltfVrmParser,
   toggleHideOffcanvasEditor,
   toggleHideOffcanvasTextureBrowser,
 }) {
+  const gltfVrmParser = useContext(GltfVrmParserContext);
+  const appController = useContext(AppControllerContext);
+
   const handleFileChange = async (event) => {
     const newGltfVrmParser = new GltfVrmParser();
     await newGltfVrmParser.parseFile(event.target.files[0]);
@@ -23,6 +27,7 @@ export default function TopNavigation({
     console.log('PARSER:', newGltfVrmParser);
 
     setGltfVrmParser(newGltfVrmParser);
+    appController.refreshGroup({ group: 'input' });
   };
 
   const handleDownloadButtonClick = async () => {
@@ -94,13 +99,11 @@ export default function TopNavigation({
 }
 
 TopNavigation.propTypes = {
-  gltfVrmParser: PropTypes.instanceOf(GltfVrmParser),
   setGltfVrmParser: PropTypes.func,
   toggleHideOffcanvasEditor: PropTypes.func,
   toggleHideOffcanvasTextureBrowser: PropTypes.func,
 };
 TopNavigation.defaultProps = {
-  gltfVrmParser: null,
   setGltfVrmParser: () => {},
   toggleHideOffcanvasEditor: () => {},
   toggleHideOffcanvasTextureBrowser: () => {},

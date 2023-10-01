@@ -1,26 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Offcanvas } from 'react-bootstrap';
 
-import './App.css';
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
 import EditorTabs from './components/editorTabs';
 import TextureBrowser from './components/textureBrowser';
 import TopNavigation from './components/topNavigation';
-import { GltfVrmParserContext } from './AppContext';
+import { AppControllerContext, GltfVrmParserContext } from './AppContext';
+
+const REFRESH_FUNCTION_ID = 'app';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
   const [hideOffcanvasEditor, setHideOffcanvasEditor] = useState(false);
   const [hideOffcanvasTextureBrowser, setHideOffcanvasTextureBrowser] =
     useState(false);
+  const appController = useContext(AppControllerContext);
 
-  // eslint-disable-next-line no-unused-vars
-  // const [appRenderId, setAppRenderId] = useState(Math.random());
-  // const refreshAppComponent = () => {
-  //   const renderId = Math.random();
-  //   setAppRenderId(Math.random());
-  // };
+  const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
+  const refreshComponent = () => {
+    setRenderId(REFRESH_FUNCTION_ID + Math.random());
+  };
+  appController.setRefreshFunction({
+    id: REFRESH_FUNCTION_ID,
+    refreshFunction: refreshComponent,
+  });
 
   useEffect(() => {
     fetch(defaultVrmPath)
@@ -48,43 +52,45 @@ export default function App() {
 
   return (
     <GltfVrmParserContext.Provider value={gltfVrmParser}>
-      <TopNavigation
-        // key={appRenderId}
-        gltfVrmParser={gltfVrmParser}
-        setGltfVrmParser={setGltfVrmParser}
-        toggleHideOffcanvasTextureBrowser={toggleHideOffcanvasTextureBrowser}
-        toggleHideOffcanvasEditor={toggleHideOffcanvasEditor}
-      />
-      <Offcanvas
-        // key={appRenderId}
-        show={!hideOffcanvasTextureBrowser}
-        onHide={handleHideOffcanvasTextureBrowser}
-        placement="start"
-        scroll={false}
-        backdrop={false}
-      >
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Texture Browser</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <TextureBrowser gltfVrmParser={gltfVrmParser} />
-        </Offcanvas.Body>
-      </Offcanvas>
-      <Offcanvas
-        // key={appRenderId}
-        show={!hideOffcanvasEditor}
-        onHide={handleHideOffcanvasEditor}
-        placement="end"
-        scroll={false}
-        backdrop={false}
-      >
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Editor</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <EditorTabs gltfVrmParser={gltfVrmParser} />
-        </Offcanvas.Body>
-      </Offcanvas>
+      <AppControllerContext.Provider value={appController}>
+        <TopNavigation
+          key={`${renderId}-1`}
+          gltfVrmParser={gltfVrmParser}
+          setGltfVrmParser={setGltfVrmParser}
+          toggleHideOffcanvasTextureBrowser={toggleHideOffcanvasTextureBrowser}
+          toggleHideOffcanvasEditor={toggleHideOffcanvasEditor}
+        />
+        <Offcanvas
+          key={`${renderId}-2`}
+          show={!hideOffcanvasTextureBrowser}
+          onHide={handleHideOffcanvasTextureBrowser}
+          placement="start"
+          scroll={false}
+          backdrop={false}
+        >
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Texture Browser</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <TextureBrowser gltfVrmParser={gltfVrmParser} />
+          </Offcanvas.Body>
+        </Offcanvas>
+        <Offcanvas
+          key={`${renderId}-3`}
+          show={!hideOffcanvasEditor}
+          onHide={handleHideOffcanvasEditor}
+          placement="end"
+          scroll={false}
+          backdrop={false}
+        >
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Editor</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <EditorTabs gltfVrmParser={gltfVrmParser} />
+          </Offcanvas.Body>
+        </Offcanvas>
+      </AppControllerContext.Provider>
     </GltfVrmParserContext.Provider>
   );
 }

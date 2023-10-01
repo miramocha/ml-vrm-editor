@@ -3,20 +3,33 @@ import { Accordion, Form, Stack } from 'react-bootstrap';
 import MToonShadingForm from './forms/mToonShadingForm';
 import MToonOutlineForm from './forms/mToonOutlineForm';
 import MToonLightningForm from './forms/mToonLightningForm';
-import { GltfVrmParserContext } from '../AppContext';
+import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
+
+const REFRESH_FUNCTION_ID = 'material-editor';
+const REFRESH_FUNCTION_GROUP = 'input';
 
 export default function MaterialEditor() {
   const gltfVrmParser = useContext(GltfVrmParserContext);
   const [currentMaterialIndex, setCurrentMaterialIndex] = useState(0);
-  //   const [currentMaterialModel, setCurrentMaterialModel] = useState(null);
+
+  const appController = useContext(AppControllerContext);
+
+  const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
+  const refreshComponent = () => {
+    setRenderId(REFRESH_FUNCTION_ID + Math.random());
+  };
+  appController.setIdToRefreshFunctionGroup({
+    id: REFRESH_FUNCTION_ID,
+    group: REFRESH_FUNCTION_GROUP,
+    refreshFunction: refreshComponent,
+  });
 
   const handleMaterialSelectorSelect = (event) => {
     setCurrentMaterialIndex(event.target.value);
-    // setCurrentMaterialModel(gltfVrmParser?.materialModels[event.target.value]);
   };
 
   return (
-    <Stack gap={2}>
+    <Stack gap={2} key={renderId}>
       <Form.Group>
         <Form.Label>Select Material</Form.Label>
         <Form.Select onChange={handleMaterialSelectorSelect}>

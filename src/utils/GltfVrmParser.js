@@ -26,9 +26,6 @@ export default class GltfVrmParser {
    */
   binaryChunk;
 
-  // eslint-disable-next-line class-methods-use-this
-  saveCallback = () => console.log('DEFAULT SAVE CALLBACK FUNCTION.');
-
   clearCaches() {
     console.log('CLEARING CACHE');
     this.materialModelsCache = null;
@@ -129,8 +126,6 @@ export default class GltfVrmParser {
       chunkLength: jsonStringLength,
       chunkUint8Array: encodedJsonString,
     });
-
-    this.saveCallback();
 
     this.clearCaches();
   }

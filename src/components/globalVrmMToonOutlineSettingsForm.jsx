@@ -1,11 +1,26 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Form, Stack, InputGroup } from 'react-bootstrap';
 import * as ColorUtils from '../utils/ColorUtils';
 import RgbaInput from './rgbaInput';
-import { GltfVrmParserContext } from '../AppContext';
+import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
+
+const REFRESH_FUNCTION_ID = 'global-outline-settings-form';
+const REFRESH_FUNCTION_GROUP = 'input';
 
 export default function globalVrmMToonOutlineSettingsForm() {
   const gltfVrmParser = useContext(GltfVrmParserContext);
+
+  const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
+  const appController = useContext(AppControllerContext);
+  const refreshComponent = () => {
+    setRenderId(REFRESH_FUNCTION_ID + Math.random());
+  };
+  appController.setIdToRefreshFunctionGroup({
+    id: REFRESH_FUNCTION_ID,
+    group: REFRESH_FUNCTION_GROUP,
+    refreshFunction: refreshComponent,
+  });
+
   const handleOutlineChangeSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -34,10 +49,13 @@ export default function globalVrmMToonOutlineSettingsForm() {
       propertyNameToVectorMap,
       skipMaterialNameSet,
     });
+
+    appController.refreshGroup({ group: 'input' });
   };
 
+  // TO DO - REPLACE THIS WITH MTOONOUTLINEFORM COMPONENT
   return (
-    <Form onSubmit={handleOutlineChangeSubmit}>
+    <Form onSubmit={handleOutlineChangeSubmit} key={renderId}>
       <Stack gap={2} className="mx-auto">
         <Form.Label>Outline Color</Form.Label>
         <InputGroup>
