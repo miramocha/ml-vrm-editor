@@ -1,8 +1,5 @@
-import { validateBytes } from 'gltf-validator';
 import * as GltfParserUtils from './GltfParserUtils';
 import * as VrmJsonMaterialUtils from './VrmJsonMaterialUtils';
-import TextureModel from '../models/TextureModel';
-import MaterialModel from '../models/MaterialModel';
 import GltfChunkModel from '../models/GltfChunkModel';
 
 export default class GltfVrmParser {
@@ -26,35 +23,18 @@ export default class GltfVrmParser {
    */
   binaryChunk;
 
-  clearCaches() {
-    console.log('CLEARING CACHE');
+  buildCaches() {
     this.jsonCache = this.jsonChunk
       ? GltfParserUtils.parseJson(this.jsonChunk)
       : null;
 
-    this.materialModelsCache = this.json?.extensions.VRM.materialProperties.map(
-      (vrmMaterialJson, materialIndex) =>
-        new MaterialModel({
-          materialIndex,
-          vrmMaterialJson,
-          pbrMaterialJson: this.json?.materials[materialIndex],
-        }),
+    this.materialModelsCache = GltfParserUtils.buildMaterialModelCache(
+      this.jsonCache,
     );
-    this.textureModelsCache = this.json.images.map((image, imagesIndex) => {
-      const bufferView = this.json.bufferViews[image.bufferView];
-      const imageBuffer = this.binaryChunk.chunkUint8Array.slice(
-        bufferView.byteOffset,
-        bufferView.byteOffset + bufferView.byteLength,
-      );
-      const blob = new Blob([imageBuffer], { type: image.mimeType });
 
-      return new TextureModel({
-        imagesIndex,
-        bufferViewsIndex: image.bufferView,
-        name: image.name,
-        mimeType: image.mimeType,
-        blob,
-      });
+    this.textureModelsCache = GltfParserUtils.buildTextureModelCache({
+      json: this.jsonCache,
+      binaryChunk: this.binaryChunk,
     });
   }
 
@@ -65,15 +45,9 @@ export default class GltfVrmParser {
    */
   get materialModels() {
     if (!this.materialModelsCache) {
-      this.materialModelsCache =
-        this.json?.extensions.VRM.materialProperties.map(
-          (vrmMaterialJson, materialIndex) =>
-            new MaterialModel({
-              materialIndex,
-              vrmMaterialJson,
-              pbrMaterialJson: this.json?.materials[materialIndex],
-            }),
-        );
+      this.materialModelsCache = GltfParserUtils.buildMaterialModelCache(
+        this.json,
+      );
     }
 
     return this.materialModelsCache;
@@ -86,21 +60,9 @@ export default class GltfVrmParser {
    */
   get textureModels() {
     if (!this.textureModelsCache) {
-      this.textureModelsCache = this.json.images.map((image, imagesIndex) => {
-        const bufferView = this.json.bufferViews[image.bufferView];
-        const imageBuffer = this.binaryChunk.chunkUint8Array.slice(
-          bufferView.byteOffset,
-          bufferView.byteOffset + bufferView.byteLength,
-        );
-        const blob = new Blob([imageBuffer], { type: image.mimeType });
-
-        return new TextureModel({
-          imagesIndex,
-          bufferViewsIndex: image.bufferView,
-          name: image.name,
-          mimeType: image.mimeType,
-          blob,
-        });
+      this.textureModelsCache = GltfParserUtils.buildTextureModelCache({
+        json: this.json,
+        binaryChunk: this.binaryChunk,
       });
     }
 
@@ -139,7 +101,7 @@ export default class GltfVrmParser {
       chunkUint8Array: encodedJsonString,
     });
 
-    this.clearCaches();
+    this.buildCaches();
   }
 
   /**
@@ -196,11 +158,6 @@ export default class GltfVrmParser {
     this.fileName = file.name;
 
     const fileDataView = new DataView(await file.arrayBuffer());
-    const report = await validateBytes(new Uint8Array(fileDataView.buffer), {
-      ignoredIssues: ['BUFFER_VIEW_TARGET_MISSING'],
-    });
-    console.info('VALIDATION SUCCEEDED: ', report);
-
     const { version } = GltfParserUtils.parseHeader({
       fileDataView,
     });
