@@ -27,7 +27,7 @@ export default class GltfVrmParser {
   binaryChunk;
 
   clearCaches() {
-    console.log('CLEARING CACHE');
+    // console.log('CLEARING CACHE');
     this.materialModelsCache = null;
     this.textureModelsCache = null;
     this.jsonCache = null;
@@ -92,25 +92,14 @@ export default class GltfVrmParser {
 
     // This chunk MUST be padded with trailing Space chars (0x20) to satisfy alignment requirements.
     const paddedJsonString = jsonString.padEnd(jsonStringLength);
-    console.log(
-      'NEW JSON STRING LENGTH:',
-      JSON.stringify(this.jsonCache).length,
-    );
-    console.log('OLD CHUNK LENGTH:', this.jsonChunk.chunkLength);
-    console.log('NEW JSON LENGTH:', jsonStringLength);
-    console.log('NEW PADDED JSON LENGTH:', paddedJsonString.length);
 
     let hasDoubleByteChars = false;
     const encodedJsonString = new TextEncoder()
       .encode(paddedJsonString)
-      .map((value, index) => {
+      .map((value) => {
         // TO DO: handle double byte chars
         if (value > 127) {
           hasDoubleByteChars = true;
-          console.log(
-            `DOUBLE BYTE CHAR FOUND AT ${index}:`,
-            paddedJsonString[index],
-          );
         }
 
         return value;
@@ -119,8 +108,6 @@ export default class GltfVrmParser {
     if (hasDoubleByteChars) {
       throw new Error('DOUBLE BYTE CHARACTER DETECTED. ABORTING PARSE.');
     }
-
-    console.log('ENCODED LENGTH:', encodedJsonString.length);
 
     this.jsonChunk = new GltfChunkModel({
       chunkLength: jsonStringLength,
@@ -135,7 +122,6 @@ export default class GltfVrmParser {
    */
   get json() {
     if (!this.jsonCache) {
-      console.log('JSON CACHE IS EMPTY. REFRESHING CACHE.');
       this.jsonCache = this.jsonChunk
         ? GltfParserUtils.parseJson(this.jsonChunk)
         : null;
@@ -185,15 +171,10 @@ export default class GltfVrmParser {
     this.fileName = file.name;
 
     const fileDataView = new DataView(await file.arrayBuffer());
-
-    console.log('VALIDATING IMPORTED FILE...');
     const report = await validateBytes(new Uint8Array(fileDataView.buffer), {
       ignoredIssues: ['BUFFER_VIEW_TARGET_MISSING'],
     });
     console.info('VALIDATION SUCCEEDED: ', report);
-    // if (report.issues.numErrors > 0) {
-    //   throw new Error('Invalid GLTF.');
-    // }
 
     const { version } = GltfParserUtils.parseHeader({
       fileDataView,
@@ -231,18 +212,6 @@ export default class GltfVrmParser {
       binaryChunk: this.binaryChunk,
       version: this.version,
     });
-
-    // console.log('VALIDATING BUILT FILE...');
-    // const report = await validateBytes(
-    //   new Uint8Array(await this.fileCache.arrayBuffer()),
-    //   {
-    //     ignoredIssues: ['BUFFER_VIEW_TARGET_MISSING'],
-    //   },
-    // );
-    // console.info('VALIDATION SUCCEEDED: ', report);
-    // if (report.issues.numErrors > 0) {
-    //   throw new Error('Invalid GLTF.');
-    // }
 
     return this.fileCache;
   }
