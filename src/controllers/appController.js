@@ -1,4 +1,6 @@
-import { MeshBuilder } from '@babylonjs/core';
+import { SceneLoader } from '@babylonjs/core';
+// import 'babylonjs-loaders';
+import 'babylon-vrm-loader';
 // import defaultAvatar from '../resources/AvatarSampleB.gltf';
 
 export default class AppController {
@@ -6,26 +8,32 @@ export default class AppController {
 
   groupNameToIdSet = new Map();
 
-  mainScene;
+  defaultAvatar;
 
-  mainEngine;
+  scene;
+
+  engine;
 
   async loadVrm(file) {
-    console.log(file);
-    console.log(this.mainEngine);
+    console.log('ATTEMPTING TO LOAD:', file);
+    this.scene.materials.forEach((material) => material.dispose());
+    this.scene.meshes.forEach((mesh) => mesh.dispose());
 
-    const box = MeshBuilder.CreateBox('box2', { size: 2 }, this.mainScene);
-
-    // Move the box upward 1/2 its height
-    box.position.z = 15;
-    // console.log('LOADING:', file);
-    // this.mainScene = await SceneLoader.LoadAsync(
-    //   'file:',
-    //   file,
-    //   this.mainEngine,
-    // );
-
-    // await SceneLoader.AppendAsync('model', file, this.mainScene, null, '.gltf');
+    SceneLoader.Append(
+      'file:',
+      file,
+      this.scene,
+      (a) => {
+        console.log('SUCCESS:', a);
+      },
+      (b) => {
+        console.log('PROGRESS:', b);
+      },
+      (c) => {
+        console.log('ERROR:', c);
+      },
+      '.vrm',
+    );
   }
 
   refreshView(id) {

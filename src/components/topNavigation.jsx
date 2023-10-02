@@ -41,7 +41,7 @@ export default function TopNavigation({
     document.body.removeChild(tempLink);
   };
 
-  const handleBuildButtonClick = async () => {
+  const handleReloadButtonClick = async () => {
     appController.loadVrm(await gltfVrmParser.buildFile());
   };
 
@@ -69,13 +69,17 @@ export default function TopNavigation({
         <Form>
           <Row>
             <Col>
-              <Form.Control type="file" onChange={handleFileChange} />
+              <Form.Control
+                type="file"
+                accept=".vrm"
+                onChange={handleFileChange}
+              />
             </Col>
             <Col xs="auto">
               <ButtonGroup>
-                <Button variant="secondary" onClick={handleBuildButtonClick}>
-                  <i className="bi bi-tools me-2" />
-                  Build
+                <Button variant="secondary" onClick={handleReloadButtonClick}>
+                  <i className="bi bi-arrow-clockwise me-2" />
+                  Build and Reload View
                 </Button>
                 <Button variant="secondary" onClick={handleDownloadButtonClick}>
                   <i className="bi bi-download me-2" />

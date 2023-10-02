@@ -1,55 +1,42 @@
-/* eslint-disable consistent-return */
-/* eslint-disable react/prop-types */
-// import PropTypes from 'prop-types';
-import { useEffect, useRef } from 'react';
-import * as BABYLON from '@babylonjs/core';
+import { useEffect, useRef, useContext } from 'react';
+import {
+  // FreeCamera,
+  Vector3,
+  Engine,
+  Scene,
+  HemisphericLight,
+  ArcRotateCamera,
+} from '@babylonjs/core';
+import { AppControllerContext } from '../AppContext';
 
 const antialias = true;
 const engineOptions = null;
 const adaptToDeviceRatio = null;
 const sceneOptions = null;
-const onRender = (scene) => {
-  const box = scene.getMeshByName('box');
-  if (box !== undefined) {
-    const deltaTimeInMillis = scene.getEngine().getDeltaTime();
-
-    const rpm = 10;
-    box.rotation.y += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
-  }
-};
+const onRender = () => {};
 const onSceneReady = (scene) => {
-  // const canvas = scene.getEngine().getRenderingCanvas();
-
-  const camera = new BABYLON.FreeCamera(
+  // const camera = new FreeCamera('camera', new Vector3(0, 1.5, -2), scene);
+  const camera = new ArcRotateCamera(
     'camera',
-    new BABYLON.Vector3(0, 5, -10),
+    -(Math.PI / 2),
+    Math.PI / 2,
+    2,
+    new Vector3(0, 1, -0.2),
     scene,
   );
-  camera.setTarget(BABYLON.Vector3.Zero());
-  // camera.attachControl(canvas, true);
+  // camera.setTarget(new Vector3(0, 1, 0));
+  // camera.useAutoRotationBehavior = true;
+  camera.attachControl(scene.getEngine().getRenderingCanvas());
 
-  const light = new BABYLON.HemisphericLight(
-    'light',
-    new BABYLON.Vector3(0.5, 1, 0),
-    scene,
-  );
+  const light = new HemisphericLight('light', new Vector3(0.5, 1, 0), scene);
 
   // Default intensity is 1. Let's dim the light a small amount
-  light.intensity = 0.7;
-
-  BABYLON.MeshBuilder.CreateGround('ground', { width: 10, height: 10 }, scene);
-
-  const box = BABYLON.MeshBuilder.CreateBox('box', { size: 2 }, scene);
-
-  // Move the box upward 1/2 its height
-  box.position.y = 1;
-
-  // Our built-in 'ground' shape.
-  BABYLON.MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene);
+  light.intensity = 0.9;
 };
 
 export default function MainRender() {
   const reactCanvas = useRef(null);
+  const appController = useContext(AppControllerContext);
 
   // set up basic engine and scene
   useEffect(() => {
@@ -57,15 +44,17 @@ export default function MainRender() {
 
     if (!canvas) return;
 
-    const engine = new BABYLON.Engine(
+    const engine = new Engine(
       canvas,
       antialias,
       engineOptions,
       adaptToDeviceRatio,
     );
-    const scene = new BABYLON.Scene(engine, sceneOptions);
+    appController.engine = engine;
+    const scene = new Scene(engine, sceneOptions);
     if (scene.isReady()) {
       onSceneReady(scene);
+      appController.scene = scene;
     } else {
       scene.onReadyObservable.addOnce(() => onSceneReady(scene));
     }
@@ -91,6 +80,7 @@ export default function MainRender() {
       }
     };
 
+    // eslint-disable-next-line consistent-return
     return cleanupCallback;
   }, [
     antialias,
