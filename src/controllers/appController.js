@@ -12,7 +12,7 @@ export default class AppController {
 
   engine;
 
-  async loadVrm(file) {
+  loadVrm(file) {
     console.log('ATTEMPTING TO LOAD:', file);
     const environmentNodes = new Set(['camera', 'light']);
 

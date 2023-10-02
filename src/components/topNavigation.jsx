@@ -6,7 +6,7 @@ import {
   Col,
   Form,
   Button,
-  ButtonGroup,
+  // ButtonGroup,
   Navbar,
 } from 'react-bootstrap';
 import GltfVrmParser from '../utils/GltfVrmParser';
@@ -27,6 +27,7 @@ export default function TopNavigation({
     console.log('PARSER:', newGltfVrmParser);
 
     setGltfVrmParser(newGltfVrmParser);
+    appController.loadVrm(await newGltfVrmParser.buildFile());
     appController.refreshGroup({ group: 'input' });
   };
 
@@ -41,9 +42,9 @@ export default function TopNavigation({
     document.body.removeChild(tempLink);
   };
 
-  const handleReloadButtonClick = async () => {
-    appController.loadVrm(await gltfVrmParser.buildFile());
-  };
+  // const handleReloadButtonClick = async () => {
+  //   appController.loadVrm(await gltfVrmParser.buildFile());
+  // };
 
   const handleToggleEditorButtonClick = () => toggleHideRightOffcanvas();
 
@@ -75,16 +76,16 @@ export default function TopNavigation({
               />
             </Col>
             <Col xs="auto">
-              <ButtonGroup>
-                <Button variant="secondary" onClick={handleReloadButtonClick}>
+              {/* <ButtonGroup> */}
+              {/* <Button variant="secondary" onClick={handleReloadButtonClick}>
                   <i className="bi bi-arrow-clockwise me-2" />
                   Build and Reload View
-                </Button>
-                <Button variant="secondary" onClick={handleDownloadButtonClick}>
-                  <i className="bi bi-download me-2" />
-                  Download
-                </Button>
-              </ButtonGroup>
+                </Button> */}
+              <Button variant="secondary" onClick={handleDownloadButtonClick}>
+                <i className="bi bi-download me-2" />
+                Download
+              </Button>
+              {/* </ButtonGroup> */}
             </Col>
           </Row>
         </Form>

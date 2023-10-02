@@ -217,7 +217,7 @@ export default class GltfVrmParser {
 
   async getFile() {
     if (!this.fileCache) {
-      this.fileCache = await this.buildFile();
+      await this.buildFile();
     }
 
     return this.fileCache;
@@ -225,25 +225,25 @@ export default class GltfVrmParser {
 
   async buildFile() {
     console.log('BUILDING FILE');
-    const file = GltfParserUtils.buildGltfFile({
+    this.fileCache = await GltfParserUtils.buildGltfFile({
       fileName: this.fileName,
       jsonChunk: this.jsonChunk,
       binaryChunk: this.binaryChunk,
       version: this.version,
     });
 
-    console.log('VALIDATING BUILT FILE...');
-    const report = await validateBytes(
-      new Uint8Array(await file.arrayBuffer()),
-      {
-        ignoredIssues: ['BUFFER_VIEW_TARGET_MISSING'],
-      },
-    );
-    console.info('VALIDATION SUCCEEDED: ', report);
+    // console.log('VALIDATING BUILT FILE...');
+    // const report = await validateBytes(
+    //   new Uint8Array(await this.fileCache.arrayBuffer()),
+    //   {
+    //     ignoredIssues: ['BUFFER_VIEW_TARGET_MISSING'],
+    //   },
+    // );
+    // console.info('VALIDATION SUCCEEDED: ', report);
     // if (report.issues.numErrors > 0) {
     //   throw new Error('Invalid GLTF.');
     // }
 
-    return file;
+    return this.fileCache;
   }
 }

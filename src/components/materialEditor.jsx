@@ -28,21 +28,23 @@ export default function MaterialEditor() {
     setCurrentMaterialIndex(event.target.value);
   };
 
-  const handleMaterialChangeSubmit = (event) => {
+  const handleMaterialChangeSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     console.log(formData);
 
-    const currentModel = gltfVrmParser.materialModels[currentMaterialIndex];
+    const currentModel = gltfVrmParser?.materialModels[currentMaterialIndex];
+
+    currentModel.shadeColor = {
+      colorHex: formData.get('_ShadeColorHex'),
+      alpha: Number(formData.get('_ShadeAlpha')),
+    };
 
     currentModel.outlineColor = {
       colorHex: formData.get('_OutlineColorHex'),
       alpha: Number(formData.get('_OutlineAlpha')),
     };
-    currentModel.shadeColor = {
-      colorHex: formData.get('_ShadeColorHex'),
-      alpha: Number(formData.get('_ShadeAlpha')),
-    };
+    currentModel.outlineWidth = Number(formData.get('_OutlineWidth'));
 
     currentModel.lightColorAttunation = Number(
       formData.get('_LightColorAttenuation'),
@@ -54,26 +56,7 @@ export default function MaterialEditor() {
     console.log('UPDATED MATERIAL:', currentModel.vrmMaterialJson);
 
     gltfVrmParser.commitJsonCache();
-    // propertyNameToFloatMap.set(
-    //   '_LightColorAttenuation',
-    //   Number(formData.get('_LightColorAttenuation')),
-    // );
-    // propertyNameToFloatMap.set(
-    //   '_IndirectLightIntensity',
-    //   Number(formData.get('_IndirectLightIntensity')),
-    // );
-
-    // const propertyNameToVectorMap = new Map();
-    // propertyNameToVectorMap.set('_OutlineColor', [
-    //   ...ColorUtils.hexToColorUIVector(formData.get('_OutlineColorHex')),
-    //   Number(formData.get('_OutlineAlpha')),
-    // ]);
-
-    // const propertyNameToFloatMap = new Map();
-    // propertyNameToFloatMap.set(
-    //   '_OutlineWidth',
-    //   Number(formData.get('_OutlineWidth')),
-    // );
+    appController.loadVrm(await gltfVrmParser.buildFile());
   };
 
   return (

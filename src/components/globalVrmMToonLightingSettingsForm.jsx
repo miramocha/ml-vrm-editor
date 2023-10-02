@@ -1,14 +1,16 @@
 import { useContext } from 'react';
 import { Button, Form, Stack } from 'react-bootstrap';
-import { GltfVrmParserContext } from '../AppContext';
+import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
 export default function GlobalVrmMToonLightingSettingsForm() {
   const gltfVrmParser = useContext(GltfVrmParserContext);
 
-  const handleLightingChangeSubmit = (event) => {
+  const handleLightingChangeSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     console.log(formData);
+
+    const appController = useContext(AppControllerContext);
 
     const skipMaterialNameSet = new Set(formData.getAll('skipMaterialName'));
     console.log('SKIPPING', skipMaterialNameSet);
@@ -27,6 +29,9 @@ export default function GlobalVrmMToonLightingSettingsForm() {
       propertyNameToFloatMap,
       skipMaterialNameSet,
     });
+
+    gltfVrmParser.commitJsonCache();
+    appController.loadVrm(await gltfVrmParser.buildFile());
   };
 
   return (

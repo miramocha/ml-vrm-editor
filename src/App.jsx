@@ -36,6 +36,7 @@ export default function App() {
         console.log('PARSER:', newGltfVrmParser);
 
         setGltfVrmParser(newGltfVrmParser);
+        appController.loadVrm(await newGltfVrmParser.buildFile());
       });
   }, []);
 

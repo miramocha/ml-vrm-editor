@@ -21,7 +21,7 @@ export default function globalVrmMToonOutlineSettingsForm() {
     refreshFunction: refreshComponent,
   });
 
-  const handleOutlineChangeSubmit = (event) => {
+  const handleOutlineChangeSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     console.log(formData);
@@ -54,6 +54,9 @@ export default function globalVrmMToonOutlineSettingsForm() {
       group: 'input',
       skipIds: new Set([REFRESH_FUNCTION_ID]),
     });
+
+    gltfVrmParser.commitJsonCache();
+    appController.loadVrm(await gltfVrmParser.buildFile());
   };
 
   // TO DO - REPLACE THIS WITH MTOONOUTLINEFORM COMPONENT

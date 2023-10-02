@@ -28,6 +28,7 @@ export default class MaterialModel {
     return this.vrmMaterialJson.name;
   }
 
+  // LIGHTING
   get lightColorAttunation() {
     return this.vrmMaterialJson.floatProperties._LightColorAttenuation;
   }
@@ -46,6 +47,7 @@ export default class MaterialModel {
       indirectLightIntensity;
   }
 
+  // MAIN COLOR
   get mainColor() {
     const colorVector = this.vrmMaterialJson.vectorProperties._Color;
     const colorHex = ColorUtils.colorUIVectorToHex(colorVector);
@@ -62,6 +64,7 @@ export default class MaterialModel {
     this.pbrMaterialJson.baseColorFactor = rgbaColorVector;
   }
 
+  // SHADING
   get shadeColor() {
     const colorVector = this.vrmMaterialJson.vectorProperties._ShadeColor;
     const colorHex = ColorUtils.colorUIVectorToHex(colorVector);
@@ -79,6 +82,7 @@ export default class MaterialModel {
     ];
   }
 
+  // OUTLINE
   get outlineColor() {
     const colorVector = this.vrmMaterialJson.vectorProperties._OutlineColor;
     const colorHex = ColorUtils.colorUIVectorToHex(colorVector);
@@ -94,5 +98,13 @@ export default class MaterialModel {
       ...ColorUtils.hexToColorUIVector(colorHex),
       alpha,
     ];
+  }
+
+  get outlineWidth() {
+    return this.vrmMaterialJson?.floatProperties._OutlineWidth;
+  }
+
+  set outlineWidth(outlineWidth) {
+    this.vrmMaterialJson.floatProperties._OutlineWidth = outlineWidth;
   }
 }

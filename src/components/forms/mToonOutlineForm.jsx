@@ -6,14 +6,24 @@ import MaterialModel from '../../models/MaterialModel';
 export default function MToonOutlineForm({ materialModel }) {
   return (
     <Stack gap={2} className="mx-auto">
-      <Form.Label>Outline Color</Form.Label>
       <InputGroup>
+        <Form.Label>Outline Color</Form.Label>
         <RgbaInput
           name="_Outline"
           defaultColorHex={materialModel?.outlineColor.colorHex}
           defaultAlpha={materialModel?.outlineColor.alpha}
         />
       </InputGroup>
+      <Form.Group>
+        <Form.Label>Outline Width</Form.Label>
+        <Form.Control
+          name="_OutlineWidth"
+          type="number"
+          defaultValue={materialModel?.outlineWidth}
+          step={0.01}
+          min={0}
+        />
+      </Form.Group>
     </Stack>
   );
 }

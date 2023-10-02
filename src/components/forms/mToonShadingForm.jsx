@@ -6,8 +6,8 @@ import MaterialModel from '../../models/MaterialModel';
 export default function MToonShadingForm({ materialModel }) {
   return (
     <Stack gap={2} className="mx-auto">
-      <Form.Label>Shade Color</Form.Label>
       <InputGroup>
+        <Form.Label>Shade Color</Form.Label>
         <RgbaInput
           name="_Shade"
           defaultColorHex={materialModel?.shadeColor.colorHex}
