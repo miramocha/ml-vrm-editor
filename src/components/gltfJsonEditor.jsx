@@ -25,9 +25,6 @@ export default function GltfJsonEditor() {
 
     if (gltfVrmParser) {
       gltfVrmParser.setJson(JSON.parse(formData.get('gltfVrmJsonString')));
-      appController.refreshGroup({
-        group: 'input',
-      });
     }
   };
 

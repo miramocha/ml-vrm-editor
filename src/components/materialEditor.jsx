@@ -33,7 +33,8 @@ export default function MaterialEditor() {
     const formData = new FormData(event.target);
     console.log(formData);
 
-    const currentModel = gltfVrmParser?.materialModels[currentMaterialIndex];
+    const currentModel =
+      gltfVrmParser?.materialModels?.at(currentMaterialIndex);
 
     currentModel.shadeColor = {
       colorHex: formData.get('_ShadeColorHex'),
@@ -83,9 +84,9 @@ export default function MaterialEditor() {
               </Accordion.Header>
               <Accordion.Body>
                 <MToonShadingForm
-                  materialModel={
-                    gltfVrmParser?.materialModels[currentMaterialIndex]
-                  }
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
                 />
               </Accordion.Body>
             </Accordion.Item>
@@ -95,9 +96,9 @@ export default function MaterialEditor() {
               </Accordion.Header>
               <Accordion.Body>
                 <MToonOutlineForm
-                  materialModel={
-                    gltfVrmParser?.materialModels[currentMaterialIndex]
-                  }
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
                 />
               </Accordion.Body>
             </Accordion.Item>
@@ -107,9 +108,9 @@ export default function MaterialEditor() {
               </Accordion.Header>
               <Accordion.Body>
                 <MToonLightningForm
-                  materialModel={
-                    gltfVrmParser?.materialModels[currentMaterialIndex]
-                  }
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
                 />
               </Accordion.Body>
             </Accordion.Item>

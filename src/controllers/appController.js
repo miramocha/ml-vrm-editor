@@ -15,26 +15,29 @@ export default class AppController {
   loadVrm(file) {
     console.log('ATTEMPTING TO LOAD:', file);
     const environmentNodes = new Set(['camera', 'light']);
-
     this.scene.rootNodes.forEach((rootNode) => {
       if (!environmentNodes.has(rootNode.name)) {
-        rootNode.dispose();
         console.log('DISPOSING:', rootNode.name);
+        rootNode.dispose();
       }
     });
+
+    this.scene.materials.forEach((materials) => materials.dispose());
+    this.scene.meshes.forEach((mesh) => mesh.dispose());
+    this.scene.skeletons.forEach((skeleton) => skeleton.dispose());
 
     SceneLoader.Append(
       'file:',
       file,
       this.scene,
-      (a) => {
-        console.log('SUCCESS:', a);
+      () => {
+        // console.log('SUCCESS:', a);
       },
-      (b) => {
-        console.log('PROGRESS:', b);
+      () => {
+        // console.log('PROGRESS:', b);
       },
-      (c) => {
-        console.log('ERROR:', c);
+      () => {
+        // console.log('ERROR:', c);
       },
       '.vrm',
     );

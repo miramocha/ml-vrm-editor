@@ -27,10 +27,35 @@ export default class GltfVrmParser {
   binaryChunk;
 
   clearCaches() {
-    // console.log('CLEARING CACHE');
-    this.materialModelsCache = null;
-    this.textureModelsCache = null;
-    this.jsonCache = null;
+    console.log('CLEARING CACHE');
+    this.jsonCache = this.jsonChunk
+      ? GltfParserUtils.parseJson(this.jsonChunk)
+      : null;
+
+    this.materialModelsCache = this.json?.extensions.VRM.materialProperties.map(
+      (vrmMaterialJson, materialIndex) =>
+        new MaterialModel({
+          materialIndex,
+          vrmMaterialJson,
+          pbrMaterialJson: this.json?.materials[materialIndex],
+        }),
+    );
+    this.textureModelsCache = this.json.images.map((image, imagesIndex) => {
+      const bufferView = this.json.bufferViews[image.bufferView];
+      const imageBuffer = this.binaryChunk.chunkUint8Array.slice(
+        bufferView.byteOffset,
+        bufferView.byteOffset + bufferView.byteLength,
+      );
+      const blob = new Blob([imageBuffer], { type: image.mimeType });
+
+      return new TextureModel({
+        imagesIndex,
+        bufferViewsIndex: image.bufferView,
+        name: image.name,
+        mimeType: image.mimeType,
+        blob,
+      });
+    });
   }
 
   materialModelsCache = null;

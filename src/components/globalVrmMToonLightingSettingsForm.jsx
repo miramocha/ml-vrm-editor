@@ -4,13 +4,12 @@ import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
 export default function GlobalVrmMToonLightingSettingsForm() {
   const gltfVrmParser = useContext(GltfVrmParserContext);
+  const appController = useContext(AppControllerContext);
 
   const handleLightingChangeSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     console.log(formData);
-
-    const appController = useContext(AppControllerContext);
 
     const skipMaterialNameSet = new Set(formData.getAll('skipMaterialName'));
     console.log('SKIPPING', skipMaterialNameSet);
@@ -32,6 +31,10 @@ export default function GlobalVrmMToonLightingSettingsForm() {
 
     gltfVrmParser.commitJsonCache();
     appController.loadVrm(await gltfVrmParser.buildFile());
+
+    appController.refreshGroup({
+      group: 'input',
+    });
   };
 
   return (
