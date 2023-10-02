@@ -13,9 +13,8 @@ const REFRESH_FUNCTION_ID = 'app';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
-  const [hideOffcanvasEditor, setHideOffcanvasEditor] = useState(false);
-  const [hideOffcanvasTextureBrowser, setHideOffcanvasTextureBrowser] =
-    useState(false);
+  const [hideRightOffcanvas, setHideRightOffcanvas] = useState(false);
+  const [hideLeftOffcanvas, setHideLeftOffcanvas] = useState(false);
   const appController = useContext(AppControllerContext);
 
   const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
@@ -40,16 +39,15 @@ export default function App() {
       });
   }, []);
 
-  const toggleHideOffcanvasEditor = () =>
-    setHideOffcanvasEditor(!hideOffcanvasEditor);
+  const toggleHideRightOffcanvas = () =>
+    setHideRightOffcanvas(!hideRightOffcanvas);
 
-  const handleHideOffcanvasEditor = () => setHideOffcanvasEditor(true);
+  const handleHideRightOffcanvas = () => setHideRightOffcanvas(true);
 
-  const toggleHideOffcanvasTextureBrowser = () =>
-    setHideOffcanvasTextureBrowser(!hideOffcanvasTextureBrowser);
+  const toggleHideLeftOffcanvas = () =>
+    setHideLeftOffcanvas(!hideLeftOffcanvas);
 
-  const handleHideOffcanvasTextureBrowser = () =>
-    setHideOffcanvasTextureBrowser(true);
+  const handleHideLeftOffcanvas = () => setHideLeftOffcanvas(true);
 
   return (
     <GltfVrmParserContext.Provider value={gltfVrmParser}>
@@ -58,13 +56,13 @@ export default function App() {
           key={`${renderId}-1`}
           gltfVrmParser={gltfVrmParser}
           setGltfVrmParser={setGltfVrmParser}
-          toggleHideOffcanvasTextureBrowser={toggleHideOffcanvasTextureBrowser}
-          toggleHideOffcanvasEditor={toggleHideOffcanvasEditor}
+          toggleHideLeftOffcanvas={toggleHideLeftOffcanvas}
+          toggleHideRightOffcanvas={toggleHideRightOffcanvas}
         />
         <Offcanvas
           key={`${renderId}-2`}
-          show={!hideOffcanvasTextureBrowser}
-          onHide={handleHideOffcanvasTextureBrowser}
+          show={!hideLeftOffcanvas}
+          onHide={handleHideLeftOffcanvas}
           placement="start"
           scroll={false}
           backdrop={false}
@@ -78,8 +76,8 @@ export default function App() {
         </Offcanvas>
         <Offcanvas
           key={`${renderId}-3`}
-          show={!hideOffcanvasEditor}
-          onHide={handleHideOffcanvasEditor}
+          show={!hideRightOffcanvas}
+          onHide={handleHideRightOffcanvas}
           placement="end"
           scroll={false}
           backdrop={false}

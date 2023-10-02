@@ -28,6 +28,54 @@ export default function MaterialEditor() {
     setCurrentMaterialIndex(event.target.value);
   };
 
+  const handleMaterialChangeSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    console.log(formData);
+
+    const currentModel = gltfVrmParser.materialModels[currentMaterialIndex];
+
+    currentModel.outlineColor = {
+      colorHex: formData.get('_OutlineColorHex'),
+      alpha: Number(formData.get('_OutlineAlpha')),
+    };
+    currentModel.shadeColor = {
+      colorHex: formData.get('_ShadeColorHex'),
+      alpha: Number(formData.get('_ShadeAlpha')),
+    };
+
+    currentModel.lightColorAttunation = Number(
+      formData.get('_LightColorAttenuation'),
+    );
+    currentModel.indirectLightIntensity = Number(
+      formData.get('_IndirectLightIntensity'),
+    );
+
+    console.log('UPDATED MATERIAL:', currentModel.vrmMaterialJson);
+
+    gltfVrmParser.commitJsonCache();
+    // propertyNameToFloatMap.set(
+    //   '_LightColorAttenuation',
+    //   Number(formData.get('_LightColorAttenuation')),
+    // );
+    // propertyNameToFloatMap.set(
+    //   '_IndirectLightIntensity',
+    //   Number(formData.get('_IndirectLightIntensity')),
+    // );
+
+    // const propertyNameToVectorMap = new Map();
+    // propertyNameToVectorMap.set('_OutlineColor', [
+    //   ...ColorUtils.hexToColorUIVector(formData.get('_OutlineColorHex')),
+    //   Number(formData.get('_OutlineAlpha')),
+    // ]);
+
+    // const propertyNameToFloatMap = new Map();
+    // propertyNameToFloatMap.set(
+    //   '_OutlineWidth',
+    //   Number(formData.get('_OutlineWidth')),
+    // );
+  };
+
   return (
     <Stack gap={2} key={renderId}>
       <Form.Group>
@@ -43,7 +91,7 @@ export default function MaterialEditor() {
           ))}
         </Form.Select>
       </Form.Group>
-      <Form>
+      <Form onSubmit={handleMaterialChangeSubmit} key={renderId}>
         <Stack gap={2} className="mx-auto">
           <Accordion defaultActiveKey="outlineSettingsAccordionItem">
             <Accordion.Item eventKey="shadingSettingsAccordionItem">

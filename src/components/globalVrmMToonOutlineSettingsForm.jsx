@@ -62,7 +62,7 @@ export default function globalVrmMToonOutlineSettingsForm() {
       <Stack gap={2} className="mx-auto">
         <Form.Label>Outline Color</Form.Label>
         <InputGroup>
-          <RgbaInput name="_Outline" defaultColorHex="#67505F" />
+          <RgbaInput name="_Outline" />
         </InputGroup>
         <Form.Group>
           <Form.Label>Outline Width</Form.Label>

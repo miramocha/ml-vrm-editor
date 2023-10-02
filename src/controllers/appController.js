@@ -1,7 +1,5 @@
 import { SceneLoader } from '@babylonjs/core';
-// import 'babylonjs-loaders';
 import 'babylon-vrm-loader';
-// import defaultAvatar from '../resources/AvatarSampleB.gltf';
 
 export default class AppController {
   idToRefreshFunctionMap = new Map();
@@ -16,8 +14,14 @@ export default class AppController {
 
   async loadVrm(file) {
     console.log('ATTEMPTING TO LOAD:', file);
-    this.scene.materials.forEach((material) => material.dispose());
-    this.scene.meshes.forEach((mesh) => mesh.dispose());
+    const environmentNodes = new Set(['camera', 'light']);
+
+    this.scene.rootNodes.forEach((rootNode) => {
+      if (!environmentNodes.has(rootNode.name)) {
+        rootNode.dispose();
+        console.log('DISPOSING:', rootNode.name);
+      }
+    });
 
     SceneLoader.Append(
       'file:',

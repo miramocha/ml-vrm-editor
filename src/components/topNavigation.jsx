@@ -14,8 +14,8 @@ import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
 export default function TopNavigation({
   setGltfVrmParser,
-  toggleHideOffcanvasEditor,
-  toggleHideOffcanvasTextureBrowser,
+  toggleHideRightOffcanvas,
+  toggleHideLeftOffcanvas,
 }) {
   const gltfVrmParser = useContext(GltfVrmParserContext);
   const appController = useContext(AppControllerContext);
@@ -45,10 +45,9 @@ export default function TopNavigation({
     appController.loadVrm(await gltfVrmParser.buildFile());
   };
 
-  const handleToggleEditorButtonClick = () => toggleHideOffcanvasEditor();
+  const handleToggleEditorButtonClick = () => toggleHideRightOffcanvas();
 
-  const handleToggleTextureBrowserButtonClick = () =>
-    toggleHideOffcanvasTextureBrowser();
+  const handleToggleTextureBrowserButtonClick = () => toggleHideLeftOffcanvas();
 
   return (
     <Navbar className="justify-content-between bg-primary" data-bs-theme="dark">
@@ -104,11 +103,11 @@ export default function TopNavigation({
 
 TopNavigation.propTypes = {
   setGltfVrmParser: PropTypes.func,
-  toggleHideOffcanvasEditor: PropTypes.func,
-  toggleHideOffcanvasTextureBrowser: PropTypes.func,
+  toggleHideRightOffcanvas: PropTypes.func,
+  toggleHideLeftOffcanvas: PropTypes.func,
 };
 TopNavigation.defaultProps = {
   setGltfVrmParser: () => {},
-  toggleHideOffcanvasEditor: () => {},
-  toggleHideOffcanvasTextureBrowser: () => {},
+  toggleHideRightOffcanvas: () => {},
+  toggleHideLeftOffcanvas: () => {},
 };

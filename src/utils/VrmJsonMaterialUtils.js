@@ -1,3 +1,4 @@
+// TO DO - REFACTOR THIS TO USE INDIVIDUAL APPLIER
 export const setGlobalVectorProperties = ({
   json,
   propertyNameToVectorMap,
@@ -27,6 +28,7 @@ export const setGlobalVectorProperties = ({
   return updatedJson;
 };
 
+// TO DO - REFACTOR THIS TO USE INDIVIDUAL APPLIER
 export const setGlobalFloatProperties = ({
   json,
   propertyNameToFloatMap,

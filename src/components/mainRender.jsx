@@ -15,6 +15,7 @@ const adaptToDeviceRatio = null;
 const sceneOptions = null;
 const onRender = () => {};
 const onSceneReady = (scene) => {
+  // TO DO - REFACTOR THIS
   // const camera = new FreeCamera('camera', new Vector3(0, 1.5, -2), scene);
   const camera = new ArcRotateCamera(
     'camera',
