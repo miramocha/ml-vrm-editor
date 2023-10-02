@@ -6,6 +6,7 @@ import GltfVrmParser from './utils/GltfVrmParser';
 import EditorTabs from './components/editorTabs';
 import TextureBrowser from './components/textureBrowser';
 import TopNavigation from './components/topNavigation';
+import MainRender from './components/mainRender';
 import { AppControllerContext, GltfVrmParserContext } from './AppContext';
 
 const REFRESH_FUNCTION_ID = 'app';
@@ -90,6 +91,7 @@ export default function App() {
             <EditorTabs gltfVrmParser={gltfVrmParser} />
           </Offcanvas.Body>
         </Offcanvas>
+        <MainRender />
       </AppControllerContext.Provider>
     </GltfVrmParserContext.Provider>
   );

@@ -50,7 +50,10 @@ export default function globalVrmMToonOutlineSettingsForm() {
       skipMaterialNameSet,
     });
 
-    appController.refreshGroup({ group: 'input' });
+    appController.refreshGroup({
+      group: 'input',
+      skipIds: new Set([REFRESH_FUNCTION_ID]),
+    });
   };
 
   // TO DO - REPLACE THIS WITH MTOONOUTLINEFORM COMPONENT

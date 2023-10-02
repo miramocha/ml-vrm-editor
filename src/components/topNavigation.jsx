@@ -31,7 +31,7 @@ export default function TopNavigation({
   };
 
   const handleDownloadButtonClick = async () => {
-    const blobURL = window.URL.createObjectURL(await gltfVrmParser.buildFile());
+    const blobURL = window.URL.createObjectURL(await gltfVrmParser.getFile());
     const tempLink = document.createElement('a');
     tempLink.style.display = 'none';
     tempLink.href = blobURL;
@@ -41,8 +41,8 @@ export default function TopNavigation({
     document.body.removeChild(tempLink);
   };
 
-  const handleValidateButtonClick = () => {
-    gltfVrmParser.buildFile();
+  const handleReloadButtonClick = async () => {
+    appController.loadVrm(await gltfVrmParser.buildFile());
   };
 
   const handleToggleEditorButtonClick = () => toggleHideOffcanvasEditor();
@@ -69,17 +69,21 @@ export default function TopNavigation({
         <Form>
           <Row>
             <Col>
-              <Form.Control type="file" onChange={handleFileChange} />
+              <Form.Control
+                type="file"
+                accept=".vrm"
+                onChange={handleFileChange}
+              />
             </Col>
             <Col xs="auto">
               <ButtonGroup>
-                <Button variant="secondary" onClick={handleValidateButtonClick}>
-                  <i className="bi bi-check2-circle me-2" />
-                  Validate
+                <Button variant="secondary" onClick={handleReloadButtonClick}>
+                  <i className="bi bi-arrow-clockwise me-2" />
+                  Build and Reload View
                 </Button>
                 <Button variant="secondary" onClick={handleDownloadButtonClick}>
                   <i className="bi bi-download me-2" />
-                  Build and Download
+                  Download
                 </Button>
               </ButtonGroup>
             </Col>

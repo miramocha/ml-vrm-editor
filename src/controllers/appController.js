@@ -1,7 +1,40 @@
+import { SceneLoader } from '@babylonjs/core';
+// import 'babylonjs-loaders';
+import 'babylon-vrm-loader';
+// import defaultAvatar from '../resources/AvatarSampleB.gltf';
+
 export default class AppController {
   idToRefreshFunctionMap = new Map();
 
   groupNameToIdSet = new Map();
+
+  defaultAvatar;
+
+  scene;
+
+  engine;
+
+  async loadVrm(file) {
+    console.log('ATTEMPTING TO LOAD:', file);
+    this.scene.materials.forEach((material) => material.dispose());
+    this.scene.meshes.forEach((mesh) => mesh.dispose());
+
+    SceneLoader.Append(
+      'file:',
+      file,
+      this.scene,
+      (a) => {
+        console.log('SUCCESS:', a);
+      },
+      (b) => {
+        console.log('PROGRESS:', b);
+      },
+      (c) => {
+        console.log('ERROR:', c);
+      },
+      '.vrm',
+    );
+  }
 
   refreshView(id) {
     const refreshFunction = this.idToRefreshFunctionMap.get(id);
