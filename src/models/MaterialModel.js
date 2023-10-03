@@ -2,6 +2,9 @@ import * as ColorUtils from '../utils/ColorUtils';
 
 const VECTOR_ALPHA_INDEX = 4;
 
+/**
+ * Future state - has VRM1.0 flag and handle getter/setter
+ */
 export default class MaterialModel {
   /**
    * @type {number}

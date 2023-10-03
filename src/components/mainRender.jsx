@@ -21,12 +21,11 @@ const onSceneReady = (scene) => {
     'camera',
     -(Math.PI / 2),
     Math.PI / 2,
-    2,
-    new Vector3(0, 1, -0.2),
+    1.5,
+    new Vector3(0, 1, -0.4),
     scene,
   );
-  // camera.setTarget(new Vector3(0, 1, 0));
-  // camera.useAutoRotationBehavior = true;
+
   camera.attachControl(scene.getEngine().getRenderingCanvas());
 
   const light = new HemisphericLight('light', new Vector3(0.5, 1, 0), scene);

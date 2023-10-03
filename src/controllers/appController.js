@@ -12,7 +12,9 @@ export default class AppController {
 
   engine;
 
-  loadVrm(file) {
+  isLoading = false;
+
+  async loadVrm(file) {
     console.log('ATTEMPTING TO LOAD:', file);
     const environmentNodes = new Set(['camera', 'light']);
     this.scene.rootNodes.forEach((rootNode) => {
@@ -22,6 +24,10 @@ export default class AppController {
       }
     });
 
+    console.log(
+      'MESHNAMES:',
+      this.scene.meshes.map((mesh) => mesh.name),
+    );
     this.scene.materials.forEach((materials) => materials.dispose());
     this.scene.meshes.forEach((mesh) => mesh.dispose());
     this.scene.skeletons.forEach((skeleton) => skeleton.dispose());
@@ -31,12 +37,15 @@ export default class AppController {
       file,
       this.scene,
       () => {
+        this.isLoading = false;
         // console.log('SUCCESS:', a);
       },
       () => {
+        this.isLoading = true;
         // console.log('PROGRESS:', b);
       },
       () => {
+        this.isLoading = false;
         // console.log('ERROR:', c);
       },
       '.vrm',

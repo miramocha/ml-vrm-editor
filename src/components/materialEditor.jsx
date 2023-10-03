@@ -29,6 +29,7 @@ export default function MaterialEditor() {
   };
 
   const handleMaterialChangeSubmit = async (event) => {
+    appController.isLoading = true;
     event.preventDefault();
     const formData = new FormData(event.target);
     console.log(formData);
@@ -58,6 +59,7 @@ export default function MaterialEditor() {
 
     gltfVrmParser.commitJsonCache();
     appController.loadVrm(await gltfVrmParser.buildFile());
+    appController.isLoading = false;
   };
 
   return (

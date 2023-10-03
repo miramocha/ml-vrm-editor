@@ -1,14 +1,6 @@
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  // ButtonGroup,
-  Navbar,
-} from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Navbar } from 'react-bootstrap';
 import GltfVrmParser from '../utils/GltfVrmParser';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
@@ -21,6 +13,7 @@ export default function TopNavigation({
   const appController = useContext(AppControllerContext);
 
   const handleFileChange = async (event) => {
+    appController.isLoading = true;
     const newGltfVrmParser = new GltfVrmParser();
     await newGltfVrmParser.parseFile(event.target.files[0]);
 
@@ -29,6 +22,7 @@ export default function TopNavigation({
     setGltfVrmParser(newGltfVrmParser);
     appController.loadVrm(await newGltfVrmParser.buildFile());
     appController.refreshGroup({ group: 'input' });
+    appController.isLoading = false;
   };
 
   const handleDownloadButtonClick = async () => {
@@ -41,10 +35,6 @@ export default function TopNavigation({
     tempLink.click();
     document.body.removeChild(tempLink);
   };
-
-  // const handleReloadButtonClick = async () => {
-  //   appController.loadVrm(await gltfVrmParser.buildFile());
-  // };
 
   const handleToggleEditorButtonClick = () => toggleHideRightOffcanvas();
 
@@ -76,16 +66,10 @@ export default function TopNavigation({
               />
             </Col>
             <Col xs="auto">
-              {/* <ButtonGroup> */}
-              {/* <Button variant="secondary" onClick={handleReloadButtonClick}>
-                  <i className="bi bi-arrow-clockwise me-2" />
-                  Build and Reload View
-                </Button> */}
               <Button variant="secondary" onClick={handleDownloadButtonClick}>
                 <i className="bi bi-download me-2" />
                 Download
               </Button>
-              {/* </ButtonGroup> */}
             </Col>
           </Row>
         </Form>

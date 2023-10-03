@@ -9,6 +9,7 @@ export default function globalVrmMToonOutlineSettingsForm() {
   const appController = useContext(AppControllerContext);
 
   const handleOutlineChangeSubmit = async (event) => {
+    appController.isLoading = true;
     event.preventDefault();
     const formData = new FormData(event.target);
     console.log(formData);
@@ -43,6 +44,7 @@ export default function globalVrmMToonOutlineSettingsForm() {
     appController.refreshGroup({
       group: 'input',
     });
+    appController.isLoading = false;
   };
 
   // TO DO - REPLACE THIS WITH MTOONOUTLINEFORM COMPONENT

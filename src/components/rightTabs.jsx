@@ -1,14 +1,10 @@
-import { useContext } from 'react';
 import { Tab, Tabs, Accordion } from 'react-bootstrap';
 import GltfJsonEditor from './gltfJsonEditor';
 import GlobalVrmMToonOutlineSettingsForm from './globalVrmMToonOutlineSettingsForm';
 import GlobalVrmMToonLightingSettingsForm from './globalVrmMToonLightingSettingsForm';
 import MaterialEditor from './materialEditor';
-import { GltfVrmParserContext } from '../AppContext';
 
-export default function EditorTabs() {
-  const gltfVrmParser = useContext(GltfVrmParserContext);
-
+export default function RightTabs() {
   return (
     <Tabs defaultActiveKey="mToonMaterialsEditorTab" variant="underline" fill>
       <Tab
@@ -16,7 +12,7 @@ export default function EditorTabs() {
         title="MToon Material Editor"
         className="pt-2"
       >
-        <MaterialEditor gltfVrmParser={gltfVrmParser} />
+        <MaterialEditor />
       </Tab>
       <Tab
         eventKey="applyGlobalMToonSettingsTab"
@@ -29,9 +25,7 @@ export default function EditorTabs() {
               <i className="bi bi-pencil-fill me-2" /> Outline Settings
             </Accordion.Header>
             <Accordion.Body>
-              <GlobalVrmMToonOutlineSettingsForm
-                gltfVrmParser={gltfVrmParser}
-              />
+              <GlobalVrmMToonOutlineSettingsForm />
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="lightingSettingsAccordionItem">
@@ -39,9 +33,7 @@ export default function EditorTabs() {
               <i className="bi  bi-lightbulb-fill me-2" /> Lighting Settings
             </Accordion.Header>
             <Accordion.Body>
-              <GlobalVrmMToonLightingSettingsForm
-                gltfVrmParser={gltfVrmParser}
-              />
+              <GlobalVrmMToonLightingSettingsForm />
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
@@ -51,7 +43,7 @@ export default function EditorTabs() {
         title="GLTF JSON Editor"
         className="pt-2"
       >
-        <GltfJsonEditor gltfVrmParser={gltfVrmParser} />
+        <GltfJsonEditor />
       </Tab>
     </Tabs>
   );
