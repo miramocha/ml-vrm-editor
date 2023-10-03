@@ -3,7 +3,7 @@ import { Offcanvas } from 'react-bootstrap';
 
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
-import EditorTabs from './components/editorTabs';
+import RightTabs from './components/rightTabs';
 import TextureBrowser from './components/textureBrowser';
 import TopNavigation from './components/topNavigation';
 import MainRender from './components/mainRender';
@@ -72,7 +72,7 @@ export default function App() {
             <Offcanvas.Title>Texture Browser</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <TextureBrowser gltfVrmParser={gltfVrmParser} />
+            <TextureBrowser />
           </Offcanvas.Body>
         </Offcanvas>
         <Offcanvas
@@ -87,7 +87,7 @@ export default function App() {
             <Offcanvas.Title>Editor</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <EditorTabs gltfVrmParser={gltfVrmParser} />
+            <RightTabs />
           </Offcanvas.Body>
         </Offcanvas>
         <MainRender />
