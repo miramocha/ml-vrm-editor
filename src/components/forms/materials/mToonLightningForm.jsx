@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Form, Stack } from 'react-bootstrap';
-import MaterialModel from '../../models/MaterialModel';
+import MaterialModel from '../../../models/MaterialModel';
 
 export default function MToonLightningForm({ materialModel }) {
   return (

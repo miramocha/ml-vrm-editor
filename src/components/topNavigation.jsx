@@ -36,19 +36,19 @@ export default function TopNavigation({
     document.body.removeChild(tempLink);
   };
 
-  const handleToggleEditorButtonClick = () => toggleHideRightOffcanvas();
+  const handleToggleRightOffCanvasButtonClick = () =>
+    toggleHideRightOffcanvas();
 
-  const handleToggleTextureBrowserButtonClick = () => toggleHideLeftOffcanvas();
+  const handleToggleLeftOffCanvasButtonClick = () => toggleHideLeftOffcanvas();
 
   return (
     <Navbar className="justify-content-between bg-primary" data-bs-theme="dark">
       <Button
         className="ms-2"
         variant="outline-light"
-        onClick={handleToggleTextureBrowserButtonClick}
+        onClick={handleToggleLeftOffCanvasButtonClick}
       >
-        Toggle Texture Browser
-        <i className="bi bi-arrow-bar-right ms-2" />
+        <i className="bi bi-arrow-bar-right ms-2" /> Settings and Integration
       </Button>
       <Container>
         <Navbar.Brand>
@@ -77,10 +77,10 @@ export default function TopNavigation({
       <Button
         className="me-2"
         variant="outline-light"
-        onClick={handleToggleEditorButtonClick}
+        onClick={handleToggleRightOffCanvasButtonClick}
       >
         <i className="bi bi-arrow-bar-left me-2" />
-        Toggle Editor
+        Editor
       </Button>
     </Navbar>
   );

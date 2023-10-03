@@ -52,13 +52,6 @@ export default function App() {
   return (
     <GltfVrmParserContext.Provider value={gltfVrmParser}>
       <AppControllerContext.Provider value={appController}>
-        <TopNavigation
-          key={`${renderId}-1`}
-          gltfVrmParser={gltfVrmParser}
-          setGltfVrmParser={setGltfVrmParser}
-          toggleHideLeftOffcanvas={toggleHideLeftOffcanvas}
-          toggleHideRightOffcanvas={toggleHideRightOffcanvas}
-        />
         <Offcanvas
           key={`${renderId}-2`}
           show={!hideLeftOffcanvas}
@@ -87,6 +80,13 @@ export default function App() {
             <RightTabs />
           </Offcanvas.Body>
         </Offcanvas>
+        <TopNavigation
+          key={`${renderId}-1`}
+          gltfVrmParser={gltfVrmParser}
+          setGltfVrmParser={setGltfVrmParser}
+          toggleHideLeftOffcanvas={toggleHideLeftOffcanvas}
+          toggleHideRightOffcanvas={toggleHideRightOffcanvas}
+        />
         <MainRender />
       </AppControllerContext.Provider>
     </GltfVrmParserContext.Provider>

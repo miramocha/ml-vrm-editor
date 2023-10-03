@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react';
 import { Accordion, Form, Stack, Button } from 'react-bootstrap';
-import MToonMainForm from './forms/mToonMainForm';
-import MToonShadingForm from './forms/mToonShadingForm';
-import MToonOutlineForm from './forms/mToonOutlineForm';
-import MToonLightningForm from './forms/mToonLightningForm';
-import MToonRimLightForm from './forms/mToonRimLightForm';
+import MToonMainForm from './forms/materials/mToonMainForm';
+import MToonShadingForm from './forms/materials/mToonShadingForm';
+import MToonOutlineForm from './forms/materials/mToonOutlineForm';
+import MToonLightningForm from './forms/materials/mToonLightningForm';
+import MToonRimLightForm from './forms/materials/mToonRimLightForm';
+import MToonEmissionForm from './forms/materials/mToonEmissionForm';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
 const REFRESH_FUNCTION_ID = 'material-editor';
@@ -113,7 +114,18 @@ export default function MaterialEditor() {
                 />
               </Accordion.Body>
             </Accordion.Item>
-
+            <Accordion.Item eventKey="emissionSettingsAccordionItem">
+              <Accordion.Header>
+                <i className="bi  bi-brightness-high me-2" /> Emission
+              </Accordion.Header>
+              <Accordion.Body>
+                <MToonEmissionForm
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
             <Accordion.Item eventKey="lightingSettingsAccordionItem">
               <Accordion.Header>
                 <i className="bi  bi-lightbulb-fill me-2" /> Lighting

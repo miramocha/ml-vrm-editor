@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Form, Stack, InputGroup } from 'react-bootstrap';
-import RgbaInput from '../rgbaInput';
-import MaterialModel from '../../models/MaterialModel';
+import RgbaInput from '../../rgbaInput';
+import MaterialModel from '../../../models/MaterialModel';
 
 export default function MToonRimLightForm({ materialModel }) {
   return (

@@ -16,7 +16,6 @@ const sceneOptions = null;
 const onRender = () => {};
 const onSceneReady = (scene) => {
   // TO DO - REFACTOR THIS
-  // const camera = new FreeCamera('camera', new Vector3(0, 1.5, -2), scene);
   const camera = new ArcRotateCamera(
     'camera',
     -(Math.PI / 2),
@@ -30,7 +29,6 @@ const onSceneReady = (scene) => {
 
   const light = new HemisphericLight('light', new Vector3(0.5, 1, 0), scene);
 
-  // Default intensity is 1. Let's dim the light a small amount
   light.intensity = 0.9;
 };
 
@@ -43,6 +41,9 @@ export default function MainRender() {
     const { current: canvas } = reactCanvas;
 
     if (!canvas) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     const engine = new Engine(
       canvas,
@@ -64,19 +65,21 @@ export default function MainRender() {
       scene.render();
     });
 
-    const resize = () => {
+    const handleWindowResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       scene.getEngine().resize();
     };
 
     if (window) {
-      window.addEventListener('resize', resize);
+      window.addEventListener('resize', handleWindowResize);
     }
 
     const cleanupCallback = () => {
       scene.getEngine().dispose();
 
       if (window) {
-        window.removeEventListener('resize', resize);
+        window.removeEventListener('resize', handleWindowResize);
       }
     };
 
@@ -91,5 +94,5 @@ export default function MainRender() {
     onSceneReady,
   ]);
 
-  return <canvas style={{ width: '100%', height: '100%' }} ref={reactCanvas} />;
+  return <canvas ref={reactCanvas} />;
 }
