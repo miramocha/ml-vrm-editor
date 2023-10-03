@@ -32,30 +32,11 @@ export default function MaterialEditor() {
     appController.isLoading = true;
     event.preventDefault();
     const formData = new FormData(event.target);
-    console.log(formData);
 
     const currentModel =
       gltfVrmParser?.materialModels?.at(currentMaterialIndex);
 
-    currentModel.shadeColor = {
-      colorHex: formData.get('_ShadeColorHex'),
-      alpha: Number(formData.get('_ShadeAlpha')),
-    };
-
-    currentModel.outlineColor = {
-      colorHex: formData.get('_OutlineColorHex'),
-      alpha: Number(formData.get('_OutlineAlpha')),
-    };
-    currentModel.outlineWidth = Number(formData.get('_OutlineWidth'));
-
-    currentModel.lightColorAttunation = Number(
-      formData.get('_LightColorAttenuation'),
-    );
-    currentModel.indirectLightIntensity = Number(
-      formData.get('_IndirectLightIntensity'),
-    );
-
-    console.log('UPDATED MATERIAL:', currentModel.vrmMaterialJson);
+    currentModel.processMaterialFormData(formData);
 
     gltfVrmParser.commitJsonCache();
     appController.loadVrm(await gltfVrmParser.buildFile());

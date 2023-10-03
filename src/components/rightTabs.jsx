@@ -3,6 +3,7 @@ import GltfJsonEditor from './gltfJsonEditor';
 import GlobalVrmMToonOutlineSettingsForm from './globalVrmMToonOutlineSettingsForm';
 import GlobalVrmMToonLightingSettingsForm from './globalVrmMToonLightingSettingsForm';
 import MaterialEditor from './materialEditor';
+import TextureBrowser from './textureBrowser';
 
 export default function RightTabs() {
   return (
@@ -44,6 +45,13 @@ export default function RightTabs() {
         className="pt-2"
       >
         <GltfJsonEditor />
+      </Tab>
+      <Tab
+        eventKey="textureBrowserTab"
+        title="Texture Browser"
+        className="pt-2"
+      >
+        <TextureBrowser />
       </Tab>
     </Tabs>
   );

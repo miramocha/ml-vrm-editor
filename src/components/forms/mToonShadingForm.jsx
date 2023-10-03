@@ -9,9 +9,9 @@ export default function MToonShadingForm({ materialModel }) {
       <InputGroup>
         <Form.Label>Shade Color</Form.Label>
         <RgbaInput
-          name="_Shade"
-          defaultColorHex={materialModel?.shadeColor.colorHex}
-          defaultAlpha={materialModel?.shadeColor.alpha}
+          name="_ShadeColor"
+          defaultColorHex={materialModel?.getValue('_ShadeColor').hex}
+          defaultAlpha={materialModel?.getValue('_ShadeColor').alpha}
         />
       </InputGroup>
     </Stack>

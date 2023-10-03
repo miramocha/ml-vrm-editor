@@ -8,9 +8,12 @@ export default function MToonLightningForm({ materialModel }) {
       <Form.Group>
         <Form.Label>Light Color Attenuation</Form.Label>
         <Form.Control
+          key={`_LightColorAttenuation.${materialModel?.getValue(
+            '_LightColorAttenuation',
+          )}`}
           type="number"
           name="_LightColorAttenuation"
-          defaultValue={materialModel?.lightColorAttunation}
+          defaultValue={materialModel?.getValue('_LightColorAttenuation')}
           max={1}
           min={0}
           step={1}
@@ -35,11 +38,14 @@ export default function MToonLightningForm({ materialModel }) {
       <Form.Group>
         <Form.Label>Indirect Light Intensity</Form.Label>
         <Form.Control
+          key={`_IndirectLightIntensity.${materialModel?.getValue(
+            '_IndirectLightIntensity',
+          )}`}
           type="number"
           name="_IndirectLightIntensity"
-          defaultValue={materialModel?.indirectLightIntensity}
+          defaultValue={materialModel?.getValue('_IndirectLightIntensity')}
+          max={1}
           min={0}
-          step={0.01}
         />
       </Form.Group>
     </Stack>

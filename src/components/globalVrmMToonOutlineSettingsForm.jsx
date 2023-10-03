@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { Button, Form, Stack, InputGroup } from 'react-bootstrap';
-import * as ColorUtils from '../utils/ColorUtils';
 import RgbaInput from './rgbaInput';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
@@ -17,26 +16,9 @@ export default function globalVrmMToonOutlineSettingsForm() {
     const skipMaterialNameSet = new Set(formData.getAll('skipMaterialName'));
     console.log('SKIPPING', skipMaterialNameSet);
 
-    const propertyNameToVectorMap = new Map();
-    propertyNameToVectorMap.set('_OutlineColor', [
-      ...ColorUtils.hexToColorUIVector(formData.get('_OutlineColorHex')),
-      Number(formData.get('_OutlineAlpha')),
-    ]);
-
-    const propertyNameToFloatMap = new Map();
-    propertyNameToFloatMap.set(
-      '_OutlineWidth',
-      Number(formData.get('_OutlineWidth')),
+    gltfVrmParser.materialModels.forEach((materialModel) =>
+      materialModel.processMaterialFormData(formData),
     );
-
-    gltfVrmParser.setMaterialGlobalFloatProperties({
-      propertyNameToFloatMap,
-      skipMaterialNameSet,
-    });
-    gltfVrmParser.setMaterialGlobalVectorProperties({
-      propertyNameToVectorMap,
-      skipMaterialNameSet,
-    });
 
     gltfVrmParser.commitJsonCache();
     appController.loadVrm(await gltfVrmParser.buildFile());
@@ -53,7 +35,7 @@ export default function globalVrmMToonOutlineSettingsForm() {
       <Stack gap={2} className="mx-auto">
         <Form.Label>Outline Color</Form.Label>
         <InputGroup>
-          <RgbaInput name="_Outline" />
+          <RgbaInput name="_OutlineColor" />
         </InputGroup>
         <Form.Group>
           <Form.Label>Outline Width</Form.Label>

@@ -15,20 +15,9 @@ export default function GlobalVrmMToonLightingSettingsForm() {
     const skipMaterialNameSet = new Set(formData.getAll('skipMaterialName'));
     console.log('SKIPPING', skipMaterialNameSet);
 
-    const propertyNameToFloatMap = new Map();
-    propertyNameToFloatMap.set(
-      '_LightColorAttenuation',
-      Number(formData.get('_LightColorAttenuation')),
+    gltfVrmParser.materialModels.forEach((materialModel) =>
+      materialModel.processMaterialFormData(formData),
     );
-    propertyNameToFloatMap.set(
-      '_IndirectLightIntensity',
-      Number(formData.get('_IndirectLightIntensity')),
-    );
-
-    gltfVrmParser.setMaterialGlobalFloatProperties({
-      propertyNameToFloatMap,
-      skipMaterialNameSet,
-    });
 
     gltfVrmParser.commitJsonCache();
     appController.loadVrm(await gltfVrmParser.buildFile());

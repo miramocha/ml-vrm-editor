@@ -4,7 +4,6 @@ import { Offcanvas } from 'react-bootstrap';
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
 import RightTabs from './components/rightTabs';
-import TextureBrowser from './components/textureBrowser';
 import TopNavigation from './components/topNavigation';
 import MainRender from './components/mainRender';
 import { AppControllerContext, GltfVrmParserContext } from './AppContext';
@@ -69,11 +68,9 @@ export default function App() {
           backdrop={false}
         >
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Texture Browser</Offcanvas.Title>
+            <Offcanvas.Title>Settings</Offcanvas.Title>
           </Offcanvas.Header>
-          <Offcanvas.Body>
-            <TextureBrowser />
-          </Offcanvas.Body>
+          <Offcanvas.Body>SETTINGS</Offcanvas.Body>
         </Offcanvas>
         <Offcanvas
           key={`${renderId}-3`}
