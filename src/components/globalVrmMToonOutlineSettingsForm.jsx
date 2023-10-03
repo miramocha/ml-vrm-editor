@@ -17,9 +17,11 @@ export default function globalVrmMToonOutlineSettingsForm() {
     const skipMaterialNameSet = new Set(formData.getAll('skipMaterialName'));
     console.log('SKIPPING', skipMaterialNameSet);
 
-    gltfVrmParser.materialModels.forEach((materialModel) =>
-      materialModel.processMaterialFormData(formData),
-    );
+    gltfVrmParser.materialModels.forEach((materialModel) => {
+      if (!skipMaterialNameSet.has(materialModel.name)) {
+        materialModel.processMaterialFormData(formData);
+      }
+    });
 
     gltfVrmParser.commitJsonCache();
     appController.loadVrm(await gltfVrmParser.buildFile());

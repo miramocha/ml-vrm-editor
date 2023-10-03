@@ -119,7 +119,13 @@ export default class MaterialModel {
   }
 
   #getFloat(name) {
-    return this.vrmMaterialJson?.floatProperties[name];
+    // ROUND UP NUMBER TO PREVENT FORM VALIDATION FAILURE
+    return (
+      Math.round(
+        (Number(this.vrmMaterialJson?.floatProperties[name]) + Number.EPSILON) *
+          10000,
+      ) / 10000
+    );
   }
 
   #setVector(name, value) {

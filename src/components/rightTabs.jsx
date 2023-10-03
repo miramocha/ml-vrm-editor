@@ -47,6 +47,13 @@ export default function RightTabs() {
         <GltfJsonEditor />
       </Tab>
       <Tab
+        eventKey="metadataEditorTab"
+        title="Metadata Editor"
+        className="pt-2"
+      >
+        METADATA EDITOR
+      </Tab>
+      <Tab
         eventKey="textureBrowserTab"
         title="Texture Browser"
         className="pt-2"

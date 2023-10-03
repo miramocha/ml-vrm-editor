@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { Accordion, Form, Stack, Button } from 'react-bootstrap';
+import MToonMainForm from './forms/mToonMainForm';
 import MToonShadingForm from './forms/mToonShadingForm';
 import MToonOutlineForm from './forms/mToonOutlineForm';
 import MToonLightningForm from './forms/mToonLightningForm';
@@ -63,10 +64,22 @@ export default function MaterialEditor() {
       </Form.Group>
       <Form onSubmit={handleMaterialChangeSubmit} key={currentMaterialIndex}>
         <Stack gap={2} className="mx-auto">
-          <Accordion defaultActiveKey="outlineSettingsAccordionItem">
+          <Accordion defaultActiveKey="mainSettingsAccordionItem">
+            <Accordion.Item eventKey="mainSettingsAccordionItem">
+              <Accordion.Header>
+                <i className="bi bi-circle-fill me-2" /> Main
+              </Accordion.Header>
+              <Accordion.Body>
+                <MToonMainForm
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
             <Accordion.Item eventKey="shadingSettingsAccordionItem">
               <Accordion.Header>
-                <i className="bi bi-shadows me-2" /> Shading Settings
+                <i className="bi bi-shadows me-2" /> Shading
               </Accordion.Header>
               <Accordion.Body>
                 <MToonShadingForm
@@ -76,21 +89,9 @@ export default function MaterialEditor() {
                 />
               </Accordion.Body>
             </Accordion.Item>
-            <Accordion.Item eventKey="rimLightSettingsAccordionItem">
-              <Accordion.Header>
-                <i className="bi bi-circle me-2" /> Rim Light Settings
-              </Accordion.Header>
-              <Accordion.Body>
-                <MToonRimLightForm
-                  materialModel={gltfVrmParser?.materialModels?.at(
-                    currentMaterialIndex,
-                  )}
-                />
-              </Accordion.Body>
-            </Accordion.Item>
             <Accordion.Item eventKey="outlineSettingsAccordionItem">
               <Accordion.Header>
-                <i className="bi bi-pencil-fill me-2" /> Outline Settings
+                <i className="bi bi-circle me-2" /> Outline
               </Accordion.Header>
               <Accordion.Body>
                 <MToonOutlineForm
@@ -100,9 +101,22 @@ export default function MaterialEditor() {
                 />
               </Accordion.Body>
             </Accordion.Item>
+            <Accordion.Item eventKey="rimLightSettingsAccordionItem">
+              <Accordion.Header>
+                <i className="bi bi-brightness-low me-2" /> Rim Light
+              </Accordion.Header>
+              <Accordion.Body>
+                <MToonRimLightForm
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
+
             <Accordion.Item eventKey="lightingSettingsAccordionItem">
               <Accordion.Header>
-                <i className="bi  bi-lightbulb-fill me-2" /> Lighting Settings
+                <i className="bi  bi-lightbulb-fill me-2" /> Lighting
               </Accordion.Header>
               <Accordion.Body>
                 <MToonLightningForm

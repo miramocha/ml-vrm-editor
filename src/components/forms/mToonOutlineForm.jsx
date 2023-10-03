@@ -21,7 +21,7 @@ export default function MToonOutlineForm({ materialModel }) {
           type="number"
           defaultValue={materialModel?.getValue('_OutlineWidth')}
           min={0}
-          step={0.001}
+          step={0.00001}
         />
       </Form.Group>
     </Stack>
