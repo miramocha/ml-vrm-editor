@@ -1,19 +1,25 @@
 import PropTypes from 'prop-types';
-import { Form, Stack, InputGroup } from 'react-bootstrap';
+import { Form, Stack } from 'react-bootstrap';
 import RgbaInput from '../../rgbaInput';
 import MaterialModel from '../../../models/MaterialModel';
 
 export default function MToonOutlineForm({ materialModel }) {
   return (
     <Stack gap={2} className="mx-auto">
-      <InputGroup>
+      <Form.Group>
         <Form.Label>Outline Color</Form.Label>
         <RgbaInput
           name="_OutlineColor"
-          defaultColorHex={materialModel?.getValue('_OutlineColor').hex}
-          defaultAlpha={materialModel?.getValue('_OutlineColor').alpha}
+          defaultColorHex={
+            materialModel
+              ? materialModel?.getValue('_OutlineColor').hex
+              : '#ffffff'
+          }
+          defaultAlpha={
+            materialModel ? materialModel?.getValue('_OutlineColor').alpha : 1.0
+          }
         />
-      </InputGroup>
+      </Form.Group>
       <Form.Group>
         <Form.Label>Outline Width</Form.Label>
         <Form.Control

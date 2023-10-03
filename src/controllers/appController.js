@@ -16,7 +16,12 @@ export default class AppController {
 
   async loadVrm(file) {
     console.log('ATTEMPTING TO LOAD:', file);
-    const environmentNodes = new Set(['camera', 'light']);
+    const environmentNodes = new Set([
+      'camera',
+      'ambientLight',
+      'pointLight',
+      'ground',
+    ]);
     this.scene.rootNodes.forEach((rootNode) => {
       if (!environmentNodes.has(rootNode.name)) {
         console.log('DISPOSING:', rootNode.name);
@@ -29,7 +34,9 @@ export default class AppController {
       this.scene.meshes.map((mesh) => mesh.name),
     );
     this.scene.materials.forEach((materials) => materials.dispose());
-    this.scene.meshes.forEach((mesh) => mesh.dispose());
+    this.scene.meshes.forEach(
+      (mesh) => mesh.name !== 'ground' && mesh.dispose(),
+    );
     this.scene.skeletons.forEach((skeleton) => skeleton.dispose());
 
     SceneLoader.Append(

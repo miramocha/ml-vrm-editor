@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Form, Stack } from 'react-bootstrap';
 import MaterialModel from '../../../models/MaterialModel';
 
-export default function MToonLightningForm({ materialModel }) {
+export default function MToonLightingForm({ materialModel }) {
   return (
     <Stack gap={2} className="mx-auto">
       <Form.Group>
@@ -13,7 +13,11 @@ export default function MToonLightningForm({ materialModel }) {
           )}`}
           type="number"
           name="_LightColorAttenuation"
-          defaultValue={materialModel?.getValue('_LightColorAttenuation')}
+          defaultValue={
+            materialModel
+              ? materialModel?.getValue('_LightColorAttenuation')
+              : 0
+          }
           max={1}
           min={0}
           step={1}
@@ -43,7 +47,11 @@ export default function MToonLightningForm({ materialModel }) {
           )}`}
           type="number"
           name="_IndirectLightIntensity"
-          defaultValue={materialModel?.getValue('_IndirectLightIntensity')}
+          defaultValue={
+            materialModel
+              ? materialModel?.getValue('_IndirectLightIntensity')
+              : 0.001
+          }
           max={1}
           min={0}
           step={0.001}
@@ -53,9 +61,9 @@ export default function MToonLightningForm({ materialModel }) {
   );
 }
 
-MToonLightningForm.propTypes = {
+MToonLightingForm.propTypes = {
   materialModel: PropTypes.instanceOf(MaterialModel),
 };
-MToonLightningForm.defaultProps = {
+MToonLightingForm.defaultProps = {
   materialModel: null,
 };

@@ -1,24 +1,40 @@
 import PropTypes from 'prop-types';
-import { Form, Stack, InputGroup } from 'react-bootstrap';
+import { Form, Stack } from 'react-bootstrap';
 import RgbaInput from '../../rgbaInput';
 import MaterialModel from '../../../models/MaterialModel';
 
 export default function MToonRimLightForm({ materialModel }) {
   return (
     <Stack gap={2} className="mx-auto">
-      <InputGroup>
+      <Form.Group>
         <Form.Label>Rim Color</Form.Label>
         <RgbaInput
           name="_RimColor"
-          defaultColorHex={materialModel?.getValue('_RimColor').hex}
-          defaultAlpha={materialModel?.getValue('_RimColor').alpha}
+          defaultColorHex={
+            materialModel ? materialModel?.getValue('_RimColor').hex : '#ffffff'
+          }
+          defaultAlpha={
+            materialModel ? materialModel?.getValue('_RimColor').alpha : 1.0
+          }
         />
-      </InputGroup>
+      </Form.Group>
       <Form.Group>
         <Form.Label>Rim Lift</Form.Label>
         <Form.Control
           name="_RimLift"
-          defaultValue={materialModel?.getValue('_RimLift')}
+          defaultValue={
+            materialModel ? materialModel?.getValue('_RimLift') : 0.001
+          }
+          step={0.00001}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Rim Fresnel Power</Form.Label>
+        <Form.Control
+          name="_RimFresnelPower"
+          defaultValue={
+            materialModel ? materialModel?.getValue('_RimFresnelPower') : 0.001
+          }
           step={0.00001}
         />
       </Form.Group>

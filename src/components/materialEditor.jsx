@@ -3,7 +3,7 @@ import { Accordion, Form, Stack, Button } from 'react-bootstrap';
 import MToonMainForm from './forms/materials/mToonMainForm';
 import MToonShadingForm from './forms/materials/mToonShadingForm';
 import MToonOutlineForm from './forms/materials/mToonOutlineForm';
-import MToonLightningForm from './forms/materials/mToonLightningForm';
+import MToonLightingForm from './forms/materials/mToonLightingForm';
 import MToonRimLightForm from './forms/materials/mToonRimLightForm';
 import MToonEmissionForm from './forms/materials/mToonEmissionForm';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
@@ -63,7 +63,7 @@ export default function MaterialEditor() {
           ))}
         </Form.Select>
       </Form.Group>
-      <Form onSubmit={handleMaterialChangeSubmit} key={currentMaterialIndex}>
+      <Form onSubmit={handleMaterialChangeSubmit}>
         <Stack gap={2} className="mx-auto">
           <Accordion defaultActiveKey="mainSettingsAccordionItem">
             <Accordion.Item eventKey="mainSettingsAccordionItem">
@@ -75,6 +75,7 @@ export default function MaterialEditor() {
                   materialModel={gltfVrmParser?.materialModels?.at(
                     currentMaterialIndex,
                   )}
+                  key={currentMaterialIndex}
                 />
               </Accordion.Body>
             </Accordion.Item>
@@ -87,6 +88,7 @@ export default function MaterialEditor() {
                   materialModel={gltfVrmParser?.materialModels?.at(
                     currentMaterialIndex,
                   )}
+                  key={currentMaterialIndex}
                 />
               </Accordion.Body>
             </Accordion.Item>
@@ -99,6 +101,7 @@ export default function MaterialEditor() {
                   materialModel={gltfVrmParser?.materialModels?.at(
                     currentMaterialIndex,
                   )}
+                  key={currentMaterialIndex}
                 />
               </Accordion.Body>
             </Accordion.Item>
@@ -111,6 +114,7 @@ export default function MaterialEditor() {
                   materialModel={gltfVrmParser?.materialModels?.at(
                     currentMaterialIndex,
                   )}
+                  key={currentMaterialIndex}
                 />
               </Accordion.Body>
             </Accordion.Item>
@@ -123,6 +127,7 @@ export default function MaterialEditor() {
                   materialModel={gltfVrmParser?.materialModels?.at(
                     currentMaterialIndex,
                   )}
+                  key={currentMaterialIndex}
                 />
               </Accordion.Body>
             </Accordion.Item>
@@ -131,10 +136,11 @@ export default function MaterialEditor() {
                 <i className="bi  bi-lightbulb-fill me-2" /> Lighting
               </Accordion.Header>
               <Accordion.Body>
-                <MToonLightningForm
+                <MToonLightingForm
                   materialModel={gltfVrmParser?.materialModels?.at(
                     currentMaterialIndex,
                   )}
+                  key={currentMaterialIndex}
                 />
               </Accordion.Body>
             </Accordion.Item>

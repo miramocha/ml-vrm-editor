@@ -1,11 +1,13 @@
 import { useEffect, useRef, useContext } from 'react';
 import {
   // FreeCamera,
+  MeshBuilder,
   Vector3,
   Engine,
   Scene,
   HemisphericLight,
   ArcRotateCamera,
+  PointLight,
 } from '@babylonjs/core';
 import { AppControllerContext } from '../AppContext';
 
@@ -27,9 +29,24 @@ const onSceneReady = (scene) => {
 
   camera.attachControl(scene.getEngine().getRenderingCanvas());
 
-  const light = new HemisphericLight('light', new Vector3(0.5, 1, 0), scene);
+  MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene);
 
-  light.intensity = 0.9;
+  const ambientLight = new HemisphericLight(
+    'ambientLight',
+    new Vector3(0.5, 1, 0),
+    scene,
+  );
+
+  ambientLight.intensity = 0.0;
+
+  const pointLight = new PointLight(
+    'pointLight',
+    new Vector3(0, 1, -0.2),
+    scene,
+  );
+
+  pointLight.radius = 0.1;
+  console.log(pointLight);
 };
 
 export default function MainRender() {
