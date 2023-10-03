@@ -7,8 +7,9 @@ export default function GlobalVrmMToonLightingSettingsForm() {
   const appController = useContext(AppControllerContext);
 
   const handleLightingChangeSubmit = async (event) => {
-    appController.isLoading = true;
     event.preventDefault();
+    appController.isLoading = true;
+
     const formData = new FormData(event.target);
     console.log(formData);
 

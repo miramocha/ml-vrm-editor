@@ -19,13 +19,16 @@ export default function GltfJsonEditor() {
     refreshFunction: refreshComponent,
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
 
     if (gltfVrmParser) {
       gltfVrmParser.setJson(JSON.parse(formData.get('gltfVrmJsonString')));
     }
+
+    gltfVrmParser.commitJsonCache();
+    appController.loadVrm(await gltfVrmParser.buildFile());
   };
 
   return (

@@ -3,6 +3,7 @@ import { Accordion, Form, Stack, Button } from 'react-bootstrap';
 import MToonShadingForm from './forms/mToonShadingForm';
 import MToonOutlineForm from './forms/mToonOutlineForm';
 import MToonLightningForm from './forms/mToonLightningForm';
+import MToonRimLightForm from './forms/mToonRimLightForm';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
 const REFRESH_FUNCTION_ID = 'material-editor';
@@ -29,9 +30,11 @@ export default function MaterialEditor() {
   };
 
   const handleMaterialChangeSubmit = async (event) => {
-    appController.isLoading = true;
     event.preventDefault();
+    appController.isLoading = true;
+
     const formData = new FormData(event.target);
+    console.log('SUBMIT MAT CHANGE:', formData);
 
     const currentModel =
       gltfVrmParser?.materialModels?.at(currentMaterialIndex);
@@ -58,7 +61,7 @@ export default function MaterialEditor() {
           ))}
         </Form.Select>
       </Form.Group>
-      <Form onSubmit={handleMaterialChangeSubmit} key={renderId}>
+      <Form onSubmit={handleMaterialChangeSubmit} key={currentMaterialIndex}>
         <Stack gap={2} className="mx-auto">
           <Accordion defaultActiveKey="outlineSettingsAccordionItem">
             <Accordion.Item eventKey="shadingSettingsAccordionItem">
@@ -67,6 +70,18 @@ export default function MaterialEditor() {
               </Accordion.Header>
               <Accordion.Body>
                 <MToonShadingForm
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="rimLightSettingsAccordionItem">
+              <Accordion.Header>
+                <i className="bi bi-circle me-2" /> Rim Light Settings
+              </Accordion.Header>
+              <Accordion.Body>
+                <MToonRimLightForm
                   materialModel={gltfVrmParser?.materialModels?.at(
                     currentMaterialIndex,
                   )}

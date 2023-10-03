@@ -46,6 +46,7 @@ export default function MToonLightningForm({ materialModel }) {
           defaultValue={materialModel?.getValue('_IndirectLightIntensity')}
           max={1}
           min={0}
+          step={0.001}
         />
       </Form.Group>
     </Stack>

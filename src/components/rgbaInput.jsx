@@ -17,7 +17,7 @@ export default function RgbaInput({ name, defaultColorHex, defaultAlpha }) {
         type="number"
         key={`${name}.alpha.${defaultAlpha}`}
         defaultValue={defaultAlpha}
-        step={0.01}
+        step={0.001}
         min={0}
         max={1}
       />

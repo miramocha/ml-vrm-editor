@@ -8,8 +8,9 @@ export default function globalVrmMToonOutlineSettingsForm() {
   const appController = useContext(AppControllerContext);
 
   const handleOutlineChangeSubmit = async (event) => {
-    appController.isLoading = true;
     event.preventDefault();
+    appController.isLoading = true;
+
     const formData = new FormData(event.target);
     console.log(formData);
 
