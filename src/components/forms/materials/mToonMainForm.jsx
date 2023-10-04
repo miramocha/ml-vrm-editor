@@ -10,12 +10,8 @@ export default function MToonMainForm({ materialModel }) {
         <Form.Label>Color</Form.Label>
         <RgbaInput
           name="_Color"
-          defaultColorHex={
-            materialModel ? materialModel?.getValue('_Color').hex : '#ffffff'
-          }
-          defaultAlpha={
-            materialModel ? materialModel?.getValue('_Color').alpha : 1.0
-          }
+          defaultColorHex={materialModel?.getValue('_Color').hex}
+          defaultAlpha={materialModel?.getValue('_Color').alpha}
         />
       </Form.Group>
     </Stack>

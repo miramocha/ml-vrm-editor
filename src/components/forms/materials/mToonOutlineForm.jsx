@@ -10,14 +10,8 @@ export default function MToonOutlineForm({ materialModel }) {
         <Form.Label>Outline Color</Form.Label>
         <RgbaInput
           name="_OutlineColor"
-          defaultColorHex={
-            materialModel
-              ? materialModel?.getValue('_OutlineColor').hex
-              : '#ffffff'
-          }
-          defaultAlpha={
-            materialModel ? materialModel?.getValue('_OutlineColor').alpha : 1.0
-          }
+          defaultColorHex={materialModel?.getValue('_OutlineColor').hex}
+          defaultAlpha={materialModel?.getValue('_OutlineColor').alpha}
         />
       </Form.Group>
       <Form.Group>

@@ -10,16 +10,8 @@ export default function MToonEmissionForm({ materialModel }) {
         <Form.Label>Emission Color</Form.Label>
         <RgbaInput
           name="_EmissionColor"
-          defaultColorHex={
-            materialModel
-              ? materialModel?.getValue('_EmissionColor').hex
-              : '#ffffff'
-          }
-          defaultAlpha={
-            materialModel
-              ? materialModel?.getValue('_EmissionColor').alpha
-              : 1.0
-          }
+          defaultColorHex={materialModel?.getValue('_EmissionColor').hex}
+          defaultAlpha={materialModel?.getValue('_EmissionColor').alpha}
         />
       </Form.Group>
     </Stack>

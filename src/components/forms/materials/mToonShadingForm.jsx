@@ -10,23 +10,15 @@ export default function MToonShadingForm({ materialModel }) {
         <Form.Label>Shade Color</Form.Label>
         <RgbaInput
           name="_ShadeColor"
-          defaultColorHex={
-            materialModel
-              ? materialModel?.getValue('_ShadeColor').hex
-              : '#ffffff'
-          }
-          defaultAlpha={
-            materialModel ? materialModel?.getValue('_ShadeColor').alpha : 1.0
-          }
+          defaultColorHex={materialModel?.getValue('_ShadeColor').hex}
+          defaultAlpha={materialModel?.getValue('_ShadeColor').alpha}
         />
       </Form.Group>
       <Form.Group>
         <Form.Label>Shade Shift</Form.Label>
         <Form.Control
           name="_ShadeShift"
-          defaultValue={
-            materialModel ? materialModel?.getValue('_ShadeShift') : 1.0
-          }
+          defaultValue={materialModel?.getValue('_ShadeShift')}
           step={0.00001}
         />
       </Form.Group>
@@ -34,9 +26,7 @@ export default function MToonShadingForm({ materialModel }) {
         <Form.Label>Shade Toony</Form.Label>
         <Form.Control
           name="_ShadeToony"
-          defaultValue={
-            materialModel ? materialModel?.getValue('_ShadeToony') : 1.0
-          }
+          defaultValue={materialModel?.getValue('_ShadeToony')}
           step={0.00001}
         />
       </Form.Group>

@@ -13,11 +13,7 @@ export default function MToonLightingForm({ materialModel }) {
           )}`}
           type="number"
           name="_LightColorAttenuation"
-          defaultValue={
-            materialModel
-              ? materialModel?.getValue('_LightColorAttenuation')
-              : 0
-          }
+          defaultValue={materialModel?.getValue('_LightColorAttenuation')}
           max={1}
           min={0}
           step={1}
@@ -47,11 +43,7 @@ export default function MToonLightingForm({ materialModel }) {
           )}`}
           type="number"
           name="_IndirectLightIntensity"
-          defaultValue={
-            materialModel
-              ? materialModel?.getValue('_IndirectLightIntensity')
-              : 0.001
-          }
+          defaultValue={materialModel?.getValue('_IndirectLightIntensity')}
           max={1}
           min={0}
           step={0.001}

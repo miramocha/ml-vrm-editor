@@ -85,14 +85,16 @@ export default class MaterialModel {
   }
 
   setValue(name, value) {
-    const type = FIELD_NAME_TO_ATTRIBUTE_TYPE[name];
+    if (value) {
+      const type = FIELD_NAME_TO_ATTRIBUTE_TYPE[name];
 
-    if (type === VECTOR || type === COLOR) {
-      this.#setVector(name, value);
-    }
+      if (type === VECTOR || type === COLOR) {
+        this.#setVector(name, value);
+      }
 
-    if (type === FLOAT) {
-      this.#setFloat(name, value);
+      if (type === FLOAT) {
+        this.#setFloat(name, value);
+      }
     }
   }
 

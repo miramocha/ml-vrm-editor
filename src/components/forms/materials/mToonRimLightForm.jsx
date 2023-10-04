@@ -10,21 +10,15 @@ export default function MToonRimLightForm({ materialModel }) {
         <Form.Label>Rim Color</Form.Label>
         <RgbaInput
           name="_RimColor"
-          defaultColorHex={
-            materialModel ? materialModel?.getValue('_RimColor').hex : '#ffffff'
-          }
-          defaultAlpha={
-            materialModel ? materialModel?.getValue('_RimColor').alpha : 1.0
-          }
+          defaultColorHex={materialModel?.getValue('_RimColor').hex}
+          defaultAlpha={materialModel?.getValue('_RimColor').alpha}
         />
       </Form.Group>
       <Form.Group>
         <Form.Label>Rim Lift</Form.Label>
         <Form.Control
           name="_RimLift"
-          defaultValue={
-            materialModel ? materialModel?.getValue('_RimLift') : 0.001
-          }
+          defaultValue={materialModel?.getValue('_RimLift')}
           step={0.00001}
         />
       </Form.Group>
@@ -32,9 +26,7 @@ export default function MToonRimLightForm({ materialModel }) {
         <Form.Label>Rim Fresnel Power</Form.Label>
         <Form.Control
           name="_RimFresnelPower"
-          defaultValue={
-            materialModel ? materialModel?.getValue('_RimFresnelPower') : 0.001
-          }
+          defaultValue={materialModel?.getValue('_RimFresnelPower')}
           step={0.00001}
         />
       </Form.Group>
