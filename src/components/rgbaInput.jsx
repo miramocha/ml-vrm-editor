@@ -6,18 +6,18 @@ export default function RgbaInput({ name, defaultColorHex, defaultAlpha }) {
     <InputGroup>
       <InputGroup.Text>Color</InputGroup.Text>
       <Form.Control
-        name={`${name}ColorHex`}
+        name={`${name}.hex`}
         type="color"
-        key={`${name}-${defaultColorHex}`}
+        key={`${name}.hex.${defaultColorHex}`}
         defaultValue={defaultColorHex}
       />
       <InputGroup.Text>Alpha</InputGroup.Text>
       <Form.Control
-        name={`${name}Alpha`}
+        name={`${name}.alpha`}
         type="number"
-        key={`${name}-${defaultAlpha}`}
+        key={`${name}.alpha.${defaultAlpha}`}
         defaultValue={defaultAlpha}
-        step={0.01}
+        step={0.001}
         min={0}
         max={1}
       />

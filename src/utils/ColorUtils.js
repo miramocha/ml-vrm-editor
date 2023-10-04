@@ -14,9 +14,9 @@ export const hexToColorUIVector = (hex) => {
   }
 
   const colorUIVector = [
-    Number((r / 255).toFixed(4)),
-    Number((g / 255).toFixed(4)),
-    Number((b / 255).toFixed(4)),
+    Number((r / 255).toFixed(5)),
+    Number((g / 255).toFixed(5)),
+    Number((b / 255).toFixed(5)),
   ];
 
   return colorUIVector;
@@ -27,13 +27,13 @@ export const colorUIVectorToHex = (rgbVector) => {
 
   return [
     '#',
-    Math.ceil(r * 255)
+    Math.round(r * 255)
       .toString(16)
       .padStart(2, '0'),
-    Math.ceil(g * 255)
+    Math.round(g * 255)
       .toString(16)
       .padStart(2, '0'),
-    Math.ceil(b * 255)
+    Math.round(b * 255)
       .toString(16)
       .padStart(2, '0'),
   ].join('');

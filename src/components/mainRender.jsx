@@ -1,11 +1,13 @@
 import { useEffect, useRef, useContext } from 'react';
 import {
   // FreeCamera,
+  MeshBuilder,
   Vector3,
   Engine,
   Scene,
   HemisphericLight,
   ArcRotateCamera,
+  PointLight,
 } from '@babylonjs/core';
 import { AppControllerContext } from '../AppContext';
 
@@ -15,23 +17,36 @@ const adaptToDeviceRatio = null;
 const sceneOptions = null;
 const onRender = () => {};
 const onSceneReady = (scene) => {
-  // const camera = new FreeCamera('camera', new Vector3(0, 1.5, -2), scene);
+  // TO DO - REFACTOR THIS
   const camera = new ArcRotateCamera(
     'camera',
     -(Math.PI / 2),
     Math.PI / 2,
-    2,
+    1.5,
+    new Vector3(0, 1, -0.4),
+    scene,
+  );
+
+  camera.attachControl(scene.getEngine().getRenderingCanvas());
+
+  MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene);
+
+  const ambientLight = new HemisphericLight(
+    'ambientLight',
+    new Vector3(0.5, 1, 0),
+    scene,
+  );
+
+  ambientLight.intensity = 0.0;
+
+  const pointLight = new PointLight(
+    'pointLight',
     new Vector3(0, 1, -0.2),
     scene,
   );
-  // camera.setTarget(new Vector3(0, 1, 0));
-  // camera.useAutoRotationBehavior = true;
-  camera.attachControl(scene.getEngine().getRenderingCanvas());
 
-  const light = new HemisphericLight('light', new Vector3(0.5, 1, 0), scene);
-
-  // Default intensity is 1. Let's dim the light a small amount
-  light.intensity = 0.9;
+  pointLight.radius = 0.1;
+  console.log(pointLight);
 };
 
 export default function MainRender() {
@@ -43,6 +58,9 @@ export default function MainRender() {
     const { current: canvas } = reactCanvas;
 
     if (!canvas) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     const engine = new Engine(
       canvas,
@@ -64,19 +82,21 @@ export default function MainRender() {
       scene.render();
     });
 
-    const resize = () => {
+    const handleWindowResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       scene.getEngine().resize();
     };
 
     if (window) {
-      window.addEventListener('resize', resize);
+      window.addEventListener('resize', handleWindowResize);
     }
 
     const cleanupCallback = () => {
       scene.getEngine().dispose();
 
       if (window) {
-        window.removeEventListener('resize', resize);
+        window.removeEventListener('resize', handleWindowResize);
       }
     };
 
@@ -91,5 +111,5 @@ export default function MainRender() {
     onSceneReady,
   ]);
 
-  return <canvas style={{ width: '100%', height: '100%' }} ref={reactCanvas} />;
+  return <canvas ref={reactCanvas} />;
 }

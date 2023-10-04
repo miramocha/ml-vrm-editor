@@ -1,8 +1,11 @@
 import { useContext, useState } from 'react';
 import { Accordion, Form, Stack, Button } from 'react-bootstrap';
-import MToonShadingForm from './forms/mToonShadingForm';
-import MToonOutlineForm from './forms/mToonOutlineForm';
-import MToonLightningForm from './forms/mToonLightningForm';
+import MToonMainForm from './forms/materials/mToonMainForm';
+import MToonShadingForm from './forms/materials/mToonShadingForm';
+import MToonOutlineForm from './forms/materials/mToonOutlineForm';
+import MToonLightingForm from './forms/materials/mToonLightingForm';
+import MToonRimLightForm from './forms/materials/mToonRimLightForm';
+import MToonEmissionForm from './forms/materials/mToonEmissionForm';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
 const REFRESH_FUNCTION_ID = 'material-editor';
@@ -28,6 +31,23 @@ export default function MaterialEditor() {
     setCurrentMaterialIndex(event.target.value);
   };
 
+  const handleMaterialChangeSubmit = async (event) => {
+    event.preventDefault();
+    appController.isLoading = true;
+
+    const formData = new FormData(event.target);
+    console.log('SUBMIT MAT CHANGE:', formData);
+
+    const currentModel =
+      gltfVrmParser?.materialModels?.at(currentMaterialIndex);
+
+    currentModel.processMaterialFormData(formData);
+
+    gltfVrmParser.commitJsonCache();
+    appController.loadVrm(await gltfVrmParser.buildFile());
+    appController.isLoading = false;
+  };
+
   return (
     <Stack gap={2} key={renderId}>
       <Form.Group>
@@ -43,42 +63,84 @@ export default function MaterialEditor() {
           ))}
         </Form.Select>
       </Form.Group>
-      <Form>
+      <Form onSubmit={handleMaterialChangeSubmit}>
         <Stack gap={2} className="mx-auto">
-          <Accordion defaultActiveKey="outlineSettingsAccordionItem">
+          <Accordion defaultActiveKey="mainSettingsAccordionItem">
+            <Accordion.Item eventKey="mainSettingsAccordionItem">
+              <Accordion.Header>
+                <i className="bi bi-circle-fill me-2" /> Main
+              </Accordion.Header>
+              <Accordion.Body>
+                <MToonMainForm
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
+                  key={currentMaterialIndex}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
             <Accordion.Item eventKey="shadingSettingsAccordionItem">
               <Accordion.Header>
-                <i className="bi bi-shadows me-2" /> Shading Settings
+                <i className="bi bi-shadows me-2" /> Shading
               </Accordion.Header>
               <Accordion.Body>
                 <MToonShadingForm
-                  materialModel={
-                    gltfVrmParser?.materialModels[currentMaterialIndex]
-                  }
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
+                  key={currentMaterialIndex}
                 />
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="outlineSettingsAccordionItem">
               <Accordion.Header>
-                <i className="bi bi-pencil-fill me-2" /> Outline Settings
+                <i className="bi bi-circle me-2" /> Outline
               </Accordion.Header>
               <Accordion.Body>
                 <MToonOutlineForm
-                  materialModel={
-                    gltfVrmParser?.materialModels[currentMaterialIndex]
-                  }
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
+                  key={currentMaterialIndex}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="rimLightSettingsAccordionItem">
+              <Accordion.Header>
+                <i className="bi bi-brightness-low me-2" /> Rim Light
+              </Accordion.Header>
+              <Accordion.Body>
+                <MToonRimLightForm
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
+                  key={currentMaterialIndex}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="emissionSettingsAccordionItem">
+              <Accordion.Header>
+                <i className="bi  bi-brightness-high me-2" /> Emission
+              </Accordion.Header>
+              <Accordion.Body>
+                <MToonEmissionForm
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
+                  key={currentMaterialIndex}
                 />
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="lightingSettingsAccordionItem">
               <Accordion.Header>
-                <i className="bi  bi-lightbulb-fill me-2" /> Lighting Settings
+                <i className="bi  bi-lightbulb-fill me-2" /> Lighting
               </Accordion.Header>
               <Accordion.Body>
-                <MToonLightningForm
-                  materialModel={
-                    gltfVrmParser?.materialModels[currentMaterialIndex]
-                  }
+                <MToonLightingForm
+                  materialModel={gltfVrmParser?.materialModels?.at(
+                    currentMaterialIndex,
+                  )}
+                  key={currentMaterialIndex}
                 />
               </Accordion.Body>
             </Accordion.Item>

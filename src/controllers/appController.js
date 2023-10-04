@@ -1,7 +1,5 @@
 import { SceneLoader } from '@babylonjs/core';
-// import 'babylonjs-loaders';
 import 'babylon-vrm-loader';
-// import defaultAvatar from '../resources/AvatarSampleB.gltf';
 
 export default class AppController {
   idToRefreshFunctionMap = new Map();
@@ -14,23 +12,48 @@ export default class AppController {
 
   engine;
 
+  isLoading = false;
+
   async loadVrm(file) {
     console.log('ATTEMPTING TO LOAD:', file);
-    this.scene.materials.forEach((material) => material.dispose());
-    this.scene.meshes.forEach((mesh) => mesh.dispose());
+    const environmentNodes = new Set([
+      'camera',
+      'ambientLight',
+      'pointLight',
+      'ground',
+    ]);
+    this.scene.rootNodes.forEach((rootNode) => {
+      if (!environmentNodes.has(rootNode.name)) {
+        console.log('DISPOSING:', rootNode.name);
+        rootNode.dispose();
+      }
+    });
+
+    console.log(
+      'MESHNAMES:',
+      this.scene.meshes.map((mesh) => mesh.name),
+    );
+    this.scene.materials.forEach((materials) => materials.dispose());
+    this.scene.meshes.forEach(
+      (mesh) => mesh.name !== 'ground' && mesh.dispose(),
+    );
+    this.scene.skeletons.forEach((skeleton) => skeleton.dispose());
 
     SceneLoader.Append(
       'file:',
       file,
       this.scene,
-      (a) => {
-        console.log('SUCCESS:', a);
+      () => {
+        this.isLoading = false;
+        // console.log('SUCCESS:', a);
       },
-      (b) => {
-        console.log('PROGRESS:', b);
+      () => {
+        this.isLoading = true;
+        // console.log('PROGRESS:', b);
       },
-      (c) => {
-        console.log('ERROR:', c);
+      () => {
+        this.isLoading = false;
+        // console.log('ERROR:', c);
       },
       '.vrm',
     );

@@ -1,33 +1,28 @@
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  ButtonGroup,
-  Navbar,
-} from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Navbar } from 'react-bootstrap';
 import GltfVrmParser from '../utils/GltfVrmParser';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
 export default function TopNavigation({
   setGltfVrmParser,
-  toggleHideOffcanvasEditor,
-  toggleHideOffcanvasTextureBrowser,
+  toggleHideRightOffcanvas,
+  toggleHideLeftOffcanvas,
 }) {
   const gltfVrmParser = useContext(GltfVrmParserContext);
   const appController = useContext(AppControllerContext);
 
   const handleFileChange = async (event) => {
+    appController.isLoading = true;
     const newGltfVrmParser = new GltfVrmParser();
     await newGltfVrmParser.parseFile(event.target.files[0]);
 
     console.log('PARSER:', newGltfVrmParser);
 
     setGltfVrmParser(newGltfVrmParser);
+    appController.loadVrm(await newGltfVrmParser.buildFile());
     appController.refreshGroup({ group: 'input' });
+    appController.isLoading = false;
   };
 
   const handleDownloadButtonClick = async () => {
@@ -41,24 +36,19 @@ export default function TopNavigation({
     document.body.removeChild(tempLink);
   };
 
-  const handleReloadButtonClick = async () => {
-    appController.loadVrm(await gltfVrmParser.buildFile());
-  };
+  const handleToggleRightOffCanvasButtonClick = () =>
+    toggleHideRightOffcanvas();
 
-  const handleToggleEditorButtonClick = () => toggleHideOffcanvasEditor();
-
-  const handleToggleTextureBrowserButtonClick = () =>
-    toggleHideOffcanvasTextureBrowser();
+  const handleToggleLeftOffCanvasButtonClick = () => toggleHideLeftOffcanvas();
 
   return (
     <Navbar className="justify-content-between bg-primary" data-bs-theme="dark">
       <Button
         className="ms-2"
         variant="outline-light"
-        onClick={handleToggleTextureBrowserButtonClick}
+        onClick={handleToggleLeftOffCanvasButtonClick}
       >
-        Toggle Texture Browser
-        <i className="bi bi-arrow-bar-right ms-2" />
+        <i className="bi bi-arrow-bar-right ms-2" /> Settings and Integration
       </Button>
       <Container>
         <Navbar.Brand>
@@ -76,16 +66,10 @@ export default function TopNavigation({
               />
             </Col>
             <Col xs="auto">
-              <ButtonGroup>
-                <Button variant="secondary" onClick={handleReloadButtonClick}>
-                  <i className="bi bi-arrow-clockwise me-2" />
-                  Build and Reload View
-                </Button>
-                <Button variant="secondary" onClick={handleDownloadButtonClick}>
-                  <i className="bi bi-download me-2" />
-                  Download
-                </Button>
-              </ButtonGroup>
+              <Button variant="secondary" onClick={handleDownloadButtonClick}>
+                <i className="bi bi-download me-2" />
+                Download
+              </Button>
             </Col>
           </Row>
         </Form>
@@ -93,10 +77,10 @@ export default function TopNavigation({
       <Button
         className="me-2"
         variant="outline-light"
-        onClick={handleToggleEditorButtonClick}
+        onClick={handleToggleRightOffCanvasButtonClick}
       >
         <i className="bi bi-arrow-bar-left me-2" />
-        Toggle Editor
+        Editor
       </Button>
     </Navbar>
   );
@@ -104,11 +88,11 @@ export default function TopNavigation({
 
 TopNavigation.propTypes = {
   setGltfVrmParser: PropTypes.func,
-  toggleHideOffcanvasEditor: PropTypes.func,
-  toggleHideOffcanvasTextureBrowser: PropTypes.func,
+  toggleHideRightOffcanvas: PropTypes.func,
+  toggleHideLeftOffcanvas: PropTypes.func,
 };
 TopNavigation.defaultProps = {
   setGltfVrmParser: () => {},
-  toggleHideOffcanvasEditor: () => {},
-  toggleHideOffcanvasTextureBrowser: () => {},
+  toggleHideRightOffcanvas: () => {},
+  toggleHideLeftOffcanvas: () => {},
 };

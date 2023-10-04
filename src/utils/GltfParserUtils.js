@@ -4,6 +4,8 @@
  */
 
 import GltfChunkModel from '../models/GltfChunkModel';
+import MaterialModel from '../models/MaterialModel';
+import TextureModel from '../models/TextureModel';
 
 const GLTF_HEADER_MAGIC = 0x46546c67;
 const GLTF_JSON_CHUNK_TYPE_NUMBER = 0x4e4f534a;
@@ -175,4 +177,34 @@ export const buildGltfFile = ({
 
 export const calculateChunkLength = (length) => {
   return Math.ceil(length / 4) * 4;
+};
+
+export const buildMaterialModelCache = (json) => {
+  return json.extensions.VRM.materialProperties.map(
+    (vrmMaterialJson, materialIndex) =>
+      new MaterialModel({
+        materialIndex,
+        vrmMaterialJson,
+        pbrMaterialJson: json.materials[materialIndex],
+      }),
+  );
+};
+
+export const buildTextureModelCache = ({ json, binaryChunk }) => {
+  return json.images.map((image, imagesIndex) => {
+    const bufferView = json.bufferViews[image.bufferView];
+    const imageBuffer = binaryChunk.chunkUint8Array.slice(
+      bufferView.byteOffset,
+      bufferView.byteOffset + bufferView.byteLength,
+    );
+    const blob = new Blob([imageBuffer], { type: image.mimeType });
+
+    return new TextureModel({
+      imagesIndex,
+      bufferViewsIndex: image.bufferView,
+      name: image.name,
+      mimeType: image.mimeType,
+      blob,
+    });
+  });
 };

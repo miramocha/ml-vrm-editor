@@ -1,7 +1,54 @@
+import * as FormUtils from '../utils/FormUtils';
 import * as ColorUtils from '../utils/ColorUtils';
 
-const VECTOR_ALPHA_INDEX = 4;
+const COLOR = 'COLOR';
+const VECTOR = 'VECTOR';
+const FLOAT = 'FLOAT';
+const VECTOR_ALPHA_INDEX = 3;
+const FIELD_NAME_TO_ATTRIBUTE_TYPE = {
+  _Color: COLOR,
+  _ShadeColor: COLOR,
+  _EmissionColor: COLOR,
+  _RimColor: COLOR,
+  _OutlineColor: COLOR,
+  _MainTex: VECTOR,
+  _ShadeTexture: VECTOR,
+  _BumpMap: VECTOR,
+  _EmissionMap: VECTOR,
+  _SphereAdd: VECTOR,
+  _RimTexture: VECTOR,
+  _Cutoff: FLOAT,
+  _BumpScale: FLOAT,
+  _ReceiveShadowRate: FLOAT,
+  _ShadeShift: FLOAT,
+  _ShadeToony: FLOAT,
+  _RimLightingMix: FLOAT,
+  _RimFresnelPower: FLOAT,
+  _RimLift: FLOAT,
+  _ShadingGradeRate: FLOAT,
+  _LightColorAttenuation: FLOAT,
+  _IndirectLightIntensity: FLOAT,
+  _OutlineWidth: FLOAT,
+  _OutlineScaledMaxDistance: FLOAT,
+  _OutlineLightingMix: FLOAT,
+  _UvAnimScrollX: FLOAT,
+  _UvAnimScrollY: FLOAT,
+  _UvAnimRotation: FLOAT,
+  _OutlineWidthMode: FLOAT,
+  _OutlineColorMode: FLOAT,
+  _BlendMode: FLOAT,
+  _SrcBlend: FLOAT,
+  _DstBlend: FLOAT,
+  _ZWrite: FLOAT,
+  _MToonVersion: FLOAT,
+  _CullMode: FLOAT,
+  _OutlineCullMode: FLOAT,
+  _DebugMode: FLOAT,
+};
 
+/**
+ * Future state - has VRM1.0 flag and handle getter/setter
+ */
 export default class MaterialModel {
   /**
    * @type {number}
@@ -28,71 +75,74 @@ export default class MaterialModel {
     return this.vrmMaterialJson.name;
   }
 
-  get lightColorAttunation() {
-    return this.vrmMaterialJson.floatProperties._LightColorAttenuation;
+  processMaterialFormData(formData) {
+    const normalizedMaterialFormDataMap =
+      FormUtils.normalizeMaterialFormData(formData);
+
+    normalizedMaterialFormDataMap.forEach((value, name) => {
+      this.setValue(name, value);
+    });
   }
 
-  set lightColorAttunation(lightColorAttunation) {
-    this.vrmMaterialJson.floatProperties._LightColorAttenuation =
-      lightColorAttunation;
+  setValue(name, value) {
+    if (value) {
+      const type = FIELD_NAME_TO_ATTRIBUTE_TYPE[name];
+
+      if (type === VECTOR || type === COLOR) {
+        this.#setVector(name, value);
+      }
+
+      if (type === FLOAT) {
+        this.#setFloat(name, value);
+      }
+    }
   }
 
-  get indirectLightIntensity() {
-    return this.vrmMaterialJson?.floatProperties._IndirectLightIntensity;
+  getValue(name) {
+    const type = FIELD_NAME_TO_ATTRIBUTE_TYPE[name];
+
+    if (type === VECTOR) {
+      return this.#getVector(name);
+    }
+
+    if (type === COLOR) {
+      return this.#getColor(name);
+    }
+
+    if (type === FLOAT) {
+      return this.#getFloat(name);
+    }
+
+    return null;
   }
 
-  set indirectLightIntensity(indirectLightIntensity) {
-    this.vrmMaterialJson.floatProperties._IndirectLightIntensity =
-      indirectLightIntensity;
+  #setFloat(name, value) {
+    this.vrmMaterialJson.floatProperties[name] = value;
   }
 
-  get mainColor() {
-    const colorVector = this.vrmMaterialJson.vectorProperties._Color;
-    const colorHex = ColorUtils.colorUIVectorToHex(colorVector);
+  #getFloat(name) {
+    return (
+      Math.round(
+        (Number(this.vrmMaterialJson?.floatProperties[name]) + Number.EPSILON) *
+          10000,
+      ) / 10000
+    );
+  }
+
+  #setVector(name, value) {
+    this.vrmMaterialJson.vectorProperties[name] = value;
+  }
+
+  #getVector(name) {
+    return this.vrmMaterialJson.vectorProperties[name];
+  }
+
+  #getColor(name) {
+    const vector = this.#getVector(name);
 
     return {
-      colorHex,
-      alpha: colorVector[VECTOR_ALPHA_INDEX],
+      hex: ColorUtils.colorUIVectorToHex(vector),
+      alpha: vector[VECTOR_ALPHA_INDEX],
     };
-  }
-
-  set mainColor({ colorHex, alpha }) {
-    const rgbaColorVector = [...ColorUtils.hexToColorUIVector(colorHex), alpha];
-    this.vrmMaterialJson.vectorProperties._Color = rgbaColorVector;
-    this.pbrMaterialJson.baseColorFactor = rgbaColorVector;
-  }
-
-  get shadeColor() {
-    const colorVector = this.vrmMaterialJson.vectorProperties._ShadeColor;
-    const colorHex = ColorUtils.colorUIVectorToHex(colorVector);
-
-    return {
-      colorHex,
-      alpha: colorVector[VECTOR_ALPHA_INDEX],
-    };
-  }
-
-  set shadeColor({ colorHex, alpha }) {
-    this.vrmMaterialJson.vectorProperties._ShadeColor = [
-      ...ColorUtils.hexToColorUIVector(colorHex),
-      alpha,
-    ];
-  }
-
-  get outlineColor() {
-    const colorVector = this.vrmMaterialJson.vectorProperties._OutlineColor;
-    const colorHex = ColorUtils.colorUIVectorToHex(colorVector);
-
-    return {
-      colorHex,
-      alpha: colorVector[VECTOR_ALPHA_INDEX],
-    };
-  }
-
-  set outlineColor({ colorHex, alpha }) {
-    this.vrmMaterialJson.vectorProperties._OutlineColor = [
-      ...ColorUtils.hexToColorUIVector(colorHex),
-      alpha,
-    ];
   }
 }

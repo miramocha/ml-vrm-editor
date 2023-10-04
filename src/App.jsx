@@ -3,8 +3,7 @@ import { Offcanvas } from 'react-bootstrap';
 
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
-import EditorTabs from './components/editorTabs';
-import TextureBrowser from './components/textureBrowser';
+import RightTabs from './components/rightTabs';
 import TopNavigation from './components/topNavigation';
 import MainRender from './components/mainRender';
 import { AppControllerContext, GltfVrmParserContext } from './AppContext';
@@ -13,9 +12,8 @@ const REFRESH_FUNCTION_ID = 'app';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
-  const [hideOffcanvasEditor, setHideOffcanvasEditor] = useState(false);
-  const [hideOffcanvasTextureBrowser, setHideOffcanvasTextureBrowser] =
-    useState(false);
+  const [hideRightOffcanvas, setHideRightOffcanvas] = useState(false);
+  const [hideLeftOffcanvas, setHideLeftOffcanvas] = useState(false);
   const appController = useContext(AppControllerContext);
 
   const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
@@ -37,49 +35,40 @@ export default function App() {
         console.log('PARSER:', newGltfVrmParser);
 
         setGltfVrmParser(newGltfVrmParser);
+        appController.loadVrm(await newGltfVrmParser.buildFile());
       });
   }, []);
 
-  const toggleHideOffcanvasEditor = () =>
-    setHideOffcanvasEditor(!hideOffcanvasEditor);
+  const toggleHideRightOffcanvas = () =>
+    setHideRightOffcanvas(!hideRightOffcanvas);
 
-  const handleHideOffcanvasEditor = () => setHideOffcanvasEditor(true);
+  const handleHideRightOffcanvas = () => setHideRightOffcanvas(true);
 
-  const toggleHideOffcanvasTextureBrowser = () =>
-    setHideOffcanvasTextureBrowser(!hideOffcanvasTextureBrowser);
+  const toggleHideLeftOffcanvas = () =>
+    setHideLeftOffcanvas(!hideLeftOffcanvas);
 
-  const handleHideOffcanvasTextureBrowser = () =>
-    setHideOffcanvasTextureBrowser(true);
+  const handleHideLeftOffcanvas = () => setHideLeftOffcanvas(true);
 
   return (
     <GltfVrmParserContext.Provider value={gltfVrmParser}>
       <AppControllerContext.Provider value={appController}>
-        <TopNavigation
-          key={`${renderId}-1`}
-          gltfVrmParser={gltfVrmParser}
-          setGltfVrmParser={setGltfVrmParser}
-          toggleHideOffcanvasTextureBrowser={toggleHideOffcanvasTextureBrowser}
-          toggleHideOffcanvasEditor={toggleHideOffcanvasEditor}
-        />
         <Offcanvas
           key={`${renderId}-2`}
-          show={!hideOffcanvasTextureBrowser}
-          onHide={handleHideOffcanvasTextureBrowser}
+          show={!hideLeftOffcanvas}
+          onHide={handleHideLeftOffcanvas}
           placement="start"
           scroll={false}
           backdrop={false}
         >
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Texture Browser</Offcanvas.Title>
+            <Offcanvas.Title>Settings</Offcanvas.Title>
           </Offcanvas.Header>
-          <Offcanvas.Body>
-            <TextureBrowser gltfVrmParser={gltfVrmParser} />
-          </Offcanvas.Body>
+          <Offcanvas.Body>SETTINGS</Offcanvas.Body>
         </Offcanvas>
         <Offcanvas
           key={`${renderId}-3`}
-          show={!hideOffcanvasEditor}
-          onHide={handleHideOffcanvasEditor}
+          show={!hideRightOffcanvas}
+          onHide={handleHideRightOffcanvas}
           placement="end"
           scroll={false}
           backdrop={false}
@@ -88,9 +77,16 @@ export default function App() {
             <Offcanvas.Title>Editor</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <EditorTabs gltfVrmParser={gltfVrmParser} />
+            <RightTabs />
           </Offcanvas.Body>
         </Offcanvas>
+        <TopNavigation
+          key={`${renderId}-1`}
+          gltfVrmParser={gltfVrmParser}
+          setGltfVrmParser={setGltfVrmParser}
+          toggleHideLeftOffcanvas={toggleHideLeftOffcanvas}
+          toggleHideRightOffcanvas={toggleHideRightOffcanvas}
+        />
         <MainRender />
       </AppControllerContext.Provider>
     </GltfVrmParserContext.Provider>
