@@ -121,7 +121,6 @@ export default class MaterialModel {
   }
 
   #getFloat(name) {
-    // ROUND UP NUMBER TO PREVENT FORM VALIDATION FAILURE
     return (
       Math.round(
         (Number(this.vrmMaterialJson?.floatProperties[name]) + Number.EPSILON) *

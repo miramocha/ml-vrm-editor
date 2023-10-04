@@ -197,4 +197,8 @@ export default class GltfVrmParser {
 
     return this.fileCache;
   }
+
+  getImageSrcByIndex(index) {
+    return this.textureModels.at(index).imageSrc;
+  }
 }
