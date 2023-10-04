@@ -20,7 +20,19 @@ export default function MToonOutlineForm({ materialModel }) {
           name="_OutlineWidth"
           type="number"
           defaultValue={materialModel?.getValue('_OutlineWidth')}
+          min={0.01}
+          max={1}
+          step={0.00001}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Outline Lightning Mix</Form.Label>
+        <Form.Control
+          name="_OutlineLightingMix"
+          type="number"
+          defaultValue={materialModel?.getValue('_OutlineLightingMix')}
           min={0}
+          max={1}
           step={0.00001}
         />
       </Form.Group>

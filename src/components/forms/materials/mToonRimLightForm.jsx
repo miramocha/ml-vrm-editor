@@ -15,18 +15,35 @@ export default function MToonRimLightForm({ materialModel }) {
         />
       </Form.Group>
       <Form.Group>
+        <Form.Label>Rim Lighting Mix</Form.Label>
+        <Form.Control
+          type="number"
+          name="_RimLightingMix"
+          defaultValue={materialModel?.getValue('_RimLift')}
+          max={1}
+          min={0}
+          step={0.00001}
+        />
+      </Form.Group>
+      <Form.Group>
         <Form.Label>Rim Lift</Form.Label>
         <Form.Control
+          type="number"
           name="_RimLift"
           defaultValue={materialModel?.getValue('_RimLift')}
+          max={1}
+          min={0}
           step={0.00001}
         />
       </Form.Group>
       <Form.Group>
         <Form.Label>Rim Fresnel Power</Form.Label>
         <Form.Control
+          type="number"
           name="_RimFresnelPower"
           defaultValue={materialModel?.getValue('_RimFresnelPower')}
+          max={100}
+          min={0}
           step={0.00001}
         />
       </Form.Group>

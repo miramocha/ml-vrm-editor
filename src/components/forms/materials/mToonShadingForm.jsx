@@ -17,17 +17,23 @@ export default function MToonShadingForm({ materialModel }) {
       <Form.Group>
         <Form.Label>Shade Shift</Form.Label>
         <Form.Control
+          type="number"
           name="_ShadeShift"
           defaultValue={materialModel?.getValue('_ShadeShift')}
           step={0.00001}
+          min={-1}
+          max={1}
         />
       </Form.Group>
       <Form.Group>
         <Form.Label>Shade Toony</Form.Label>
         <Form.Control
+          type="number"
           name="_ShadeToony"
           defaultValue={materialModel?.getValue('_ShadeToony')}
           step={0.00001}
+          min={0}
+          max={1}
         />
       </Form.Group>
     </Stack>
