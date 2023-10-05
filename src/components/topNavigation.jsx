@@ -17,8 +17,6 @@ export default function TopNavigation({
     const newGltfVrmParser = new GltfVrmParser();
     await newGltfVrmParser.parseFile(event.target.files[0]);
 
-    console.log('PARSER:', newGltfVrmParser);
-
     setGltfVrmParser(newGltfVrmParser);
     appController.loadVrm(await newGltfVrmParser.buildFile());
     appController.refreshGroup({ group: 'input' });

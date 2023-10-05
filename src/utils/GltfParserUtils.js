@@ -24,12 +24,9 @@ export const parseHeader = ({ fileDataView }) => {
   // version indicates the version of the Binary glTF container format.
   const version = fileDataView.getUint32(byteOffset, GLTF_LITTLE_ENDIAN);
   byteOffset += GLTF_UINT32_CHUNK_LENGTH;
-  console.log('READING HEADER VERSION:', version);
 
   // length is the total length of the Binary glTF, including header and all chunks, in bytes.
   const length = fileDataView.getUint32(byteOffset, GLTF_LITTLE_ENDIAN);
-
-  console.log('READING HEADER LENGTH:', length);
 
   return { magic, version, length };
 };
@@ -37,28 +34,16 @@ export const parseHeader = ({ fileDataView }) => {
 const parseChunk = ({ fileDataView, byteOffset, chunkNumber }) => {
   const chunkLength = fileDataView.getUint32(byteOffset, GLTF_LITTLE_ENDIAN);
 
-  console.log('READING CHUNK LENGTH AT OFFSET:', byteOffset);
-  console.log('CHUNK LENGTH:', chunkLength);
-
   const typeNumber = fileDataView.getUint32(
     byteOffset + GLTF_UINT32_CHUNK_LENGTH,
     GLTF_LITTLE_ENDIAN,
   );
-  console.log(
-    'READING CHUNK TYPE AT OFFSET:',
-    byteOffset + GLTF_UINT32_CHUNK_LENGTH,
-  );
-  console.log('CHUNK TYPE NUMBER:', typeNumber);
 
   // TO DO: Remove this check and throw error earlier with gltf-validator
   if (chunkNumber !== typeNumber) {
     throw new Error('Invalid Chunk Number.');
   }
 
-  console.log(
-    'READING CHUNK CONTENT AT OFFSET:',
-    byteOffset + GLTF_UINT32_CHUNK_LENGTH + GLTF_UINT32_CHUNK_LENGTH,
-  );
   const chunkUint8Array = new Uint8Array(
     fileDataView.buffer,
     byteOffset + GLTF_UINT32_CHUNK_LENGTH + GLTF_UINT32_CHUNK_LENGTH,
@@ -93,7 +78,6 @@ export const parseBinaryChunk = ({ fileDataView, jsonChunkLength }) => {
 export const parseJson = (jsonChunk) => {
   const decoder = new TextDecoder('utf8');
   const jsonString = decoder.decode(jsonChunk.chunkUint8Array);
-  console.log('JSON STRING LENGTH:', jsonString.length);
   return JSON.parse(jsonString);
 };
 
@@ -113,7 +97,6 @@ export const buildGltfFile = ({
     binaryChunk.chunkLength;
   const arrayBuffer = new ArrayBuffer(arrayBufferLength);
 
-  console.log('ARRAY BUFFER LENGTH:', arrayBufferLength);
   const fileDataView = new DataView(arrayBuffer);
   const uInt8Array = new Uint8Array(arrayBuffer);
 
@@ -125,20 +108,14 @@ export const buildGltfFile = ({
 
   fileDataView.setUint32(byteOffset, version, GLTF_LITTLE_ENDIAN);
   byteOffset += GLTF_UINT32_CHUNK_LENGTH;
-  console.log('WRITING HEADER VERSION:', version);
 
   fileDataView.setUint32(byteOffset, arrayBufferLength, GLTF_LITTLE_ENDIAN);
   byteOffset += GLTF_UINT32_CHUNK_LENGTH;
-  console.log('WRITING HEADER LENGTH', arrayBufferLength);
 
   // Build Chunk 0 (JSON)
-  console.log(
-    `WRITING JSON CHUNK LENGTH ${jsonChunk.chunkLength} AT OFFSET:${byteOffset}`,
-  );
   fileDataView.setUint32(byteOffset, jsonChunk.chunkLength, GLTF_LITTLE_ENDIAN);
   byteOffset += GLTF_UINT32_CHUNK_LENGTH;
 
-  console.log('WRITING JSON CHUNK TYPE AT OFFSET:', byteOffset);
   fileDataView.setUint32(
     byteOffset,
     GLTF_JSON_CHUNK_TYPE_NUMBER,
@@ -146,14 +123,10 @@ export const buildGltfFile = ({
   );
   byteOffset += GLTF_UINT32_CHUNK_LENGTH;
 
-  console.log('WRITING JSON AT OFFSET:', byteOffset);
   uInt8Array.set(jsonChunk.chunkUint8Array, byteOffset);
   byteOffset += jsonChunk.chunkLength;
 
   // Build Chunk 1 (Binary)
-  console.log(
-    `WRITING BINARY CHUNK LENGTH ${binaryChunk.chunkLength} AT OFFSET:${byteOffset}`,
-  );
   fileDataView.setUint32(
     byteOffset,
     binaryChunk.chunkLength,
@@ -161,7 +134,6 @@ export const buildGltfFile = ({
   );
   byteOffset += GLTF_UINT32_CHUNK_LENGTH;
 
-  console.log('WRITING BINARY CHUNK TYPE AT OFFSET:', byteOffset);
   fileDataView.setUint32(
     byteOffset,
     GLTF_BINARY_CHUNK_TYPE_NUMBER,
@@ -169,7 +141,6 @@ export const buildGltfFile = ({
   );
   byteOffset += GLTF_UINT32_CHUNK_LENGTH;
 
-  console.log('WRITING BINARY AT OFFSET:', byteOffset);
   uInt8Array.set(binaryChunk.chunkUint8Array, byteOffset);
 
   return new File([fileDataView], fileName);

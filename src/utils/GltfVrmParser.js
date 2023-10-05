@@ -172,8 +172,6 @@ export default class GltfVrmParser {
       fileDataView,
       jsonChunkLength: this.jsonChunk.chunkLength,
     });
-
-    console.log('JSON:', GltfParserUtils.parseJson(this.jsonChunk));
   }
 
   fileCache;
@@ -187,7 +185,6 @@ export default class GltfVrmParser {
   }
 
   async buildFile() {
-    console.log('BUILDING FILE');
     this.fileCache = await GltfParserUtils.buildGltfFile({
       fileName: this.fileName,
       jsonChunk: this.jsonChunk,
