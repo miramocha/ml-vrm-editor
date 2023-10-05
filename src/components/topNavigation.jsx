@@ -53,7 +53,7 @@ export default function TopNavigation({
       <Container>
         <Navbar.Brand>
           <i className="bi bi-brush me-2 text-light" />
-          ML VRM Material Editor
+          ML VRM Editor
         </Navbar.Brand>
         <Navbar.Text>Upload UniVRM (VRM0)</Navbar.Text>
         <Form>
