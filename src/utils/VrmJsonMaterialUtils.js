@@ -4,8 +4,6 @@ export const setGlobalVectorProperties = ({
   propertyNameToVectorMap,
   skipMaterialNameSet = new Set(),
 }) => {
-  console.log('SKIPPING MATERIALS:', skipMaterialNameSet);
-
   const updatedMaterialProperties = json.extensions.VRM.materialProperties.map(
     (material) => {
       const updatedMaterial = structuredClone(material);
@@ -20,8 +18,6 @@ export const setGlobalVectorProperties = ({
     },
   );
 
-  console.log('SETTING VECTOR MATERIAL PROPS:', updatedMaterialProperties);
-
   const updatedJson = structuredClone(json);
   updatedJson.extensions.VRM.materialProperties = updatedMaterialProperties;
 
@@ -34,8 +30,6 @@ export const setGlobalFloatProperties = ({
   propertyNameToFloatMap,
   skipMaterialNameSet = new Set(),
 }) => {
-  console.log('SKIPPING MATERIALS:', skipMaterialNameSet);
-
   const updatedMaterialProperties = json.extensions.VRM.materialProperties.map(
     (material) => {
       const updatedMaterial = structuredClone(material);
@@ -49,8 +43,6 @@ export const setGlobalFloatProperties = ({
       return updatedMaterial;
     },
   );
-
-  console.log('SETTING FLOAT MATERIAL PROPS:', updatedMaterialProperties);
 
   const updatedJson = structuredClone(json);
   updatedJson.extensions.VRM.materialProperties = updatedMaterialProperties;

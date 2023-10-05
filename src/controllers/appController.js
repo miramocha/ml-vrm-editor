@@ -15,7 +15,6 @@ export default class AppController {
   isLoading = false;
 
   async loadVrm(file) {
-    console.log('ATTEMPTING TO LOAD:', file);
     const environmentNodes = new Set([
       'camera',
       'ambientLight',
@@ -24,15 +23,10 @@ export default class AppController {
     ]);
     this.scene.rootNodes.forEach((rootNode) => {
       if (!environmentNodes.has(rootNode.name)) {
-        console.log('DISPOSING:', rootNode.name);
         rootNode.dispose();
       }
     });
 
-    console.log(
-      'MESHNAMES:',
-      this.scene.meshes.map((mesh) => mesh.name),
-    );
     this.scene.materials.forEach((materials) => materials.dispose());
     this.scene.meshes.forEach(
       (mesh) => mesh.name !== 'ground' && mesh.dispose(),
@@ -45,15 +39,12 @@ export default class AppController {
       this.scene,
       () => {
         this.isLoading = false;
-        // console.log('SUCCESS:', a);
       },
       () => {
         this.isLoading = true;
-        // console.log('PROGRESS:', b);
       },
       () => {
         this.isLoading = false;
-        // console.log('ERROR:', c);
       },
       '.vrm',
     );
@@ -63,7 +54,6 @@ export default class AppController {
     const refreshFunction = this.idToRefreshFunctionMap.get(id);
 
     if (refreshFunction) {
-      console.log('REFRESHING:', id);
       refreshFunction();
     }
   }
@@ -73,7 +63,6 @@ export default class AppController {
   }
 
   refreshGroup({ group, skipIds = new Set() }) {
-    console.log('REFRESHING GROUP:', group);
     this.refreshViews({ ids: this.groupNameToIdSet.get(group), skipIds });
   }
 

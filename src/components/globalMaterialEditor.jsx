@@ -17,10 +17,8 @@ export default function GlobalMaterialEditor() {
     appController.isLoading = true;
 
     const formData = new FormData(event.target);
-    console.log(formData);
 
     const skipMaterialNameSet = new Set(formData.getAll('skipMaterialName'));
-    console.log('SKIPPING', skipMaterialNameSet);
 
     gltfVrmParser.materialModels.forEach((materialModel) => {
       if (!skipMaterialNameSet.has(materialModel.name)) {
