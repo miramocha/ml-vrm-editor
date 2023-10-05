@@ -36,7 +36,6 @@ export default function MaterialEditor() {
     appController.isLoading = true;
 
     const formData = new FormData(event.target);
-    console.log('SUBMIT MAT CHANGE:', formData);
 
     const currentModel =
       gltfVrmParser?.materialModels?.at(currentMaterialIndex);

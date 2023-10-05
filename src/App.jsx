@@ -32,8 +32,6 @@ export default function App() {
         const newGltfVrmParser = new GltfVrmParser();
         await newGltfVrmParser.parseFile(new File([blob], 'AvatarSampleB.vrm'));
 
-        console.log('PARSER:', newGltfVrmParser);
-
         setGltfVrmParser(newGltfVrmParser);
         appController.loadVrm(await newGltfVrmParser.buildFile());
       });

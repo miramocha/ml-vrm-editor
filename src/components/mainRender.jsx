@@ -46,7 +46,6 @@ const onSceneReady = (scene) => {
   );
 
   pointLight.radius = 0.1;
-  console.log(pointLight);
 };
 
 export default function MainRender() {

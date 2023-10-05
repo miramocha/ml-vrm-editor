@@ -17,8 +17,6 @@ export default function TopNavigation({
     const newGltfVrmParser = new GltfVrmParser();
     await newGltfVrmParser.parseFile(event.target.files[0]);
 
-    console.log('PARSER:', newGltfVrmParser);
-
     setGltfVrmParser(newGltfVrmParser);
     appController.loadVrm(await newGltfVrmParser.buildFile());
     appController.refreshGroup({ group: 'input' });
@@ -53,7 +51,7 @@ export default function TopNavigation({
       <Container>
         <Navbar.Brand>
           <i className="bi bi-brush me-2 text-light" />
-          ML VRM Material Editor
+          ML VRM Editor
         </Navbar.Brand>
         <Navbar.Text>Upload UniVRM (VRM0)</Navbar.Text>
         <Form>
