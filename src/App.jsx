@@ -86,7 +86,10 @@ export default function App() {
             <Modal.Title>Open VRM</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <VrmImport onFileOpen={handleVrmImportModalHide} />
+            <VrmImport
+              onFileOpen={handleVrmImportModalHide}
+              setGltfVrmParser={setGltfVrmParser}
+            />
           </Modal.Body>
           <Modal.Footer>
             <Stack>
