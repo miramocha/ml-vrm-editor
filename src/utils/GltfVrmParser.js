@@ -1,6 +1,7 @@
 import * as GltfParserUtils from './GltfParserUtils';
 import * as VrmJsonMaterialUtils from './VrmJsonMaterialUtils';
 import GltfChunkModel from '../models/GltfChunkModel';
+import VrmMetadataModel from '../models/VrmMetadataModel';
 
 export default class GltfVrmParser {
   /**
@@ -67,6 +68,10 @@ export default class GltfVrmParser {
     }
 
     return this.textureModelsCache;
+  }
+
+  get vrmMetadataModel() {
+    return new VrmMetadataModel(this.json?.extensions.VRM.meta);
   }
 
   jsonCache = null;
@@ -196,6 +201,21 @@ export default class GltfVrmParser {
   }
 
   getImageSrcByIndex(index) {
-    return this.textureModels.at(index).imageSrc;
+    const cappedIndex =
+      index > this.textureModels.length - 1
+        ? this.textureModels.length - 1
+        : index;
+
+    // VRM Exported from Blender has index off by 1???
+    return this.textureModels?.at(cappedIndex).imageSrc;
+  }
+
+  get thumbnailImagesrc() {
+    if (this.vrmMetadataModel && this.vrmMetadataModel?.thumbnailTextureIndex) {
+      return this.getImageSrcByIndex(
+        this.vrmMetadataModel.thumbnailTextureIndex,
+      );
+    }
+    return null;
   }
 }
