@@ -4,6 +4,7 @@ import GltfJsonEditor from './gltfJsonEditor';
 import MaterialEditor from './materialEditor';
 import TextureBrowser from './textureBrowser';
 import GlobalMaterialEditor from './globalMaterialEditor';
+import VrmMetadataEditor from './vrmMetadataEditor';
 
 export default function RightTabs({ setHideRightOffcanvas }) {
   const handleCloseEditorButtonClick = () => {
@@ -39,7 +40,7 @@ export default function RightTabs({ setHideRightOffcanvas }) {
           title="Metadata Editor"
           className="pt-2"
         >
-          METADATA EDITOR
+          <VrmMetadataEditor />
         </Tab>
         <Tab
           eventKey="textureBrowserTab"
