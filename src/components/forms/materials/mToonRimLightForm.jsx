@@ -19,7 +19,7 @@ export default function MToonRimLightForm({ materialModel }) {
         <Form.Control
           type="number"
           name="_RimLightingMix"
-          defaultValue={materialModel?.getValue('_RimLift')}
+          defaultValue={materialModel?.getValue('_RimLightingMix')}
           max={1}
           min={0}
           step={0.00001}

@@ -117,7 +117,7 @@ export default class MaterialModel {
   }
 
   #setFloat(name, value) {
-    this.vrmMaterialJson.floatProperties[name] = value;
+    this.vrmMaterialJson.floatProperties[name] = Number(value);
   }
 
   #getFloat(name) {
