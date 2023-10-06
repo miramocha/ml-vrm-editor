@@ -75,7 +75,7 @@ export default class MaterialModel {
     return this.vrmMaterialJson.name;
   }
 
-  processMaterialFormData(formData) {
+  processFormData(formData) {
     const normalizedMaterialFormDataMap =
       FormUtils.normalizeMaterialFormData(formData);
 

@@ -74,6 +74,10 @@ export default class GltfVrmParser {
     return new VrmMetadataModel(this.json?.extensions.VRM.meta);
   }
 
+  getVrmMetadataModel() {
+    return this.vrmMetadataModel;
+  }
+
   jsonCache = null;
 
   commitJsonCache() {

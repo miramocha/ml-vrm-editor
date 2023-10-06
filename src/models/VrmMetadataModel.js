@@ -5,16 +5,11 @@ export default class VrmMetadataModel {
     this.metadataJson = metadataJson;
   }
 
-  get title() {
-    return this.metadataJson.title;
-  }
-
-  get version() {
-    return this.metadataJson.version;
-  }
-
-  get author() {
-    return this.metadataJson.author;
+  processFormData(formData) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [name, value] of formData.entries()) {
+      this.metadataJson[name] = value;
+    }
   }
 
   get thumbnailTextureIndex() {
