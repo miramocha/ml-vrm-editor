@@ -21,6 +21,7 @@ export default class AppController {
       'pointLight',
       'ground',
     ]);
+
     this.scene.rootNodes.forEach((rootNode) => {
       if (!environmentNodes.has(rootNode.name)) {
         rootNode.dispose();
