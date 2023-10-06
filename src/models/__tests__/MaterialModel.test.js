@@ -10,7 +10,7 @@ test('Normalize material form data', () => {
     vrmMaterialJson: { vectorProperties: { _OutlineColor: [0, 0, 0, 1] } },
   });
 
-  materialModel.processMaterialFormData(formData);
+  materialModel.processFormData(formData);
   expect(materialModel.vrmMaterialJson.vectorProperties._OutlineColor).toEqual([
     1, 0, 0, 1,
   ]);

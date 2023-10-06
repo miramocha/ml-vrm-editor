@@ -40,7 +40,7 @@ export default function MaterialEditor() {
     const currentModel =
       gltfVrmParser?.materialModels?.at(currentMaterialIndex);
 
-    currentModel.processMaterialFormData(formData);
+    currentModel.processFormData(formData);
 
     gltfVrmParser.commitJsonCache();
     appController.loadVrm(await gltfVrmParser.buildFile());

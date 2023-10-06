@@ -22,7 +22,7 @@ export default function GlobalMaterialEditor() {
 
     gltfVrmParser.materialModels.forEach((materialModel) => {
       if (!skipMaterialNameSet.has(materialModel.name)) {
-        materialModel.processMaterialFormData(formData);
+        materialModel.processFormData(formData);
       }
     });
 
