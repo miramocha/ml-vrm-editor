@@ -29,45 +29,66 @@ export default class GltfVrmParser {
       ? GltfParserUtils.parseJson(this.jsonChunk)
       : null;
 
-    this.materialModelsCache = GltfParserUtils.buildMaterialModelCache(
+    this.bufferModelCache = GltfParserUtils.buildBufferModelCache({
+      json: this.json,
+      binaryChunk: this.binaryChunk,
+    });
+
+    this.materialModelCache = GltfParserUtils.buildMaterialModelCache(
       this.jsonCache,
     );
 
-    this.textureModelsCache = GltfParserUtils.buildTextureModelCache({
+    this.textureModelCache = GltfParserUtils.buildTextureModelCache({
       json: this.jsonCache,
-      binaryChunk: this.binaryChunk,
+      bufferModels: this.bufferModels,
     });
   }
 
-  materialModelsCache = null;
+  bufferModelsCache = null;
 
   /**
-   * @returns {materialModel[]}
+   *@returns {BufferModel[]}
    */
-  get materialModels() {
-    if (!this.materialModelsCache) {
-      this.materialModelsCache = GltfParserUtils.buildMaterialModelCache(
-        this.json,
-      );
-    }
-
-    return this.materialModelsCache;
-  }
-
-  textureModelsCache = null;
-
-  /**
-   * @returns {TextureModel[]}
-   */
-  get textureModels() {
-    if (!this.textureModelsCache) {
-      this.textureModelsCache = GltfParserUtils.buildTextureModelCache({
+  get bufferModels() {
+    if (!this.bufferModelCache) {
+      this.bufferModelCache = GltfParserUtils.buildBufferModelCache({
         json: this.json,
         binaryChunk: this.binaryChunk,
       });
     }
 
-    return this.textureModelsCache;
+    return this.bufferModelCache;
+  }
+
+  materialModelCache = null;
+
+  /**
+   * @returns {materialModel[]}
+   */
+  get materialModels() {
+    if (!this.materialModelCache) {
+      this.materialModelCache = GltfParserUtils.buildMaterialModelCache(
+        this.json,
+      );
+    }
+
+    return this.materialModelCache;
+  }
+
+  textureModelCache = null;
+
+  /**
+   * @returns {TextureModel[]}
+   */
+  get textureModels() {
+    if (!this.textureModelCache) {
+      this.textureModelCache = GltfParserUtils.buildTextureModelCache({
+        json: this.json,
+        bufferModels: this.bufferModels,
+      });
+    }
+
+    return this.textureModelCache;
   }
 
   get vrmMetadataModel() {
@@ -80,7 +101,7 @@ export default class GltfVrmParser {
 
   jsonCache = null;
 
-  commitJsonCache() {
+  commitJsonChanges() {
     const paddedEncodedJsonString =
       GltfParserUtils.jsonToPaddedEncodedJsonString(this.jsonCache);
 
@@ -111,7 +132,7 @@ export default class GltfVrmParser {
   set json(json) {
     this.jsonCache = json;
 
-    this.commitJsonCache();
+    this.commitJsonChanges();
   }
 
   setJson(json) {
@@ -193,7 +214,7 @@ export default class GltfVrmParser {
     return this.textureModels?.at(cappedIndex).imageSrc;
   }
 
-  get thumbnailImagesrc() {
+  get thumbnailImageSrc() {
     if (this.vrmMetadataModel && this.vrmMetadataModel?.thumbnailTextureIndex) {
       return this.getImageSrcByIndex(
         this.vrmMetadataModel.thumbnailTextureIndex,

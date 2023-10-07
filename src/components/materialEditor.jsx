@@ -42,7 +42,7 @@ export default function MaterialEditor() {
 
     currentModel.processFormData(formData);
 
-    gltfVrmParser.commitJsonCache();
+    gltfVrmParser.commitJsonChanges();
     appController.loadVrm(await gltfVrmParser.buildFile());
     appController.isLoading = false;
   };

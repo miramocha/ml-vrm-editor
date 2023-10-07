@@ -23,7 +23,7 @@ export default function VrmMetadataEditor() {
     const vrmMetadataModel = gltfVrmParser.getVrmMetadataModel();
     vrmMetadataModel.processFormData(formData);
 
-    gltfVrmParser.commitJsonCache();
+    gltfVrmParser.commitJsonChanges();
     appController.loadVrm(await gltfVrmParser.buildFile());
   };
 
@@ -35,7 +35,7 @@ export default function VrmMetadataEditor() {
             <Col md={6}>
               <Card.Img
                 variant="top"
-                src={gltfVrmParser?.thumbnailImagesrc}
+                src={gltfVrmParser?.thumbnailImageSrc}
                 alt="p"
               />
             </Col>

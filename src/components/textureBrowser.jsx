@@ -8,13 +8,12 @@ export default function TextureBrowser() {
   return (
     <Container>
       <Row>
-        {gltfVrmParser?.textureModels.map((textureModel) => (
-          <Col key={textureModel.imagesIndex} xs={6} md={4}>
-            {/* <Image src={textureModel.imageSrc} thumbnail /> */}
+        {gltfVrmParser?.textureModels.map((textureModel, textureIndex) => (
+          <Col key={textureModel} xs={6} md={4}>
             <Card className="mb-2">
               <Card.Img variant="top" src={textureModel.imageSrc} />
               <Card.Header>{textureModel.name}</Card.Header>
-              <Card.Body>Index: {textureModel.imagesIndex}</Card.Body>
+              <Card.Body>Index: {textureIndex}</Card.Body>
             </Card>
           </Col>
         ))}

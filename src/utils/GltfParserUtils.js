@@ -6,6 +6,7 @@
 import GltfChunkModel from '../models/GltfChunkModel';
 import MaterialModel from '../models/MaterialModel';
 import TextureModel from '../models/TextureModel';
+import BufferModel from '../models/BufferModel';
 
 const GLTF_HEADER_MAGIC = 0x46546c67;
 const GLTF_JSON_CHUNK_TYPE_NUMBER = 0x4e4f534a;
@@ -162,22 +163,23 @@ export const buildMaterialModelCache = (json) => {
   );
 };
 
-export const buildTextureModelCache = ({ json, binaryChunk }) => {
-  return json.images.map((image, imagesIndex) => {
-    const bufferView = json.bufferViews[image.bufferView];
-    const imageBuffer = binaryChunk.chunkUint8Array.slice(
-      bufferView.byteOffset,
-      bufferView.byteOffset + bufferView.byteLength,
-    );
-    const blob = new Blob([imageBuffer], { type: image.mimeType });
-
+export const buildTextureModelCache = ({ json, bufferModels }) => {
+  return json.images.map((imageJson) => {
     return new TextureModel({
-      imagesIndex,
-      bufferViewsIndex: image.bufferView,
-      name: image.name,
-      mimeType: image.mimeType,
-      blob,
+      imageJson,
+      bufferModel: bufferModels[imageJson.bufferView],
     });
+  });
+};
+
+export const buildBufferModelCache = ({ json, binaryChunk }) => {
+  return json.bufferViews.map((bufferViewJson) => {
+    const buffer = binaryChunk.chunkUint8Array.slice(
+      bufferViewJson.byteOffset,
+      bufferViewJson.byteOffset + bufferViewJson.byteLength,
+    );
+
+    return new BufferModel({ bufferViewJson, buffer });
   });
 };
 
