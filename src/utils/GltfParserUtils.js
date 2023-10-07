@@ -13,6 +13,7 @@ const GLTF_BINARY_CHUNK_TYPE_NUMBER = 0x004e4942;
 const GLTF_UINT32_CHUNK_LENGTH = 4;
 const GLTF_CHUNK_HEADER_LENGTH = 3 * GLTF_UINT32_CHUNK_LENGTH;
 const GLTF_LITTLE_ENDIAN = true;
+const PAD_SPACE_UINT8 = 32;
 
 export const parseHeader = ({ fileDataView }) => {
   let byteOffset = 0;
@@ -178,4 +179,22 @@ export const buildTextureModelCache = ({ json, binaryChunk }) => {
       blob,
     });
   });
+};
+
+export const jsonToPaddedEncodedJsonString = (json) => {
+  const jsonString = JSON.stringify(json);
+  const encodedJsonString = new TextEncoder().encode(jsonString);
+  const paddedEncodedJsonStringLength = calculateChunkLength(
+    encodedJsonString.length,
+  );
+  const paddedEncodedJsonString = new Uint8Array(paddedEncodedJsonStringLength);
+  paddedEncodedJsonString.set(encodedJsonString);
+  paddedEncodedJsonString.set(
+    new Array(paddedEncodedJsonStringLength - encodedJsonString.length).fill(
+      PAD_SPACE_UINT8,
+    ),
+    encodedJsonString.length,
+  );
+
+  return paddedEncodedJsonString;
 };

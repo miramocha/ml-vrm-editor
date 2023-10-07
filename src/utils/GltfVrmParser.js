@@ -81,33 +81,12 @@ export default class GltfVrmParser {
   jsonCache = null;
 
   commitJsonCache() {
-    const jsonString = JSON.stringify(this.jsonCache);
-    const jsonStringLength = GltfParserUtils.calculateChunkLength(
-      jsonString.length,
-    );
-
-    // This chunk MUST be padded with trailing Space chars (0x20) to satisfy alignment requirements.
-    const paddedJsonString = jsonString.padEnd(jsonStringLength);
-
-    let hasDoubleByteChars = false;
-    const encodedJsonString = new TextEncoder()
-      .encode(paddedJsonString)
-      .map((value) => {
-        // TO DO: handle double byte chars
-        if (value > 127) {
-          hasDoubleByteChars = true;
-        }
-
-        return value;
-      });
-
-    if (hasDoubleByteChars) {
-      throw new Error('DOUBLE BYTE CHARACTER DETECTED. ABORTING PARSE.');
-    }
+    const paddedEncodedJsonString =
+      GltfParserUtils.jsonToPaddedEncodedJsonString(this.jsonCache);
 
     this.jsonChunk = new GltfChunkModel({
-      chunkLength: jsonStringLength,
-      chunkUint8Array: encodedJsonString,
+      chunkLength: paddedEncodedJsonString.length,
+      chunkUint8Array: paddedEncodedJsonString,
     });
 
     this.buildCaches();
