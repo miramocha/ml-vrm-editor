@@ -102,15 +102,14 @@ export default class GltfVrmParser {
   jsonCache = null;
 
   rebuildBinarychunk(rebuildCaches = true) {
-    // this.chunkLength = chunkLength;
-    // this.chunkUint8Array = chunkUint8Array;
     const { totalBufferLength, updatedBinaryChunkUint8Array } =
       GltfParserUtils.recalculateBuffers(this.bufferModels);
     this.binaryChunk = new GltfChunkModel({
       chunkLength: totalBufferLength,
       chunkUint8Array: updatedBinaryChunkUint8Array,
     });
-    this.json.buffers.byteLength = totalBufferLength;
+    this.json.buffers[0].byteLength = totalBufferLength;
+    this.binaryChunk.chunkLength = totalBufferLength;
 
     if (rebuildCaches) {
       this.buildCaches();

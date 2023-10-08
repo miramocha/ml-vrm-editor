@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { GltfVrmParserContext } from '../AppContext';
+import EditableTexture from './editableTexture';
 
 export default function TextureBrowser() {
   const gltfVrmParser = useContext(GltfVrmParserContext);
@@ -15,7 +16,7 @@ export default function TextureBrowser() {
             md={4}
           >
             <Card className="mb-2">
-              <Card.Img variant="top" src={textureModel.imageSrc} />
+              <EditableTexture textureModel={textureModel} />
               <Card.Header>{textureModel.name}</Card.Header>
               <Card.Body>Index: {textureIndex}</Card.Body>
             </Card>

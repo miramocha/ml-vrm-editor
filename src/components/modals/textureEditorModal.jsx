@@ -22,10 +22,12 @@ export default function TextureEditorModal({
 
     textureModel.setName(file.name);
     textureModel.setMimeType(file.type);
-    // textureModel.setBuffer(new Uint8Array(file.arrayBuffer()));
+    // console.log(file.type);
+    textureModel.setBuffer(new Uint8Array(await file.arrayBuffer()));
 
-    gltfVrmParser.commitJsonChanges();
-    // gltfVrmParser.rebuildBinarychunk();
+    gltfVrmParser.rebuildBinarychunk(false);
+    gltfVrmParser.commitJsonChanges(true);
+    appController.loadVrm(await gltfVrmParser.buildFile());
 
     // const newGltfVrmParser = new GltfVrmParser();
     // await newGltfVrmParser.parseFile(event.target.files[0]);
@@ -35,7 +37,7 @@ export default function TextureEditorModal({
     // appController.refreshGroup({ group: 'input' });
     // onFileOpen();
     appController.isLoading = false;
-    // appController.closeEditTextureModal();
+    appController.closeEditTextureModal();
   };
 
   return (

@@ -173,13 +173,17 @@ export const buildTextureModelCache = ({ json, bufferModels }) => {
 };
 
 export const buildBufferModelCache = ({ json, binaryChunk }) => {
-  return json.bufferViews.map((bufferViewJson) => {
+  return json.bufferViews.map((bufferViewJson, index) => {
     const buffer = binaryChunk.chunkUint8Array.slice(
       bufferViewJson.byteOffset,
       bufferViewJson.byteOffset + bufferViewJson.byteLength,
     );
 
-    return new BufferModel({ bufferViewJson, buffer });
+    const accessorJson = json.accessors.find(
+      (accessor) => accessor.bufferView === index,
+    );
+
+    return new BufferModel({ bufferViewJson, buffer, accessorJson });
   });
 };
 
@@ -202,33 +206,48 @@ export const jsonToPaddedEncodedJsonString = (json) => {
 };
 
 export const recalculateBuffers = (bufferModels) => {
-  let prevBufferModel = null;
-  let totalBufferLength = 0;
+  let byteOffset = 0;
 
-  bufferModels.forEach((bufferModel) => {
-    bufferModel.setByteLength(bufferModel.buffer.length);
-    totalBufferLength += bufferModel.buffer.length;
+  bufferModels.forEach((bufferModel, index) => {
+    // const oldOffset = bufferModel.byteOffset;
+    // const oldLength = bufferModel.byteLength;
 
-    if (prevBufferModel) {
-      bufferModel.setByteOffset(
-        prevBufferModel.byteOffset + prevBufferModel.byteLength,
-      );
+    // The byteOffset of an accessor must be divisible by the size of its componentType.
+    // The sum of the byteOffset of an accessor and the byteOffset of the bufferView that it refers
+    // to must be divisible by the size of its componentType.
+    if (
+      bufferModel.accessorJson &&
+      byteOffset % bufferModel.componentSize !== 0
+    ) {
+      console.warn(`SHIFTING AT ${index} `, bufferModel.componentSize);
+      byteOffset =
+        Math.ceil(byteOffset / bufferModel.componentSize) *
+        bufferModel.componentSize;
     }
 
-    prevBufferModel = bufferModel;
+    bufferModel.setByteOffset(byteOffset);
+    bufferModel.setByteLength(bufferModel.buffer.length);
+
+    byteOffset += bufferModel.byteLength;
+
+    // if (oldOffset !== bufferModel.byteOffset) {
+    //   console.log(
+    //     `INDEX ${index}. OLD OFFSET: ${oldOffset} NEW OFFSET: ${bufferModel.byteOffset} OLD LENGTH: ${oldLength} NEW LENGTH: ${bufferModel.byteLength}`,
+    //   );
+    // }
   });
 
-  const updatedBinaryChunkUint8Array = new Uint8Array(totalBufferLength);
+  const updatedBinaryChunkUint8Array = new Uint8Array(byteOffset);
   bufferModels.forEach((bufferModel) => {
-    // console.log(
-    //   `${index} INDEX. WRITING BUFFER AT OFFSET:`,
-    //   bufferModel.byteOffset,
-    // );
     updatedBinaryChunkUint8Array.set(
       bufferModel.buffer,
       bufferModel.byteOffset,
     );
   });
 
-  return { bufferModels, totalBufferLength, updatedBinaryChunkUint8Array };
+  return {
+    bufferModels,
+    totalBufferLength: byteOffset,
+    updatedBinaryChunkUint8Array,
+  };
 };
