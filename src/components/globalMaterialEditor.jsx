@@ -26,7 +26,7 @@ export default function GlobalMaterialEditor() {
       }
     });
 
-    gltfVrmParser.commitJsonCache();
+    gltfVrmParser.commitJsonChanges();
     appController.loadVrm(await gltfVrmParser.buildFile());
 
     appController.refreshGroup({

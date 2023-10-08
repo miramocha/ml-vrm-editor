@@ -145,4 +145,32 @@ export default class MaterialModel {
       alpha: vector[VECTOR_ALPHA_INDEX],
     };
   }
+
+  get mainTextureIndex() {
+    return this.pbrMaterialJson.pbrMetallicRoughness.baseColorTexture.index;
+  }
+
+  get shadeTextureIndex() {
+    return this.vrmMaterialJson.textureProperties._ShadeTexture;
+  }
+
+  get emissiveTextureIndex() {
+    return this.pbrMaterialJson.emissiveTexture.index;
+  }
+
+  get normalTextureIndex() {
+    return this.pbrMaterialJson.normalTexture.index;
+  }
+
+  get sphereAdditionTextureIndex() {
+    return this.vrmMaterialJson.textureProperties._SphereAdd;
+  }
+
+  get rimTextureIndex() {
+    return this.vrmMaterialJson.textureProperties._RimTexture;
+  }
+
+  get isMtoon() {
+    return this.vrmMaterialJson.shader === 'VRM/MToon';
+  }
 }

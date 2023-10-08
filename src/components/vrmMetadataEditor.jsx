@@ -1,16 +1,15 @@
-/* eslint-disable no-unused-vars */
-// TO DO - REMOVE THIS
 import { useContext } from 'react';
 import {
-  Card,
   Form,
   Container,
   Col,
   Row,
   Stack,
   Button,
+  // Card,
 } from 'react-bootstrap';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
+import EditableTexture from './editableTexture';
 
 export default function VrmMetadataEditor() {
   const gltfVrmParser = useContext(GltfVrmParserContext);
@@ -23,7 +22,7 @@ export default function VrmMetadataEditor() {
     const vrmMetadataModel = gltfVrmParser.getVrmMetadataModel();
     vrmMetadataModel.processFormData(formData);
 
-    gltfVrmParser.commitJsonCache();
+    gltfVrmParser.commitJsonChanges();
     appController.loadVrm(await gltfVrmParser.buildFile());
   };
 
@@ -33,14 +32,35 @@ export default function VrmMetadataEditor() {
         <Container>
           <Row className="justify-content-md-center">
             <Col md={6}>
-              <Card.Img
-                variant="top"
-                src={gltfVrmParser?.thumbnailImagesrc}
-                alt="p"
+              <EditableTexture
+                textureModel={gltfVrmParser?.thumbnailImageTextureModel}
               />
             </Col>
           </Row>
         </Container>
+
+        {/* <Card className="mb-2">
+          <Card.Header>VRM Metadata</Card.Header>
+          <Card.Body
+            key={
+              gltfVrmParser?.getVrmMetadataModel()
+                ? JSON.stringify(
+                    gltfVrmParser.getVrmMetadataModel()?.metadataJson,
+                    null,
+                    '\t',
+                  )
+                : ''
+            }
+          >
+            {gltfVrmParser?.getVrmMetadataModel()
+              ? JSON.stringify(
+                  gltfVrmParser.getVrmMetadataModel()?.metadataJson,
+                  null,
+                  '\t',
+                )
+              : ''}
+          </Card.Body>
+        </Card> */}
 
         <Form.Group>
           <Form.Label>Title</Form.Label>

@@ -61,14 +61,17 @@ export default class AppController {
 
   refreshViews({ ids = new Set(), skipIds = new Set() }) {
     ids.forEach((id) => !skipIds.has(id) && this.refreshView(id));
+    return this;
   }
 
   refreshGroup({ group, skipIds = new Set() }) {
     this.refreshViews({ ids: this.groupNameToIdSet.get(group), skipIds });
+    return this;
   }
 
   setRefreshFunction({ id, refreshFunction }) {
     this.idToRefreshFunctionMap.set(id, refreshFunction);
+    return this;
   }
 
   setIdToRefreshFunctionGroup({ id, group, refreshFunction }) {
@@ -81,5 +84,31 @@ export default class AppController {
     }
 
     idSet.add(id);
+
+    return this;
+  }
+
+  setEditingTextureModel;
+
+  setSetEditingTextureModelFunction(setEditingTextureModel) {
+    this.setEditingTextureModel = setEditingTextureModel;
+    return this;
+  }
+
+  setShowTextureEditorModal;
+
+  setSetShowTextureEditorModalFunction(setShowTextureEditorModalFunction) {
+    this.setShowTextureEditorModal = setShowTextureEditorModalFunction;
+    return this;
+  }
+
+  openEditTextureModal(textureModel) {
+    this.setEditingTextureModel(textureModel);
+    this.setShowTextureEditorModal(true);
+  }
+
+  closeEditTextureModal() {
+    this.setShowTextureEditorModal(false);
+    this.setEditingTextureModel(null);
   }
 }

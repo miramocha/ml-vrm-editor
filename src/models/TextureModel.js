@@ -1,38 +1,42 @@
 export default class TextureModel {
-  /**
-   * @type {number}
-   */
-  imagesIndex;
+  imageJson;
 
-  /**
-   * @type {number}
-   */
-  bufferViewsIndex;
+  bufferModel;
 
-  /**
-   * @type {string}
-   */
-  name;
+  constructor({ bufferModel, imageJson }) {
+    this.bufferModel = bufferModel;
+    this.imageJson = imageJson;
+  }
 
-  /**
-   * @type {string}
-   */
-  mimeType;
+  get name() {
+    return this.imageJson.name;
+  }
 
-  /**
-   * @type {blob}
-   */
-  blob;
+  setName(name) {
+    this.imageJson.name = name;
+    return this;
+  }
 
-  constructor({ imagesIndex, bufferViewsIndex, name, mimeType, blob }) {
-    this.imagesIndex = imagesIndex;
-    this.bufferViewsIndex = bufferViewsIndex;
-    this.name = name;
-    this.mimeType = mimeType;
-    this.blob = blob;
+  get mimeType() {
+    return this.imageJson.mimeType;
+  }
+
+  setMimeType(mimeType) {
+    this.imageJson.mimeType = mimeType;
+    return this;
+  }
+
+  setBuffer(buffer) {
+    this.bufferModel.buffer = buffer;
+  }
+
+  get bufferViewIndex() {
+    return this.imageJson.buffer;
   }
 
   get imageSrc() {
-    return URL.createObjectURL(this.blob);
+    return URL.createObjectURL(
+      new Blob([this.bufferModel.buffer], { type: this.mimeType }),
+    );
   }
 }
