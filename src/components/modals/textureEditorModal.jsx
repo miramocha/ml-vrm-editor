@@ -22,22 +22,24 @@ export default function TextureEditorModal({
 
     textureModel.setName(file.name);
     textureModel.setMimeType(file.type);
-    // console.log(file.type);
     textureModel.setBuffer(new Uint8Array(await file.arrayBuffer()));
 
     gltfVrmParser.rebuildBinarychunk(false);
     gltfVrmParser.commitJsonChanges(true);
     appController.loadVrm(await gltfVrmParser.buildFile());
-
-    // const newGltfVrmParser = new GltfVrmParser();
-    // await newGltfVrmParser.parseFile(event.target.files[0]);
-
-    // setGltfVrmParser(newGltfVrmParser);
-    // appController.loadVrm(await newGltfVrmParser.buildFile());
-    // appController.refreshGroup({ group: 'input' });
-    // onFileOpen();
     appController.isLoading = false;
     appController.closeEditTextureModal();
+  };
+
+  const handleDownloadButtonClick = async () => {
+    const blobURL = textureModel.imageSrc;
+    const tempLink = document.createElement('a');
+    tempLink.style.display = 'none';
+    tempLink.href = blobURL;
+    tempLink.setAttribute('download', textureModel.name);
+    document.body.appendChild(tempLink);
+    tempLink.click();
+    document.body.removeChild(tempLink);
   };
 
   return (
@@ -63,7 +65,10 @@ export default function TextureEditorModal({
         </Card>
       </Modal.Body>
       <Modal.Footer>
-        <Stack>
+        <Stack gap={2}>
+          <Button onClick={handleDownloadButtonClick}>
+            <i className="bi bi-download" /> Download
+          </Button>
           <Button variant="danger" onClick={handleTextureEditorModalHide}>
             Cancel
           </Button>
