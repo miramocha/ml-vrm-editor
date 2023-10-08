@@ -13,7 +13,7 @@ export default function TextureBrowser() {
           <Col
             key={`${textureModel?.bufferViewIndex}-${Math.random()}`}
             xs={6}
-            md={4}
+            md={6}
           >
             <EditableTexture textureModel={textureModel} />
           </Col>

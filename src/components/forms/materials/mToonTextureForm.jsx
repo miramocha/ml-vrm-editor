@@ -23,7 +23,8 @@ export default function MToonTextureForm({ materialModel }) {
       <Container>
         <Row>
           {Number.isInteger(materialModel.mainTextureIndex) ? (
-            <Col xs={6} md={4}>
+            <Col xs={6} md={6}>
+              <h5>Main</h5>
               <EditableTexture
                 key={materialModel?.mainTextureIndex}
                 textureModel={gltfVrmParser?.getTextureModelFromIndex(
@@ -35,7 +36,8 @@ export default function MToonTextureForm({ materialModel }) {
             ''
           )}
           {Number.isInteger(materialModel.shadeTextureIndex) ? (
-            <Col xs={6} md={4}>
+            <Col xs={6} md={6}>
+              <h5>Shading</h5>
               <EditableTexture
                 key={materialModel?.shadingTextureIndex}
                 textureModel={gltfVrmParser?.getTextureModelFromIndex(
@@ -47,7 +49,8 @@ export default function MToonTextureForm({ materialModel }) {
             ''
           )}
           {Number.isInteger(materialModel.normalTextureIndex) ? (
-            <Col xs={6} md={4}>
+            <Col xs={6} md={6}>
+              <h5>Normal</h5>
               <EditableTexture
                 textureModel={gltfVrmParser?.getTextureModelFromIndex(
                   materialModel.normalTextureIndex,
@@ -58,7 +61,8 @@ export default function MToonTextureForm({ materialModel }) {
             ''
           )}
           {Number.isInteger(materialModel.emissiveTextureIndex) ? (
-            <Col xs={6} md={4}>
+            <Col xs={6} md={6}>
+              <h5>Emission</h5>
               <EditableTexture
                 textureModel={gltfVrmParser?.getTextureModelFromIndex(
                   materialModel.emissiveTextureIndex,
@@ -69,7 +73,8 @@ export default function MToonTextureForm({ materialModel }) {
             ''
           )}
           {Number.isInteger(materialModel.sphereAdditionIndex) ? (
-            <Col xs={6} md={4}>
+            <Col xs={6} md={6}>
+              <h5>Sphere</h5>
               <EditableTexture
                 textureModel={gltfVrmParser?.getTextureModelFromIndex(
                   materialModel.sphereAdditionTextureIndex,
@@ -81,6 +86,7 @@ export default function MToonTextureForm({ materialModel }) {
           )}
           {Number.isInteger(materialModel.rimTextureIndex) ? (
             <Col xs={6} md={4}>
+              <h5>Rim</h5>
               <EditableTexture
                 textureModel={gltfVrmParser?.getTextureModelFromIndex(
                   materialModel.rimTextureIndex,
