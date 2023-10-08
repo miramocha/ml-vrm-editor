@@ -12,8 +12,22 @@ export default class TextureModel {
     return this.imageJson.name;
   }
 
+  setName(name) {
+    this.imageJson.name = name;
+    return this;
+  }
+
   get mimeType() {
     return this.imageJson.mimeType;
+  }
+
+  setMimeType(mimeType) {
+    this.imageJson.mimeType = mimeType;
+    return this;
+  }
+
+  setBuffer(buffer) {
+    this.bufferModel.buffer = buffer;
   }
 
   get bufferViewIndex() {

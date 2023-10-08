@@ -8,6 +8,7 @@ import TopNavigation from './components/topNavigation';
 import MainRender from './components/mainRender';
 import VrmImportModal from './components/modals/vrmImportModal';
 import { AppControllerContext, GltfVrmParserContext } from './AppContext';
+import TextureEditorModal from './components/modals/textureEditorModal';
 
 const REFRESH_FUNCTION_ID = 'app';
 
@@ -15,6 +16,8 @@ export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
   const [hideRightOffcanvas, setHideRightOffcanvas] = useState(false);
   const [showVrmImportModal, setShowOpenVrmModal] = useState(false);
+  const [showTextureEditorModal, setShowTextureEditorModal] = useState(false);
+  const [editingTextureModel, setEditingTextureModel] = useState(null);
   const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
 
   const appController = useContext(AppControllerContext);
@@ -26,6 +29,8 @@ export default function App() {
     id: REFRESH_FUNCTION_ID,
     refreshFunction: refreshComponent,
   });
+  appController.setSetShowTextureEditorModalFunction(setShowTextureEditorModal);
+  appController.setSetEditingTextureModelFunction(setEditingTextureModel);
 
   const handleRightOffcanvasHide = () => {
     setHideRightOffcanvas(true);
@@ -76,6 +81,11 @@ export default function App() {
           showVrmImportModal={showVrmImportModal}
           setShowOpenVrmModal={setShowOpenVrmModal}
           setGltfVrmParser={setGltfVrmParser}
+        />
+        <TextureEditorModal
+          textureModel={editingTextureModel}
+          showTextureEditorModal={showTextureEditorModal}
+          setShowTextureEditorModal={setShowTextureEditorModal}
         />
       </AppControllerContext.Provider>
     </GltfVrmParserContext.Provider>

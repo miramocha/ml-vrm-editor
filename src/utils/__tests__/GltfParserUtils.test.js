@@ -31,7 +31,7 @@ test('Convert and pad json to chunk', () => {
 //       "bufferView": 202,
 //       "mimeType": "image/png"
 //     },
-fit('Recalculate buffer model', () => {
+it('Recalculate buffer model', () => {
   const bufferModels = [
     new BufferModel({
       bufferViewJson: { buffer: 0, byteOffset: 0, byteLength: 70 },

@@ -1,16 +1,7 @@
-/* eslint-disable no-unused-vars */
-// TO DO - REMOVE THIS
 import { useContext } from 'react';
-import {
-  Card,
-  Form,
-  Container,
-  Col,
-  Row,
-  Stack,
-  Button,
-} from 'react-bootstrap';
+import { Form, Container, Col, Row, Stack, Button } from 'react-bootstrap';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
+import EditableTexture from './editableTexture';
 
 export default function VrmMetadataEditor() {
   const gltfVrmParser = useContext(GltfVrmParserContext);
@@ -33,10 +24,8 @@ export default function VrmMetadataEditor() {
         <Container>
           <Row className="justify-content-md-center">
             <Col md={6}>
-              <Card.Img
-                variant="top"
-                src={gltfVrmParser?.thumbnailImageSrc}
-                alt="p"
+              <EditableTexture
+                textureModel={gltfVrmParser?.thumbnailImageTextureModel}
               />
             </Col>
           </Row>

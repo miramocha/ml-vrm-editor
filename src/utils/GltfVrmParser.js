@@ -101,15 +101,23 @@ export default class GltfVrmParser {
 
   jsonCache = null;
 
-  rebuildBinarychunk() {
-    const { bufferModels, totalBufferLength, updatedBinaryChunk } =
+  rebuildBinarychunk(rebuildCaches = true) {
+    // this.chunkLength = chunkLength;
+    // this.chunkUint8Array = chunkUint8Array;
+    const { totalBufferLength, updatedBinaryChunkUint8Array } =
       GltfParserUtils.recalculateBuffers(this.bufferModels);
-    this.bufferModels = bufferModels;
-    this.binaryChunk = updatedBinaryChunk;
+    this.binaryChunk = new GltfChunkModel({
+      chunkLength: totalBufferLength,
+      chunkUint8Array: updatedBinaryChunkUint8Array,
+    });
     this.json.buffers.byteLength = totalBufferLength;
+
+    if (rebuildCaches) {
+      this.buildCaches();
+    }
   }
 
-  commitJsonChanges() {
+  commitJsonChanges(rebuildCaches = true) {
     const paddedEncodedJsonString =
       GltfParserUtils.jsonToPaddedEncodedJsonString(this.jsonCache);
 
@@ -118,7 +126,9 @@ export default class GltfVrmParser {
       chunkUint8Array: paddedEncodedJsonString,
     });
 
-    this.buildCaches();
+    if (rebuildCaches) {
+      this.buildCaches();
+    }
   }
 
   /**
@@ -222,9 +232,9 @@ export default class GltfVrmParser {
     return this.textureModels?.at(cappedIndex).imageSrc;
   }
 
-  get thumbnailImageSrc() {
+  get thumbnailImageTextureModel() {
     if (this.vrmMetadataModel && this.vrmMetadataModel?.thumbnailTextureIndex) {
-      return this.getImageSrcByIndex(
+      return this.textureModels?.at(
         this.vrmMetadataModel.thumbnailTextureIndex,
       );
     }

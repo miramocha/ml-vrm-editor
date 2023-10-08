@@ -218,10 +218,17 @@ export const recalculateBuffers = (bufferModels) => {
     prevBufferModel = bufferModel;
   });
 
-  const updatedBinaryChunk = new Uint8Array(totalBufferLength);
+  const updatedBinaryChunkUint8Array = new Uint8Array(totalBufferLength);
   bufferModels.forEach((bufferModel) => {
-    updatedBinaryChunk.set(bufferModel.buffer, bufferModel.byteOffset);
+    // console.log(
+    //   `${index} INDEX. WRITING BUFFER AT OFFSET:`,
+    //   bufferModel.byteOffset,
+    // );
+    updatedBinaryChunkUint8Array.set(
+      bufferModel.buffer,
+      bufferModel.byteOffset,
+    );
   });
 
-  return { bufferModels, totalBufferLength, updatedBinaryChunk };
+  return { bufferModels, totalBufferLength, updatedBinaryChunkUint8Array };
 };
