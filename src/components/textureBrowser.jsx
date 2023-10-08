@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { GltfVrmParserContext } from '../AppContext';
 import EditableTexture from './editableTexture';
 
@@ -9,17 +9,13 @@ export default function TextureBrowser() {
   return (
     <Container>
       <Row>
-        {gltfVrmParser?.textureModels.map((textureModel, textureIndex) => (
+        {gltfVrmParser?.textureModels.map((textureModel) => (
           <Col
             key={`${textureModel?.bufferViewIndex}-${Math.random()}`}
             xs={6}
             md={4}
           >
-            <Card className="mb-2">
-              <EditableTexture textureModel={textureModel} />
-              <Card.Header>{textureModel.name}</Card.Header>
-              <Card.Body>Index: {textureIndex}</Card.Body>
-            </Card>
+            <EditableTexture textureModel={textureModel} />
           </Col>
         ))}
       </Row>

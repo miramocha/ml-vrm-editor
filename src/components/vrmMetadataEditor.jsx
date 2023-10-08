@@ -1,5 +1,13 @@
 import { useContext } from 'react';
-import { Form, Container, Col, Row, Stack, Button } from 'react-bootstrap';
+import {
+  Form,
+  Container,
+  Col,
+  Row,
+  Stack,
+  Button,
+  // Card,
+} from 'react-bootstrap';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 import EditableTexture from './editableTexture';
 
@@ -30,6 +38,29 @@ export default function VrmMetadataEditor() {
             </Col>
           </Row>
         </Container>
+
+        {/* <Card className="mb-2">
+          <Card.Header>VRM Metadata</Card.Header>
+          <Card.Body
+            key={
+              gltfVrmParser?.getVrmMetadataModel()
+                ? JSON.stringify(
+                    gltfVrmParser.getVrmMetadataModel()?.metadataJson,
+                    null,
+                    '\t',
+                  )
+                : ''
+            }
+          >
+            {gltfVrmParser?.getVrmMetadataModel()
+              ? JSON.stringify(
+                  gltfVrmParser.getVrmMetadataModel()?.metadataJson,
+                  null,
+                  '\t',
+                )
+              : ''}
+          </Card.Body>
+        </Card> */}
 
         <Form.Group>
           <Form.Label>Title</Form.Label>

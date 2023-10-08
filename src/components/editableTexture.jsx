@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
-import { Image } from 'react-bootstrap';
+import { Card, Button, Container } from 'react-bootstrap';
 import TextureModel from '../models/TextureModel';
 import { AppControllerContext } from '../AppContext';
 
@@ -10,11 +11,19 @@ export default function EditableTexture({ textureModel }) {
     appController.openEditTextureModal(textureModel);
   };
   return (
-    <Image
-      src={textureModel?.imageSrc}
-      thumbnail
-      onClick={handleEditImageClick}
-    />
+    <Card className="mb-2" style={{ aspectRatio: '1/1' }}>
+      <Card.Img src={textureModel?.imageSrc} />
+      <Card.ImgOverlay>
+        <Button
+          size="sm"
+          variant="primary"
+          style={{ position: 'absolute', bottom: '5%', right: '5%' }}
+          onClick={handleEditImageClick}
+        >
+          <i className="bi bi-pencil-square" />
+        </Button>
+      </Card.ImgOverlay>
+    </Card>
   );
 }
 

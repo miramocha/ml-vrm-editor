@@ -47,7 +47,7 @@ export default function TextureEditorModal({
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title>Edit/Replace Texture</Modal.Title>
+        <Modal.Title>Replace Texture</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Card className="mb-2">

@@ -221,6 +221,10 @@ export default class GltfVrmParser {
     return this.fileCache;
   }
 
+  getTextureModelFromIndex(index) {
+    return this.textureModels[index];
+  }
+
   getImageSrcByIndex(index) {
     const cappedIndex =
       index > this.textureModels.length - 1
