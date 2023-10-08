@@ -1,20 +1,23 @@
 import { useEffect, useState, useContext } from 'react';
-import { Offcanvas, Modal, Button, Stack } from 'react-bootstrap';
+import { Offcanvas } from 'react-bootstrap';
 
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
 import RightTabs from './components/rightTabs';
 import TopNavigation from './components/topNavigation';
 import MainRender from './components/mainRender';
+import VrmImportModal from './components/modals/vrmImportModal';
 import { AppControllerContext, GltfVrmParserContext } from './AppContext';
-import VrmImport from './components/vrmImport';
+import TextureEditorModal from './components/modals/textureEditorModal';
 
 const REFRESH_FUNCTION_ID = 'app';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
   const [hideRightOffcanvas, setHideRightOffcanvas] = useState(false);
-  const [showOpenVrmModal, setShowOpenVrmModal] = useState(false);
+  const [showVrmImportModal, setShowOpenVrmModal] = useState(false);
+  const [showTextureEditorModal, setShowTextureEditorModal] = useState(false);
+  const [editingTextureModel, setEditingTextureModel] = useState(null);
   const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
 
   const appController = useContext(AppControllerContext);
@@ -26,13 +29,11 @@ export default function App() {
     id: REFRESH_FUNCTION_ID,
     refreshFunction: refreshComponent,
   });
+  appController.setSetShowTextureEditorModalFunction(setShowTextureEditorModal);
+  appController.setSetEditingTextureModelFunction(setEditingTextureModel);
 
   const handleRightOffcanvasHide = () => {
     setHideRightOffcanvas(true);
-  };
-
-  const handleVrmImportModalHide = () => {
-    setShowOpenVrmModal(false);
   };
 
   useEffect(() => {
@@ -76,29 +77,16 @@ export default function App() {
             />
           </Offcanvas.Body>
         </Offcanvas>
-        <Modal
-          show={showOpenVrmModal}
-          onHide={handleVrmImportModalHide}
-          size="sm"
-          centered
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Open VRM</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <VrmImport
-              onFileOpen={handleVrmImportModalHide}
-              setGltfVrmParser={setGltfVrmParser}
-            />
-          </Modal.Body>
-          <Modal.Footer>
-            <Stack>
-              <Button variant="danger" onClick={handleVrmImportModalHide}>
-                Cancel
-              </Button>
-            </Stack>
-          </Modal.Footer>
-        </Modal>
+        <VrmImportModal
+          showVrmImportModal={showVrmImportModal}
+          setShowOpenVrmModal={setShowOpenVrmModal}
+          setGltfVrmParser={setGltfVrmParser}
+        />
+        <TextureEditorModal
+          textureModel={editingTextureModel}
+          showTextureEditorModal={showTextureEditorModal}
+          setShowTextureEditorModal={setShowTextureEditorModal}
+        />
       </AppControllerContext.Provider>
     </GltfVrmParserContext.Provider>
   );

@@ -1,3 +1,4 @@
+import BufferModel from '../../models/BufferModel';
 import * as GltfParserUtils from '../GltfParserUtils';
 
 test('Convert and pad json to chunk', () => {
@@ -9,4 +10,60 @@ test('Convert and pad json to chunk', () => {
   expect(
     GltfParserUtils.jsonToPaddedEncodedJsonString(json).length % 4 === 0,
   ).toBeTruthy();
+});
+
+// TextureModel.bufferModel.bufferViewJson
+// bufferView:
+// {
+//   "buffer": 0,
+//   "byteOffset": 0,
+//   "byteLength": 7744
+// },
+// {
+//   "buffer": 0,
+//   "byteOffset": 7744,
+//   "byteLength": 20352
+// },
+
+// TextureModel.imageJson
+//   images:     {
+//       "name": "v10_inner_mouth.png",
+//       "bufferView": 202,
+//       "mimeType": "image/png"
+//     },
+it('Recalculate buffer model', () => {
+  const bufferModels = [
+    new BufferModel({
+      bufferViewJson: { buffer: 0, byteOffset: 0, byteLength: 70 },
+      buffer: new TextEncoder().encode(JSON.stringify({ testValue: '55' })), // 18
+    }),
+    new BufferModel({
+      bufferViewJson: { buffer: 0, byteOffset: 70, byteLength: 70 },
+      buffer: new TextEncoder().encode(JSON.stringify({ testValue: '5555' })), // 20
+    }),
+    new BufferModel({
+      bufferViewJson: { buffer: 0, byteOffset: 140, byteLength: 70 },
+      buffer: new TextEncoder().encode(
+        JSON.stringify({ testValue: '555555555' }), // 25
+      ),
+    }),
+  ];
+
+  GltfParserUtils.recalculateBuffers(bufferModels);
+
+  expect(bufferModels[0].bufferViewJson).toEqual({
+    buffer: 0,
+    byteOffset: 0,
+    byteLength: 18,
+  });
+  expect(bufferModels[1].bufferViewJson).toEqual({
+    buffer: 0,
+    byteOffset: 18,
+    byteLength: 20,
+  });
+  expect(bufferModels[2].bufferViewJson).toEqual({
+    buffer: 0,
+    byteOffset: 38,
+    byteLength: 25,
+  });
 });

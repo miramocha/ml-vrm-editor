@@ -6,6 +6,7 @@
 import GltfChunkModel from '../models/GltfChunkModel';
 import MaterialModel from '../models/MaterialModel';
 import TextureModel from '../models/TextureModel';
+import BufferModel from '../models/BufferModel';
 
 const GLTF_HEADER_MAGIC = 0x46546c67;
 const GLTF_JSON_CHUNK_TYPE_NUMBER = 0x4e4f534a;
@@ -162,22 +163,27 @@ export const buildMaterialModelCache = (json) => {
   );
 };
 
-export const buildTextureModelCache = ({ json, binaryChunk }) => {
-  return json.images.map((image, imagesIndex) => {
-    const bufferView = json.bufferViews[image.bufferView];
-    const imageBuffer = binaryChunk.chunkUint8Array.slice(
-      bufferView.byteOffset,
-      bufferView.byteOffset + bufferView.byteLength,
-    );
-    const blob = new Blob([imageBuffer], { type: image.mimeType });
-
+export const buildTextureModelCache = ({ json, bufferModels }) => {
+  return json.images.map((imageJson) => {
     return new TextureModel({
-      imagesIndex,
-      bufferViewsIndex: image.bufferView,
-      name: image.name,
-      mimeType: image.mimeType,
-      blob,
+      imageJson,
+      bufferModel: bufferModels[imageJson.bufferView],
     });
+  });
+};
+
+export const buildBufferModelCache = ({ json, binaryChunk }) => {
+  return json.bufferViews.map((bufferViewJson, index) => {
+    const buffer = binaryChunk.chunkUint8Array.slice(
+      bufferViewJson.byteOffset,
+      bufferViewJson.byteOffset + bufferViewJson.byteLength,
+    );
+
+    const accessorJson = json.accessors.find(
+      (accessor) => accessor.bufferView === index,
+    );
+
+    return new BufferModel({ bufferViewJson, buffer, accessorJson });
   });
 };
 
@@ -197,4 +203,51 @@ export const jsonToPaddedEncodedJsonString = (json) => {
   );
 
   return paddedEncodedJsonString;
+};
+
+export const recalculateBuffers = (bufferModels) => {
+  let byteOffset = 0;
+
+  bufferModels.forEach((bufferModel, index) => {
+    // const oldOffset = bufferModel.byteOffset;
+    // const oldLength = bufferModel.byteLength;
+
+    // The byteOffset of an accessor must be divisible by the size of its componentType.
+    // The sum of the byteOffset of an accessor and the byteOffset of the bufferView that it refers
+    // to must be divisible by the size of its componentType.
+    if (
+      bufferModel.accessorJson &&
+      byteOffset % bufferModel.componentSize !== 0
+    ) {
+      console.warn(`SHIFTING AT ${index} `, bufferModel.componentSize);
+      byteOffset =
+        Math.ceil(byteOffset / bufferModel.componentSize) *
+        bufferModel.componentSize;
+    }
+
+    bufferModel.setByteOffset(byteOffset);
+    bufferModel.setByteLength(bufferModel.buffer.length);
+
+    byteOffset += bufferModel.byteLength;
+
+    // if (oldOffset !== bufferModel.byteOffset) {
+    //   console.log(
+    //     `INDEX ${index}. OLD OFFSET: ${oldOffset} NEW OFFSET: ${bufferModel.byteOffset} OLD LENGTH: ${oldLength} NEW LENGTH: ${bufferModel.byteLength}`,
+    //   );
+    // }
+  });
+
+  const updatedBinaryChunkUint8Array = new Uint8Array(byteOffset);
+  bufferModels.forEach((bufferModel) => {
+    updatedBinaryChunkUint8Array.set(
+      bufferModel.buffer,
+      bufferModel.byteOffset,
+    );
+  });
+
+  return {
+    bufferModels,
+    totalBufferLength: byteOffset,
+    updatedBinaryChunkUint8Array,
+  };
 };

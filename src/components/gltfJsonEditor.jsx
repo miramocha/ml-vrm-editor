@@ -27,7 +27,7 @@ export default function GltfJsonEditor() {
       gltfVrmParser.setJson(JSON.parse(formData.get('gltfVrmJsonString')));
     }
 
-    gltfVrmParser.commitJsonCache();
+    gltfVrmParser.commitJsonChanges();
     appController.loadVrm(await gltfVrmParser.buildFile());
   };
 
