@@ -14,7 +14,7 @@ export default function VrmImport({ setGltfVrmParser, onFileOpen }) {
 
     setGltfVrmParser(newGltfVrmParser);
     appController.loadVrm(await newGltfVrmParser.buildFile());
-    // appController.refreshGroup({ group: 'input' });
+    appController.refreshGroup({ group: 'input' });
     onFileOpen();
     appController.isLoading = false;
   };

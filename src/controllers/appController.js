@@ -51,35 +51,35 @@ export default class AppController {
     );
   }
 
-  // refreshView(id) {
-  //   const refreshFunction = this.idToRefreshFunctionMap.get(id);
+  refreshView(id) {
+    const refreshFunction = this.idToRefreshFunctionMap.get(id);
 
-  //   if (refreshFunction) {
-  //     refreshFunction();
-  //   }
-  // }
+    if (refreshFunction) {
+      refreshFunction();
+    }
+  }
 
-  // refreshViews({ ids = new Set(), skipIds = new Set() }) {
-  //   ids.forEach((id) => !skipIds.has(id) && this.refreshView(id));
-  // }
+  refreshViews({ ids = new Set(), skipIds = new Set() }) {
+    ids.forEach((id) => !skipIds.has(id) && this.refreshView(id));
+  }
 
-  // refreshGroup({ group, skipIds = new Set() }) {
-  //   this.refreshViews({ ids: this.groupNameToIdSet.get(group), skipIds });
-  // }
+  refreshGroup({ group, skipIds = new Set() }) {
+    this.refreshViews({ ids: this.groupNameToIdSet.get(group), skipIds });
+  }
 
-  // setRefreshFunction({ id, refreshFunction }) {
-  //   this.idToRefreshFunctionMap.set(id, refreshFunction);
-  // }
+  setRefreshFunction({ id, refreshFunction }) {
+    this.idToRefreshFunctionMap.set(id, refreshFunction);
+  }
 
-  // setIdToRefreshFunctionGroup({ id, group, refreshFunction }) {
-  //   this.setRefreshFunction({ id, refreshFunction });
+  setIdToRefreshFunctionGroup({ id, group, refreshFunction }) {
+    this.setRefreshFunction({ id, refreshFunction });
 
-  //   let idSet = this.groupNameToIdSet.get(group);
-  //   if (!idSet) {
-  //     idSet = new Set();
-  //     this.groupNameToIdSet.set(group, idSet);
-  //   }
+    let idSet = this.groupNameToIdSet.get(group);
+    if (!idSet) {
+      idSet = new Set();
+      this.groupNameToIdSet.set(group, idSet);
+    }
 
-  //   idSet.add(id);
-  // }
+    idSet.add(id);
+  }
 }

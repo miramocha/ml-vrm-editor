@@ -9,7 +9,11 @@ export default function TextureBrowser() {
     <Container>
       <Row>
         {gltfVrmParser?.textureModels.map((textureModel, textureIndex) => (
-          <Col key={textureModel} xs={6} md={4}>
+          <Col
+            key={`${textureModel?.bufferViewIndex}-${Math.random()}`}
+            xs={6}
+            md={4}
+          >
             <Card className="mb-2">
               <Card.Img variant="top" src={textureModel.imageSrc} />
               <Card.Header>{textureModel.name}</Card.Header>

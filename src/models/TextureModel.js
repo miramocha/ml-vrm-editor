@@ -16,6 +16,10 @@ export default class TextureModel {
     return this.imageJson.mimeType;
   }
 
+  get bufferViewIndex() {
+    return this.imageJson.buffer;
+  }
+
   get imageSrc() {
     return URL.createObjectURL(
       new Blob([this.bufferModel.buffer], { type: this.mimeType }),
