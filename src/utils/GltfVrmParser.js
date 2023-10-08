@@ -101,6 +101,14 @@ export default class GltfVrmParser {
 
   jsonCache = null;
 
+  rebuildBinarychunk() {
+    const { bufferModels, totalBufferLength, updatedBinaryChunk } =
+      GltfParserUtils.recalculateBuffers(this.bufferModels);
+    this.bufferModels = bufferModels;
+    this.binaryChunk = updatedBinaryChunk;
+    this.json.buffers.byteLength = totalBufferLength;
+  }
+
   commitJsonChanges() {
     const paddedEncodedJsonString =
       GltfParserUtils.jsonToPaddedEncodedJsonString(this.jsonCache);

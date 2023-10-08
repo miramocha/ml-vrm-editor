@@ -200,3 +200,28 @@ export const jsonToPaddedEncodedJsonString = (json) => {
 
   return paddedEncodedJsonString;
 };
+
+export const recalculateBuffers = (bufferModels) => {
+  let prevBufferModel = null;
+  let totalBufferLength = 0;
+
+  bufferModels.forEach((bufferModel) => {
+    bufferModel.setByteLength(bufferModel.buffer.length);
+    totalBufferLength += bufferModel.buffer.length;
+
+    if (prevBufferModel) {
+      bufferModel.setByteOffset(
+        prevBufferModel.byteOffset + prevBufferModel.byteLength,
+      );
+    }
+
+    prevBufferModel = bufferModel;
+  });
+
+  const updatedBinaryChunk = new Uint8Array(totalBufferLength);
+  bufferModels.forEach((bufferModel) => {
+    updatedBinaryChunk.set(bufferModel.buffer, bufferModel.byteOffset);
+  });
+
+  return { bufferModels, totalBufferLength, updatedBinaryChunk };
+};

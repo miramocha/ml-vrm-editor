@@ -29,9 +29,9 @@ export default function GlobalMaterialEditor() {
     gltfVrmParser.commitJsonChanges();
     appController.loadVrm(await gltfVrmParser.buildFile());
 
-    appController.refreshGroup({
-      group: 'input',
-    });
+    // appController.refreshGroup({
+    //   group: 'input',
+    // });
     appController.isLoading = false;
   };
 
