@@ -5,7 +5,8 @@ import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
 import RightTabs from './components/rightTabs';
 import TopNavigation from './components/topNavigation';
-import MainRender from './components/mainRender';
+// import MainRender from './components/mainRender';
+import ThreeJsVrmRenderer from './components/threeJsVrmRenderer';
 import VrmImportModal from './components/modals/vrmImportModal';
 import { AppControllerContext, GltfVrmParserContext } from './AppContext';
 import TextureEditorModal from './components/modals/textureEditorModal';
@@ -58,7 +59,7 @@ export default function App() {
           setHideRightOffcanvas={setHideRightOffcanvas}
           setShowOpenVrmModal={setShowOpenVrmModal}
         />
-        <MainRender />
+        <ThreeJsVrmRenderer />
         <Offcanvas
           key={`${renderId}-3`}
           show={!hideRightOffcanvas}
