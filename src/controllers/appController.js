@@ -18,9 +18,6 @@ export default class AppController {
       URL.createObjectURL(file),
       (gltf) => {
         const { vrm } = gltf.userData;
-        console.log('vrm:', vrm);
-        console.log('userData:', gltf.userData);
-
         this.scene.add(vrm.scene);
 
         if (this.vrm) {
@@ -28,16 +25,12 @@ export default class AppController {
         }
         this.vrm = vrm.scene;
       },
-
-      // called while loading is progressing
       (progress) =>
         console.log(
           'Loading model...',
           100.0 * (progress.loaded / progress.total),
           '%',
         ),
-
-      // called when loading has errors
       (error) => console.error(error),
     );
   }
