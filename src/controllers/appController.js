@@ -13,7 +13,10 @@ export default class AppController {
 
   isLoading = false;
 
-  async loadVrm(file) {
+  setVrmLoadingPercentage;
+
+  loadVrm(file) {
+    this.setVrmLoadingPercentage(0);
     this.loader.load(
       URL.createObjectURL(file),
       (gltf) => {
@@ -24,13 +27,13 @@ export default class AppController {
           this.scene.remove(this.vrm);
         }
         this.vrm = vrm.scene;
+        this.setVrmLoadingPercentage(100);
       },
-      (progress) =>
-        console.log(
-          'Loading model...',
-          100.0 * (progress.loaded / progress.total),
-          '%',
-        ),
+      (progress) => {
+        this.setVrmLoadingPercentage(
+          Math.min(100.0 * (progress.loaded / progress.total), 95),
+        );
+      },
       (error) => console.error(error),
     );
   }
