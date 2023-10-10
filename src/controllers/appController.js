@@ -1,53 +1,45 @@
-// import { SceneLoader } from '@babylonjs/core';
-// import 'babylon-vrm-loader';
+// import defaultVrmPath from '../resources/AvatarSampleB.vrm';
 
 export default class AppController {
   idToRefreshFunctionMap = new Map();
 
   groupNameToIdSet = new Map();
 
-  defaultAvatar;
+  loader = null;
 
-  // scene;
+  scene = null;
 
-  engine;
+  vrm = null;
 
   isLoading = false;
 
-  // eslint-disable-next-line class-methods-use-this, no-unused-vars
   async loadVrm(file) {
-    // console.log(file);
-    // const environmentNodes = new Set([
-    //   'camera',
-    //   'ambientLight',
-    //   'pointLight',
-    //   'ground',
-    // ]);
-    // this.scene.rootNodes.forEach((rootNode) => {
-    //   if (!environmentNodes.has(rootNode.name)) {
-    //     rootNode.dispose();
-    //   }
-    // });
-    // this.scene.materials.forEach((materials) => materials.dispose());
-    // this.scene.meshes.forEach(
-    //   (mesh) => mesh.name !== 'ground' && mesh.dispose(),
-    // );
-    // this.scene.skeletons.forEach((skeleton) => skeleton.dispose());
-    // SceneLoader.Append(
-    //   'file:',
-    //   file,
-    //   this.scene,
-    //   () => {
-    //     this.isLoading = false;
-    //   },
-    //   () => {
-    //     this.isLoading = true;
-    //   },
-    //   () => {
-    //     this.isLoading = false;
-    //   },
-    //   '.vrm',
-    // );
+    this.loader.load(
+      URL.createObjectURL(file),
+      (gltf) => {
+        const { vrm } = gltf.userData;
+        console.log('vrm:', vrm);
+        console.log('userData:', gltf.userData);
+
+        this.scene.add(vrm.scene);
+
+        if (this.vrm) {
+          this.scene.remove(this.vrm);
+        }
+        this.vrm = vrm.scene;
+      },
+
+      // called while loading is progressing
+      (progress) =>
+        console.log(
+          'Loading model...',
+          100.0 * (progress.loaded / progress.total),
+          '%',
+        ),
+
+      // called when loading has errors
+      (error) => console.error(error),
+    );
   }
 
   refreshView(id) {
