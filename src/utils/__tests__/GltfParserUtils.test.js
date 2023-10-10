@@ -12,25 +12,6 @@ test('Convert and pad json to chunk', () => {
   ).toBeTruthy();
 });
 
-// TextureModel.bufferModel.bufferViewJson
-// bufferView:
-// {
-//   "buffer": 0,
-//   "byteOffset": 0,
-//   "byteLength": 7744
-// },
-// {
-//   "buffer": 0,
-//   "byteOffset": 7744,
-//   "byteLength": 20352
-// },
-
-// TextureModel.imageJson
-//   images:     {
-//       "name": "v10_inner_mouth.png",
-//       "bufferView": 202,
-//       "mimeType": "image/png"
-//     },
 it('Recalculate buffer model', () => {
   const bufferModels = [
     new BufferModel({

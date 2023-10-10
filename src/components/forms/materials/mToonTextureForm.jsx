@@ -85,7 +85,7 @@ export default function MToonTextureForm({ materialModel }) {
             ''
           )}
           {Number.isInteger(materialModel.rimTextureIndex) ? (
-            <Col xs={6} md={4}>
+            <Col xs={6} md={6}>
               <h5>Rim</h5>
               <EditableTexture
                 textureModel={gltfVrmParser?.getTextureModelFromIndex(

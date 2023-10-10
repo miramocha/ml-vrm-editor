@@ -1,6 +1,5 @@
 import { useEffect, useRef, useContext } from 'react';
 import {
-  // FreeCamera,
   MeshBuilder,
   Vector3,
   Engine,
@@ -17,7 +16,6 @@ const adaptToDeviceRatio = null;
 const sceneOptions = null;
 const onRender = () => {};
 const onSceneReady = (scene) => {
-  // TO DO - REFACTOR THIS
   const camera = new ArcRotateCamera(
     'camera',
     -(Math.PI / 2),

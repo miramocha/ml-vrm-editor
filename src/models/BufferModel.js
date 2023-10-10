@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 const ACCESSOR_COMPONENT_TYPE_TO_BYTES = new Map([
   [5120, 1],
   [5121, 1],
@@ -7,7 +6,7 @@ const ACCESSOR_COMPONENT_TYPE_TO_BYTES = new Map([
   [5125, 4],
   [5126, 4],
 ]);
-// eslint-disable-next-line no-unused-vars
+
 const ACCESSOR_TYPE_TO_NUMBER_OF_COMPONENTS = new Map([
   ['SCALAR', 1],
   ['VEC2', 2],
@@ -32,7 +31,6 @@ export default class BufferModel {
   }
 
   get componentSize() {
-    // console.log(this.accessorJson);
     const componentNumber = ACCESSOR_COMPONENT_TYPE_TO_BYTES.get(
       this.accessorJson.componentType,
     );
@@ -40,7 +38,7 @@ export default class BufferModel {
     const size = ACCESSOR_TYPE_TO_NUMBER_OF_COMPONENTS.get(
       this.accessorJson.type,
     );
-    // console.log(componentNumber, size);
+
     return componentNumber * size;
   }
 

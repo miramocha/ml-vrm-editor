@@ -231,7 +231,6 @@ export default class GltfVrmParser {
         ? this.textureModels.length - 1
         : index;
 
-    // VRM Exported from Blender has index off by 1???
     return this.textureModels?.at(cappedIndex).imageSrc;
   }
 
