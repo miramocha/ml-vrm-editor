@@ -208,18 +208,11 @@ export const jsonToPaddedEncodedJsonString = (json) => {
 export const recalculateBuffers = (bufferModels) => {
   let byteOffset = 0;
 
-  bufferModels.forEach((bufferModel, index) => {
-    // const oldOffset = bufferModel.byteOffset;
-    // const oldLength = bufferModel.byteLength;
-
-    // The byteOffset of an accessor must be divisible by the size of its componentType.
-    // The sum of the byteOffset of an accessor and the byteOffset of the bufferView that it refers
-    // to must be divisible by the size of its componentType.
+  bufferModels.forEach((bufferModel) => {
     if (
       bufferModel.accessorJson &&
       byteOffset % bufferModel.componentSize !== 0
     ) {
-      console.warn(`SHIFTING AT ${index} `, bufferModel.componentSize);
       byteOffset =
         Math.ceil(byteOffset / bufferModel.componentSize) *
         bufferModel.componentSize;
@@ -229,12 +222,6 @@ export const recalculateBuffers = (bufferModels) => {
     bufferModel.setByteLength(bufferModel.buffer.length);
 
     byteOffset += bufferModel.byteLength;
-
-    // if (oldOffset !== bufferModel.byteOffset) {
-    //   console.log(
-    //     `INDEX ${index}. OLD OFFSET: ${oldOffset} NEW OFFSET: ${bufferModel.byteOffset} OLD LENGTH: ${oldLength} NEW LENGTH: ${bufferModel.byteLength}`,
-    //   );
-    // }
   });
 
   const updatedBinaryChunkUint8Array = new Uint8Array(byteOffset);

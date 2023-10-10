@@ -1,53 +1,40 @@
-import { SceneLoader } from '@babylonjs/core';
-import 'babylon-vrm-loader';
+// import defaultVrmPath from '../resources/AvatarSampleB.vrm';
 
 export default class AppController {
   idToRefreshFunctionMap = new Map();
 
   groupNameToIdSet = new Map();
 
-  defaultAvatar;
+  loader = null;
 
-  scene;
+  scene = null;
 
-  engine;
+  vrm = null;
 
   isLoading = false;
 
-  async loadVrm(file) {
-    const environmentNodes = new Set([
-      'camera',
-      'ambientLight',
-      'pointLight',
-      'ground',
-    ]);
+  setVrmLoadingPercentage;
 
-    this.scene.rootNodes.forEach((rootNode) => {
-      if (!environmentNodes.has(rootNode.name)) {
-        rootNode.dispose();
-      }
-    });
+  loadVrm(file) {
+    this.setVrmLoadingPercentage(0);
+    this.loader.load(
+      URL.createObjectURL(file),
+      (gltf) => {
+        const { vrm } = gltf.userData;
+        this.scene.add(vrm.scene);
 
-    this.scene.materials.forEach((materials) => materials.dispose());
-    this.scene.meshes.forEach(
-      (mesh) => mesh.name !== 'ground' && mesh.dispose(),
-    );
-    this.scene.skeletons.forEach((skeleton) => skeleton.dispose());
-
-    SceneLoader.Append(
-      'file:',
-      file,
-      this.scene,
-      () => {
-        this.isLoading = false;
+        if (this.vrm) {
+          this.scene.remove(this.vrm);
+        }
+        this.vrm = vrm.scene;
+        this.setVrmLoadingPercentage(100);
       },
-      () => {
-        this.isLoading = true;
+      (progress) => {
+        this.setVrmLoadingPercentage(
+          Math.min(100.0 * (progress.loaded / progress.total), 95),
+        );
       },
-      () => {
-        this.isLoading = false;
-      },
-      '.vrm',
+      (error) => console.error(error),
     );
   }
 

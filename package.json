@@ -7,6 +7,7 @@
     "@babylonjs/loaders": "5.19.0",
     "@babylonjs/materials": "5.19.0",
     "@babylonjs/serializers": "5.19.0",
+    "@pixiv/three-vrm": "^2.0.5",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -20,6 +21,7 @@
     "react-bootstrap": "^2.9.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "three": "^0.154.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
