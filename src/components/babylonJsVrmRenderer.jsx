@@ -46,7 +46,7 @@ const onSceneReady = (scene) => {
   pointLight.radius = 0.1;
 };
 
-export default function MainRender() {
+export default function BabylonJsVrmRenderer() {
   const reactCanvas = useRef(null);
   const appController = useContext(AppControllerContext);
 

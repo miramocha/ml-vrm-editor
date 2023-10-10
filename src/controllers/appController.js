@@ -1,5 +1,5 @@
-import { SceneLoader } from '@babylonjs/core';
-import 'babylon-vrm-loader';
+// import { SceneLoader } from '@babylonjs/core';
+// import 'babylon-vrm-loader';
 
 export default class AppController {
   idToRefreshFunctionMap = new Map();
@@ -8,47 +8,46 @@ export default class AppController {
 
   defaultAvatar;
 
-  scene;
+  // scene;
 
   engine;
 
   isLoading = false;
 
+  // eslint-disable-next-line class-methods-use-this, no-unused-vars
   async loadVrm(file) {
-    const environmentNodes = new Set([
-      'camera',
-      'ambientLight',
-      'pointLight',
-      'ground',
-    ]);
-
-    this.scene.rootNodes.forEach((rootNode) => {
-      if (!environmentNodes.has(rootNode.name)) {
-        rootNode.dispose();
-      }
-    });
-
-    this.scene.materials.forEach((materials) => materials.dispose());
-    this.scene.meshes.forEach(
-      (mesh) => mesh.name !== 'ground' && mesh.dispose(),
-    );
-    this.scene.skeletons.forEach((skeleton) => skeleton.dispose());
-
-    SceneLoader.Append(
-      'file:',
-      file,
-      this.scene,
-      () => {
-        this.isLoading = false;
-      },
-      () => {
-        this.isLoading = true;
-      },
-      () => {
-        this.isLoading = false;
-      },
-      '.vrm',
-    );
+    // console.log(file);
+    // const environmentNodes = new Set([
+    //   'camera',
+    //   'ambientLight',
+    //   'pointLight',
+    //   'ground',
+    // ]);
+    // this.scene.rootNodes.forEach((rootNode) => {
+    //   if (!environmentNodes.has(rootNode.name)) {
+    //     rootNode.dispose();
+    //   }
+    // });
+    // this.scene.materials.forEach((materials) => materials.dispose());
+    // this.scene.meshes.forEach(
+    //   (mesh) => mesh.name !== 'ground' && mesh.dispose(),
+    // );
+    // this.scene.skeletons.forEach((skeleton) => skeleton.dispose());
+    // SceneLoader.Append(
+    //   'file:',
+    //   file,
+    //   this.scene,
+    //   () => {
+    //     this.isLoading = false;
+    //   },
+    //   () => {
+    //     this.isLoading = true;
+    //   },
+    //   () => {
+    //     this.isLoading = false;
+    //   },
+    //   '.vrm',
+    // );
   }
 
   refreshView(id) {
