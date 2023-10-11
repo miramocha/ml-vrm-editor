@@ -7,8 +7,6 @@ export default function AboutModal({ showAboutModal, setShowAboutModal }) {
     setShowAboutModal(false);
   };
 
-  console.log(aboutImagePath);
-
   return (
     <Modal
       show={showAboutModal}
