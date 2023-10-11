@@ -1,11 +1,12 @@
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Navbar, Container } from 'react-bootstrap';
+import { Button, Navbar, Container, Stack } from 'react-bootstrap';
 import { GltfVrmParserContext } from '../AppContext';
 
 export default function TopNavigation({
   setHideRightOffcanvas,
   setShowOpenVrmModal,
+  setShowAboutModal,
 }) {
   const gltfVrmParser = useContext(GltfVrmParserContext);
 
@@ -25,26 +26,30 @@ export default function TopNavigation({
 
   const handleLoadButtonClick = () => setShowOpenVrmModal(true);
 
+  const handleAboutButtonClick = () => setShowAboutModal(true);
+
   return (
-    <Navbar>
+    <Navbar className="bg-primary">
       <Container>
         <Navbar.Brand>
           <i className="bi bi-brush me-2 text-light" />
           ML VRM Editor
         </Navbar.Brand>
         <Navbar.Collapse>
-          <Button
-            className="me-2"
-            variant="outline-light"
-            onClick={handleLoadButtonClick}
-          >
-            <i className="bi bi-folder2-open me-2" />
-            Load
-          </Button>
-          <Button variant="outline-light" onClick={handleSaveButtonClick}>
-            <i className="bi bi-save me-2" />
-            Save
-          </Button>
+          <Stack direction="horizontal" gap={2}>
+            <Button variant="outline-light" onClick={handleLoadButtonClick}>
+              <i className="bi bi-folder2-open me-2" />
+              Load
+            </Button>
+            <Button variant="outline-light" onClick={handleSaveButtonClick}>
+              <i className="bi bi-save me-2" />
+              Save
+            </Button>
+            <Button variant="outline-light" onClick={handleAboutButtonClick}>
+              <i className="bi bi-info-circle me-2" />
+              About
+            </Button>
+          </Stack>
         </Navbar.Collapse>
       </Container>
       <Button
@@ -62,8 +67,10 @@ export default function TopNavigation({
 TopNavigation.propTypes = {
   setHideRightOffcanvas: PropTypes.func,
   setShowOpenVrmModal: PropTypes.func,
+  setShowAboutModal: PropTypes.func,
 };
 TopNavigation.defaultProps = {
   setHideRightOffcanvas: () => {},
   setShowOpenVrmModal: () => {},
+  setShowAboutModal: () => {},
 };

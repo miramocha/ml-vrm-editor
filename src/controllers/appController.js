@@ -1,5 +1,3 @@
-// import defaultVrmPath from '../resources/AvatarSampleB.vrm';
-
 export default class AppController {
   idToRefreshFunctionMap = new Map();
 
