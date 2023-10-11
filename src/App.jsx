@@ -5,11 +5,11 @@ import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
 import RightTabs from './components/rightTabs';
 import TopNavigation from './components/topNavigation';
-// import MainRender from './components/mainRender';
 import ThreeJsVrmRenderer from './components/threeJsVrmRenderer';
 import VrmImportModal from './components/modals/vrmImportModal';
 import { AppControllerContext, GltfVrmParserContext } from './AppContext';
 import TextureEditorModal from './components/modals/textureEditorModal';
+import AboutModal from './components/modals/aboutModal';
 
 const REFRESH_FUNCTION_ID = 'app';
 
@@ -18,6 +18,7 @@ export default function App() {
   const [hideRightOffcanvas, setHideRightOffcanvas] = useState(false);
   const [showVrmImportModal, setShowOpenVrmModal] = useState(false);
   const [showTextureEditorModal, setShowTextureEditorModal] = useState(false);
+  const [showAboutModal, setShowAboutModal] = useState(false);
   const [editingTextureModel, setEditingTextureModel] = useState(null);
   const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
 
@@ -58,6 +59,7 @@ export default function App() {
           setGltfVrmParser={setGltfVrmParser}
           setHideRightOffcanvas={setHideRightOffcanvas}
           setShowOpenVrmModal={setShowOpenVrmModal}
+          setShowAboutModal={setShowAboutModal}
         />
         <ThreeJsVrmRenderer />
         <Offcanvas
@@ -87,6 +89,10 @@ export default function App() {
           textureModel={editingTextureModel}
           showTextureEditorModal={showTextureEditorModal}
           setShowTextureEditorModal={setShowTextureEditorModal}
+        />
+        <AboutModal
+          showAboutModal={showAboutModal}
+          setShowAboutModal={setShowAboutModal}
         />
       </AppControllerContext.Provider>
     </GltfVrmParserContext.Provider>
