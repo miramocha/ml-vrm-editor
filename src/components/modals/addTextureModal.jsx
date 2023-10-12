@@ -5,6 +5,7 @@ import { Modal, Stack, Button, Card, Form } from 'react-bootstrap';
 import TextureModel from '../../models/TextureModel';
 import BufferModel from '../../models/BufferModel';
 import { AppControllerContext, GltfVrmParserContext } from '../../AppContext';
+import GltfVrmParser from '../../utils/GltfVrmParser';
 
 export default function AddTextureModal({
   showAddTextureModal,
@@ -20,6 +21,7 @@ export default function AddTextureModal({
   const handleFileChange = async (event) => {
     appController.isLoading = true;
     const file = event.target.files[0];
+    console.log(file);
 
     // Texture does not have accessor
     // json -> images[index] ->     {
@@ -36,8 +38,13 @@ export default function AddTextureModal({
     //   "sampler": 2,
     //   "source": 43
     // }
+    // const lastBufferModel = [...gltfVrmParser.bufferModels].pop();
     const bufferModel = new BufferModel({
-      bufferViewJson: {}, // Will be recalculated
+      bufferViewJson: {
+        buffer: 0,
+        byteLength: 0,
+        byteOffset: 0,
+      },
       buffer: new Uint8Array(await file.arrayBuffer()),
       accessorJson: null,
     });
@@ -54,27 +61,16 @@ export default function AddTextureModal({
       },
     });
 
-    gltfVrmParser.addBufferModel(bufferModel);
-    gltfVrmParser.addTextureModel(textureModel);
-    console.log(
-      'TEXTURE CACHE PREBUILT:',
-      gltfVrmParser.textureModelCache.length,
-    );
-    console.log('JSON -> textures:', gltfVrmParser.json.textures);
+    gltfVrmParser.bufferModelCache.push(bufferModel);
+    gltfVrmParser.jsonCache.bufferViews.push(bufferModel.bufferViewJson);
+    gltfVrmParser.rebuildBinarychunk(false);
 
-    console.log('textureModels:', gltfVrmParser.textureModels.length);
-    console.log('JSON -> images:', gltfVrmParser.json.images);
-
-    gltfVrmParser.commitJsonChanges();
-    gltfVrmParser.rebuildBinarychunk(true);
+    gltfVrmParser.textureModelCache.push(textureModel);
+    gltfVrmParser.jsonCache.textures.push(textureModel.textureJson);
+    gltfVrmParser.jsonCache.images.push(textureModel.imageJson);
+    gltfVrmParser.commitJsonChanges(true);
 
     appController.loadVrm(await gltfVrmParser.buildFile());
-    console.log(
-      'TEXTURE CACHE POSTBUILT:',
-      gltfVrmParser.textureModelCache.length,
-    );
-    console.log('JSON -> textures:', gltfVrmParser.json.textures);
-    console.log('JSON -> images:', gltfVrmParser.json.images);
     appController.isLoading = false;
     appController.closeAddTextureModal();
   };
