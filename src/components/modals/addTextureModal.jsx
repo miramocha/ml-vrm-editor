@@ -21,24 +21,7 @@ export default function AddTextureModal({
   const handleFileChange = async (event) => {
     appController.isLoading = true;
     const file = event.target.files[0];
-    console.log(file);
 
-    // Texture does not have accessor
-    // json -> images[index] ->     {
-    //   "name": "v10_inner_mouth.png",
-    //   "bufferView": 202,
-    //   "mimeType": "image/png"
-    // },
-    // json -> buffersView[index] ->     {
-    //   "buffer": 0,
-    //   "byteOffset": 0,
-    //   "byteLength": 7744
-    // },
-    // json -> textures[index] ->     {
-    //   "sampler": 2,
-    //   "source": 43
-    // }
-    // const lastBufferModel = [...gltfVrmParser.bufferModels].pop();
     const bufferModel = new BufferModel({
       bufferViewJson: {
         buffer: 0,

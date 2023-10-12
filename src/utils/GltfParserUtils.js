@@ -209,10 +209,7 @@ export const jsonToPaddedEncodedJsonString = (json) => {
 export const recalculateBuffers = (bufferModels) => {
   let byteOffset = 0;
 
-  bufferModels.forEach((bufferModel, index) => {
-    if (index === 182) {
-      console.log('182 PRE', bufferModel);
-    }
+  bufferModels.forEach((bufferModel) => {
     if (
       bufferModel.accessorJson &&
       byteOffset % bufferModel.componentSize !== 0
@@ -224,10 +221,6 @@ export const recalculateBuffers = (bufferModels) => {
 
     bufferModel.setByteOffset(byteOffset);
     bufferModel.setByteLength(bufferModel.buffer.length);
-
-    if (index === 182) {
-      console.log('182 POST', bufferModel);
-    }
 
     byteOffset += bufferModel.byteLength;
   });
