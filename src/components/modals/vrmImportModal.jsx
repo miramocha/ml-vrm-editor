@@ -4,11 +4,11 @@ import VrmImport from '../vrmImport';
 
 export default function VrmImportModal({
   showVrmImportModal,
-  setShowOpenVrmModal,
+  setShowVrmImportModal,
   setGltfVrmParser,
 }) {
   const handleVrmImportModalHide = () => {
-    setShowOpenVrmModal(false);
+    setShowVrmImportModal(false);
   };
 
   return (
@@ -40,11 +40,11 @@ export default function VrmImportModal({
 
 VrmImportModal.propTypes = {
   showVrmImportModal: PropTypes.bool,
-  setShowOpenVrmModal: PropTypes.func,
+  setShowVrmImportModal: PropTypes.func,
   setGltfVrmParser: PropTypes.func,
 };
 VrmImportModal.defaultProps = {
   showVrmImportModal: false,
-  setShowOpenVrmModal: () => {},
+  setShowVrmImportModal: () => {},
   setGltfVrmParser: () => {},
 };

@@ -13,6 +13,6 @@ export default class VrmMetadataModel {
   }
 
   get thumbnailTextureIndex() {
-    return this.metadataJson?.texture;
+    return this.metadataJson?.texture || this.metadataJson?.thumbnailImage;
   }
 }

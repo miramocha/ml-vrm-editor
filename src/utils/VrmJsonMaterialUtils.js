@@ -3,7 +3,7 @@ export const setGlobalVectorProperties = ({
   propertyNameToVectorMap,
   skipMaterialNameSet = new Set(),
 }) => {
-  const updatedMaterialProperties = json.extensions.VRM.materialProperties.map(
+  const updatedMaterialProperties = json.extensions.VRM?.materialProperties.map(
     (material) => {
       const updatedMaterial = structuredClone(material);
 
@@ -43,6 +43,7 @@ export const setGlobalFloatProperties = ({
   );
 
   const updatedJson = structuredClone(json);
+
   updatedJson.extensions.VRM.materialProperties = updatedMaterialProperties;
 
   return updatedJson;
