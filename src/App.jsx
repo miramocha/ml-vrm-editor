@@ -6,20 +6,24 @@ import GltfVrmParser from './utils/GltfVrmParser';
 import RightTabs from './components/rightTabs';
 import TopNavigation from './components/topNavigation';
 import ThreeJsVrmRenderer from './components/threeJsVrmRenderer';
-import VrmImportModal from './components/modals/vrmImportModal';
+
 import { AppControllerContext, GltfVrmParserContext } from './AppContext';
-import TextureEditorModal from './components/modals/textureEditorModal';
+
+import VrmImportModal from './components/modals/vrmImportModal';
+import ReplaceTextureModal from './components/modals/replaceTextureModal';
 import AboutModal from './components/modals/aboutModal';
+import AddTextureModal from './components/modals/addTextureModal';
 
 const REFRESH_FUNCTION_ID = 'app';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
   const [hideRightOffcanvas, setHideRightOffcanvas] = useState(false);
-  const [showVrmImportModal, setShowOpenVrmModal] = useState(false);
-  const [showTextureEditorModal, setShowTextureEditorModal] = useState(false);
+  const [showVrmImportModal, setShowVrmImportModal] = useState(false);
+  const [showReplaceTextureModal, setShowReplaceTextureModal] = useState(false);
   const [showAboutModal, setShowAboutModal] = useState(false);
-  const [editingTextureModel, setEditingTextureModel] = useState(null);
+  const [showAddTextureModal, setShowAddTextureModal] = useState(false);
+  const [replaceTextureModel, setReplaceTextureModel] = useState(null);
   const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
 
   const appController = useContext(AppControllerContext);
@@ -31,8 +35,11 @@ export default function App() {
     id: REFRESH_FUNCTION_ID,
     refreshFunction: refreshComponent,
   });
-  appController.setSetShowTextureEditorModalFunction(setShowTextureEditorModal);
-  appController.setSetEditingTextureModelFunction(setEditingTextureModel);
+  appController.setSetShowReplaceTextureModalFunction(
+    setShowReplaceTextureModal,
+  );
+  appController.setSetReplaceTextureModelFunction(setReplaceTextureModel);
+  appController.setSetShowAddTextureModalFunction(setShowAddTextureModal);
 
   const handleRightOffcanvasHide = () => {
     setHideRightOffcanvas(true);
@@ -58,7 +65,7 @@ export default function App() {
           gltfVrmParser={gltfVrmParser}
           setGltfVrmParser={setGltfVrmParser}
           setHideRightOffcanvas={setHideRightOffcanvas}
-          setShowOpenVrmModal={setShowOpenVrmModal}
+          setShowVrmImportModal={setShowVrmImportModal}
           setShowAboutModal={setShowAboutModal}
         />
         <ThreeJsVrmRenderer />
@@ -82,13 +89,17 @@ export default function App() {
         </Offcanvas>
         <VrmImportModal
           showVrmImportModal={showVrmImportModal}
-          setShowOpenVrmModal={setShowOpenVrmModal}
+          setShowVrmImportModal={setShowVrmImportModal}
           setGltfVrmParser={setGltfVrmParser}
         />
-        <TextureEditorModal
-          textureModel={editingTextureModel}
-          showTextureEditorModal={showTextureEditorModal}
-          setShowTextureEditorModal={setShowTextureEditorModal}
+        <ReplaceTextureModal
+          textureModel={replaceTextureModel}
+          showReplaceTextureModal={showReplaceTextureModal}
+          setShowReplaceTextureModal={setShowReplaceTextureModal}
+        />
+        <AddTextureModal
+          showAddTextureModal={showAddTextureModal}
+          setShowAddTextureModal={setShowAddTextureModal}
         />
         <AboutModal
           showAboutModal={showAboutModal}

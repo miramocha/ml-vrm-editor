@@ -73,27 +73,42 @@ export default class AppController {
     return this;
   }
 
-  setEditingTextureModel;
+  setReplaceTextureModel;
 
-  setSetEditingTextureModelFunction(setEditingTextureModel) {
-    this.setEditingTextureModel = setEditingTextureModel;
+  setSetReplaceTextureModelFunction(setReplaceTextureModel) {
+    this.setReplaceTextureModel = setReplaceTextureModel;
     return this;
   }
 
-  setShowTextureEditorModal;
+  setShowReplaceTextureModal;
 
-  setSetShowTextureEditorModalFunction(setShowTextureEditorModalFunction) {
-    this.setShowTextureEditorModal = setShowTextureEditorModalFunction;
+  setSetShowReplaceTextureModalFunction(setShowReplaceTextureModalFunction) {
+    this.setShowReplaceTextureModal = setShowReplaceTextureModalFunction;
     return this;
   }
 
-  openEditTextureModal(textureModel) {
-    this.setEditingTextureModel(textureModel);
-    this.setShowTextureEditorModal(true);
+  openReplaceTextureModal(textureModel) {
+    this.setReplaceTextureModel(textureModel);
+    this.setShowReplaceTextureModal(true);
   }
 
-  closeEditTextureModal() {
-    this.setShowTextureEditorModal(false);
-    this.setEditingTextureModel(null);
+  closeReplaceTextureModal() {
+    this.setShowReplaceTextureModal(false);
+    this.setReplaceTextureModel(null);
+  }
+
+  setShowAddTextureModal;
+
+  setSetShowAddTextureModalFunction(setShowAddTextureModalFunction) {
+    this.setShowAddTextureModal = setShowAddTextureModalFunction;
+    return this;
+  }
+
+  openAddTextureModal() {
+    this.setShowAddTextureModal(true);
+  }
+
+  closeAddTextureModal() {
+    this.setShowAddTextureModal(false);
   }
 }

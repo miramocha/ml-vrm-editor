@@ -8,7 +8,7 @@ import { AppControllerContext } from '../AppContext';
 export default function EditableTexture({ textureModel }) {
   const appController = useContext(AppControllerContext);
   const handleEditImageClick = () => {
-    appController.openEditTextureModal(textureModel);
+    appController.openReplaceTextureModal(textureModel);
   };
   return (
     <Card className="mb-2" style={{ aspectRatio: '1/1' }}>

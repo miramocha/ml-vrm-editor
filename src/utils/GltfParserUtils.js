@@ -153,7 +153,7 @@ export const calculateChunkLength = (length) => {
 };
 
 export const buildMaterialModelCache = (json) => {
-  return json.extensions.VRM.materialProperties.map(
+  return json.extensions.VRM?.materialProperties.map(
     (vrmMaterialJson, materialIndex) =>
       new MaterialModel({
         materialIndex,
@@ -164,10 +164,11 @@ export const buildMaterialModelCache = (json) => {
 };
 
 export const buildTextureModelCache = ({ json, bufferModels }) => {
-  return json.images.map((imageJson) => {
+  return json.images.map((imageJson, index) => {
     return new TextureModel({
       imageJson,
       bufferModel: bufferModels[imageJson.bufferView],
+      textureJson: json.textures[index],
     });
   });
 };
@@ -233,7 +234,7 @@ export const recalculateBuffers = (bufferModels) => {
   });
 
   return {
-    bufferModels,
+    updatedBufferModels: bufferModels,
     totalBufferLength: byteOffset,
     updatedBinaryChunkUint8Array,
   };

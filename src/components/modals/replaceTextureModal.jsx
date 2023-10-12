@@ -4,16 +4,16 @@ import { Modal, Stack, Button, Card, Form } from 'react-bootstrap';
 import TextureModel from '../../models/TextureModel';
 import { AppControllerContext, GltfVrmParserContext } from '../../AppContext';
 
-export default function TextureEditorModal({
+export default function ReplaceTextureModal({
   textureModel,
-  showTextureEditorModal,
-  setShowTextureEditorModal,
+  showReplaceTextureModal,
+  setShowReplaceTextureModal,
 }) {
   const appController = useContext(AppControllerContext);
   const gltfVrmParser = useContext(GltfVrmParserContext);
 
-  const handleTextureEditorModalHide = () => {
-    setShowTextureEditorModal(false);
+  const handleReplaceTextureModalHide = () => {
+    setShowReplaceTextureModal(false);
   };
 
   const handleFileChange = async (event) => {
@@ -28,7 +28,7 @@ export default function TextureEditorModal({
     gltfVrmParser.commitJsonChanges(true);
     appController.loadVrm(await gltfVrmParser.buildFile());
     appController.isLoading = false;
-    appController.closeEditTextureModal();
+    appController.closeReplaceTextureModal();
   };
 
   const handleDownloadButtonClick = async () => {
@@ -44,8 +44,8 @@ export default function TextureEditorModal({
 
   return (
     <Modal
-      show={showTextureEditorModal}
-      onHide={handleTextureEditorModalHide}
+      show={showReplaceTextureModal}
+      onHide={handleReplaceTextureModalHide}
       centered
     >
       <Modal.Header closeButton>
@@ -69,7 +69,7 @@ export default function TextureEditorModal({
           <Button onClick={handleDownloadButtonClick}>
             <i className="bi bi-download" /> Download
           </Button>
-          <Button variant="danger" onClick={handleTextureEditorModalHide}>
+          <Button variant="danger" onClick={handleReplaceTextureModalHide}>
             Cancel
           </Button>
         </Stack>
@@ -78,13 +78,13 @@ export default function TextureEditorModal({
   );
 }
 
-TextureEditorModal.propTypes = {
+ReplaceTextureModal.propTypes = {
   textureModel: PropTypes.instanceOf(TextureModel),
-  showTextureEditorModal: PropTypes.bool,
-  setShowTextureEditorModal: PropTypes.func,
+  showReplaceTextureModal: PropTypes.bool,
+  setShowReplaceTextureModal: PropTypes.func,
 };
-TextureEditorModal.defaultProps = {
+ReplaceTextureModal.defaultProps = {
   textureModel: null,
-  showTextureEditorModal: false,
-  setShowTextureEditorModal: () => {},
+  showReplaceTextureModal: false,
+  setShowReplaceTextureModal: () => {},
 };
