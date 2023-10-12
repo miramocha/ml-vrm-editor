@@ -1,10 +1,53 @@
 import PropTypes from 'prop-types';
-import { useContext } from 'react';
-import { Modal, Stack, Button, Card, Form } from 'react-bootstrap';
-import TextureModel from '../../models/TextureModel';
-import { AppControllerContext, GltfVrmParserContext } from '../../AppContext';
+import { useContext, useState } from 'react';
+import { Card, Button, Modal, Form, Stack } from 'react-bootstrap';
+import TextureModel from '../models/TextureModel';
+import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
-export default function ReplaceTextureModal({
+export default function ReplaceTextureButton({ textureModel }) {
+  const [showReplaceTextureModal, setShowReplaceTextureModal] = useState(false);
+
+  const handleReplaceImageButtonClick = () => {
+    setShowReplaceTextureModal(true);
+  };
+
+  return (
+    <>
+      <Card
+        key={textureModel?.bufferModel.buffer}
+        className="mb-2"
+        style={{ aspectRatio: '1/1' }}
+      >
+        <Card.Img src={textureModel?.imageSrc} />
+        <Card.ImgOverlay>
+          <Card.Title>{textureModel?.name}</Card.Title>
+          <Button
+            variant="primary"
+            onClick={handleReplaceImageButtonClick}
+            size="sm"
+            style={{ position: 'absolute', bottom: 0, right: 0 }}
+          >
+            <i className="bi bi-pencil-square" /> Replace
+          </Button>
+        </Card.ImgOverlay>
+      </Card>
+      <ReplaceTextureModal
+        showReplaceTextureModal={showReplaceTextureModal}
+        setShowReplaceTextureModal={setShowReplaceTextureModal}
+        textureModel={textureModel}
+      />
+    </>
+  );
+}
+
+ReplaceTextureButton.propTypes = {
+  textureModel: PropTypes.instanceOf(TextureModel),
+};
+ReplaceTextureButton.defaultProps = {
+  textureModel: null,
+};
+
+function ReplaceTextureModal({
   textureModel,
   showReplaceTextureModal,
   setShowReplaceTextureModal,
@@ -28,7 +71,7 @@ export default function ReplaceTextureModal({
     gltfVrmParser.commitJsonChanges(true);
     appController.loadVrm(await gltfVrmParser.buildFile());
     appController.isLoading = false;
-    appController.closeReplaceTextureModal();
+    setShowReplaceTextureModal(false);
   };
 
   const handleDownloadButtonClick = async () => {
@@ -49,7 +92,7 @@ export default function ReplaceTextureModal({
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title>Replace Texture</Modal.Title>
+        <Modal.Title>Replace Texture New</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Card className="mb-2">

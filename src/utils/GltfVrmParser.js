@@ -110,7 +110,6 @@ export default class GltfVrmParser {
   jsonCache = null;
 
   rebuildBinarychunk(rebuildCaches = true) {
-    // Update BufferModel
     const {
       totalBufferLength,
       updatedBufferModels,

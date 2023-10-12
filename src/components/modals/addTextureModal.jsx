@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
-import { Modal, Stack, Button, Card, Form } from 'react-bootstrap';
+import { Modal, Stack, Button, Form } from 'react-bootstrap';
 import TextureModel from '../../models/TextureModel';
 import BufferModel from '../../models/BufferModel';
 import { AppControllerContext, GltfVrmParserContext } from '../../AppContext';
-import GltfVrmParser from '../../utils/GltfVrmParser';
 
 export default function AddTextureModal({
   showAddTextureModal,

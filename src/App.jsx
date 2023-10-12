@@ -10,7 +10,6 @@ import ThreeJsVrmRenderer from './components/threeJsVrmRenderer';
 import { AppControllerContext, GltfVrmParserContext } from './AppContext';
 
 import VrmImportModal from './components/modals/vrmImportModal';
-import ReplaceTextureModal from './components/modals/replaceTextureModal';
 import AboutModal from './components/modals/aboutModal';
 import AddTextureModal from './components/modals/addTextureModal';
 
@@ -20,10 +19,8 @@ export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
   const [hideRightOffcanvas, setHideRightOffcanvas] = useState(false);
   const [showVrmImportModal, setShowVrmImportModal] = useState(false);
-  const [showReplaceTextureModal, setShowReplaceTextureModal] = useState(false);
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [showAddTextureModal, setShowAddTextureModal] = useState(false);
-  const [replaceTextureModel, setReplaceTextureModel] = useState(null);
   const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
 
   const appController = useContext(AppControllerContext);
@@ -35,10 +32,6 @@ export default function App() {
     id: REFRESH_FUNCTION_ID,
     refreshFunction: refreshComponent,
   });
-  appController.setSetShowReplaceTextureModalFunction(
-    setShowReplaceTextureModal,
-  );
-  appController.setSetReplaceTextureModelFunction(setReplaceTextureModel);
   appController.setSetShowAddTextureModalFunction(setShowAddTextureModal);
 
   const handleRightOffcanvasHide = () => {
@@ -91,11 +84,6 @@ export default function App() {
           showVrmImportModal={showVrmImportModal}
           setShowVrmImportModal={setShowVrmImportModal}
           setGltfVrmParser={setGltfVrmParser}
-        />
-        <ReplaceTextureModal
-          textureModel={replaceTextureModel}
-          showReplaceTextureModal={showReplaceTextureModal}
-          setShowReplaceTextureModal={setShowReplaceTextureModal}
         />
         <AddTextureModal
           showAddTextureModal={showAddTextureModal}

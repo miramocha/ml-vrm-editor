@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Form, Container, Col, Row, Stack, Button } from 'react-bootstrap';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
-import EditableTexture from './editableTexture';
+import ReplaceTextureButton from './replaceTextureButton';
 
 export default function VrmMetadataEditor() {
   const gltfVrmParser = useContext(GltfVrmParserContext);
@@ -24,7 +24,7 @@ export default function VrmMetadataEditor() {
         <Container>
           <Row className="justify-content-md-center">
             <Col md={6}>
-              <EditableTexture
+              <ReplaceTextureButton
                 textureModel={gltfVrmParser?.thumbnailImageTextureModel}
               />
             </Col>
