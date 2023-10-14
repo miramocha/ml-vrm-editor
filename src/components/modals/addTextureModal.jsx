@@ -1,21 +1,16 @@
-/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
-import { Modal, Stack, Button, Card, Form } from 'react-bootstrap';
+import { Modal, Stack, Button, Form } from 'react-bootstrap';
 import TextureModel from '../../models/TextureModel';
 import BufferModel from '../../models/BufferModel';
 import { AppControllerContext, GltfVrmParserContext } from '../../AppContext';
-import GltfVrmParser from '../../utils/GltfVrmParser';
 
-export default function AddTextureModal({
-  showAddTextureModal,
-  setShowAddTextureModal,
-}) {
+export default function AddTextureModal({ showAddTextureModal }) {
   const appController = useContext(AppControllerContext);
   const gltfVrmParser = useContext(GltfVrmParserContext);
 
   const handleAddTextureModalHide = () => {
-    setShowAddTextureModal(false);
+    appController.closeAddTextureModal();
   };
 
   const handleFileChange = async (event) => {
@@ -87,9 +82,7 @@ export default function AddTextureModal({
 
 AddTextureModal.propTypes = {
   showAddTextureModal: PropTypes.bool,
-  setShowAddTextureModal: PropTypes.func,
 };
 AddTextureModal.defaultProps = {
   showAddTextureModal: false,
-  setShowAddTextureModal: () => {},
 };

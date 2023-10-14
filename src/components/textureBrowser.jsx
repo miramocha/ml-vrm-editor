@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Container, Row, Col, Button, Stack } from 'react-bootstrap';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
-import EditableTexture from './editableTexture';
+import ReplaceTextureButton from './replaceTextureButton';
 
 export default function TextureBrowser() {
   const gltfVrmParser = useContext(GltfVrmParserContext);
@@ -31,7 +31,7 @@ export default function TextureBrowser() {
             xs={6}
             md={6}
           >
-            <EditableTexture textureModel={textureModel} />
+            <ReplaceTextureButton textureModel={textureModel} />
           </Col>
         ))}
       </Row>

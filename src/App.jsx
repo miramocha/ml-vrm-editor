@@ -13,18 +13,26 @@ import VrmImportModal from './components/modals/vrmImportModal';
 import ReplaceTextureModal from './components/modals/replaceTextureModal';
 import AboutModal from './components/modals/aboutModal';
 import AddTextureModal from './components/modals/addTextureModal';
+import SelectTextureModal from './components/modals/selectTextureModal';
 
 const REFRESH_FUNCTION_ID = 'app';
 
 export default function App() {
   const [gltfVrmParser, setGltfVrmParser] = useState(null);
   const [hideRightOffcanvas, setHideRightOffcanvas] = useState(false);
+  const [replaceTextureModel, setReplaceTextureModel] = useState(null);
+  const [editingMaterialModel, setEditingMaterialModel] = useState(null);
+  const [editingTextureSlot, setEditingTextureSlot] = useState('main');
+
+  // TO DO: deprecate this?
+  const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
+
+  // Modals
   const [showVrmImportModal, setShowVrmImportModal] = useState(false);
   const [showReplaceTextureModal, setShowReplaceTextureModal] = useState(false);
   const [showAboutModal, setShowAboutModal] = useState(false);
-  const [showAddTextureModal, setShowAddTextureModal] = useState(false);
-  const [replaceTextureModel, setReplaceTextureModel] = useState(null);
-  const [renderId, setRenderId] = useState(REFRESH_FUNCTION_ID + Math.random());
+  const [showAddTextureModal, setShowAddTextureModal] = useState(() => {});
+  const [showSelectTextureModal, setShowSelectTextureModal] = useState(false);
 
   const appController = useContext(AppControllerContext);
 
@@ -35,11 +43,44 @@ export default function App() {
     id: REFRESH_FUNCTION_ID,
     refreshFunction: refreshComponent,
   });
-  appController.setSetShowReplaceTextureModalFunction(
-    setShowReplaceTextureModal,
-  );
-  appController.setSetReplaceTextureModelFunction(setReplaceTextureModel);
-  appController.setSetShowAddTextureModalFunction(setShowAddTextureModal);
+
+  // Replace Texture Modal
+  appController.openReplaceTextureModal = (textureModel) => {
+    setReplaceTextureModel(textureModel);
+    setShowReplaceTextureModal(true);
+  };
+  appController.closeReplaceTextureModal = () => {
+    setReplaceTextureModel(null);
+    setShowReplaceTextureModal(false);
+  };
+
+  // Add Texture Modal
+  appController.openAddTextureModal = (callback) => {
+    appController.addTextureCallback = callback;
+    setShowAddTextureModal(true);
+  };
+
+  appController.closeAddTextureModal = () => {
+    // TODO: FIX THIS
+    if (appController.addTextureCallback) {
+      appController.addTextureCallback();
+      appController.addTextureCallback = null;
+    }
+
+    setShowAddTextureModal(false);
+  };
+
+  // Select Texture Modal
+  appController.openSelectTextureModal = (materialModel, textureSlot) => {
+    setEditingMaterialModel(materialModel);
+    setEditingTextureSlot(textureSlot);
+    setShowSelectTextureModal(true);
+  };
+  appController.closeSelectTextureModal = () => {
+    // setEditingMaterialModel(null);
+    // setEditingTextureSlot(null);
+    setShowSelectTextureModal(false);
+  };
 
   const handleRightOffcanvasHide = () => {
     setHideRightOffcanvas(true);
@@ -97,9 +138,12 @@ export default function App() {
           showReplaceTextureModal={showReplaceTextureModal}
           setShowReplaceTextureModal={setShowReplaceTextureModal}
         />
-        <AddTextureModal
-          showAddTextureModal={showAddTextureModal}
-          setShowAddTextureModal={setShowAddTextureModal}
+        <AddTextureModal showAddTextureModal={showAddTextureModal} />
+        <SelectTextureModal
+          materialModel={editingMaterialModel}
+          textureSlot={editingTextureSlot}
+          showSelectTextureModal={showSelectTextureModal}
+          setShowSelectTextureModal={setShowSelectTextureModal}
         />
         <AboutModal
           showAboutModal={showAboutModal}
