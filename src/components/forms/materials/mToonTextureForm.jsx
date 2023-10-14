@@ -197,11 +197,11 @@ export default function MToonTextureForm({ materialModel }) {
           <Col xs={6} md={6}>
             <h5>Sphere</h5>
             <Card className="mb-2" style={{ aspectRatio: '1/1' }}>
-              {Number.isInteger(materialModel.sphereAdditionIndex) ? (
+              {Number.isInteger(materialModel.sphereAdditionTextureIndex) ? (
                 <Card.Img
                   src={
                     gltfVrmParser.getTextureModelFromIndex(
-                      materialModel.emissiveTextureIndex,
+                      materialModel.sphereAdditionTextureIndex,
                     ).imageSrc
                   }
                 />
@@ -210,9 +210,9 @@ export default function MToonTextureForm({ materialModel }) {
               )}
               <Card.ImgOverlay>
                 <Card.Title>
-                  {Number.isInteger(materialModel.sphereAdditionIndex)
+                  {Number.isInteger(materialModel.sphereAdditionTextureIndex)
                     ? gltfVrmParser.getTextureModelFromIndex(
-                        materialModel.emissiveTextureIndex,
+                        materialModel.sphereAdditionTextureIndex,
                       ).name
                     : NO_TEXTURE_ASSIGNED_MESSAGE}
                 </Card.Title>
