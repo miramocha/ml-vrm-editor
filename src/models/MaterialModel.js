@@ -50,6 +50,15 @@ const FIELD_NAME_TO_ATTRIBUTE_TYPE = {
  * Future state - has VRM1.0 flag and handle getter/setter
  */
 export default class MaterialModel {
+  static TEXTURE_SLOTS = {
+    MAIN: 'MAIN',
+    SHADE: 'SHADE',
+    EMISSIVE: 'EMISSIVE',
+    NORMAL: 'NORMAL',
+    SPHERE: 'SPHERE',
+    RIM: 'RIM',
+  };
+
   /**
    * @type {number}
    */
@@ -150,24 +159,52 @@ export default class MaterialModel {
     return this.pbrMaterialJson.pbrMetallicRoughness.baseColorTexture.index;
   }
 
+  setMainTextureIndex(textureIndex) {
+    this.pbrMaterialJson.pbrMetallicRoughness.baseColorTexture.index =
+      textureIndex;
+    this.vrmMaterialJson.textureProperties._MainTex = textureIndex;
+  }
+
   get shadeTextureIndex() {
     return this.vrmMaterialJson.textureProperties._ShadeTexture;
+  }
+
+  setShadeTextureIndex(textureIndex) {
+    this.vrmMaterialJson.textureProperties._ShadeTexture = textureIndex;
   }
 
   get emissiveTextureIndex() {
     return this.pbrMaterialJson.emissiveTexture.index;
   }
 
+  setEmissiveTextureIndex(textureIndex) {
+    this.pbrMaterialJson.emissiveTexture.index = textureIndex;
+    this.vrmMaterialJson.textureProperties._EmissionMap = textureIndex;
+  }
+
   get normalTextureIndex() {
     return this.pbrMaterialJson.normalTexture.index;
+  }
+
+  setNormalTextureIndex(textureIndex) {
+    this.pbrMaterialJson.normalTexture.index = textureIndex;
+    this.vrmMaterialJson.textureProperties._BumpMap = textureIndex;
   }
 
   get sphereAdditionTextureIndex() {
     return this.vrmMaterialJson.textureProperties._SphereAdd;
   }
 
+  setSphereAdditionTextureIndex(textureIndex) {
+    this.vrmMaterialJson.textureProperties._SphereAdd = textureIndex;
+  }
+
   get rimTextureIndex() {
     return this.vrmMaterialJson.textureProperties._RimTexture;
+  }
+
+  setRimTextureIndex(textureIndex) {
+    this.vrmMaterialJson.textureProperties._RimTexture = textureIndex;
   }
 
   get isMtoon() {

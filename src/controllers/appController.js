@@ -32,7 +32,7 @@ export default class AppController {
           Math.min(100.0 * (progress.loaded / progress.total), 95),
         );
       },
-      (error) => console.error(error),
+      () => () => {},
     );
   }
 
@@ -73,42 +73,20 @@ export default class AppController {
     return this;
   }
 
-  setReplaceTextureModel;
+  // Replace Texture Modal
+  openReplaceTextureModal;
 
-  setSetReplaceTextureModelFunction(setReplaceTextureModel) {
-    this.setReplaceTextureModel = setReplaceTextureModel;
-    return this;
-  }
+  closeReplaceTextureModal;
 
-  setShowReplaceTextureModal;
+  // Add Texture Modal
+  addTextureCallback;
 
-  setSetShowReplaceTextureModalFunction(setShowReplaceTextureModalFunction) {
-    this.setShowReplaceTextureModal = setShowReplaceTextureModalFunction;
-    return this;
-  }
+  openAddTextureModal;
 
-  openReplaceTextureModal(textureModel) {
-    this.setReplaceTextureModel(textureModel);
-    this.setShowReplaceTextureModal(true);
-  }
+  closeAddTextureModal;
 
-  closeReplaceTextureModal() {
-    this.setShowReplaceTextureModal(false);
-    this.setReplaceTextureModel(null);
-  }
+  // Select Texture Modal
+  openSelectTextureModal;
 
-  setShowAddTextureModal;
-
-  setSetShowAddTextureModalFunction(setShowAddTextureModalFunction) {
-    this.setShowAddTextureModal = setShowAddTextureModalFunction;
-    return this;
-  }
-
-  openAddTextureModal() {
-    this.setShowAddTextureModal(true);
-  }
-
-  closeAddTextureModal() {
-    this.setShowAddTextureModal(false);
-  }
+  closeSelectTextureModal;
 }
