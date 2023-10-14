@@ -32,7 +32,7 @@ export default class AppController {
           Math.min(100.0 * (progress.loaded / progress.total), 95),
         );
       },
-      (error) => console.error(error),
+      () => () => {},
     );
   }
 
@@ -73,27 +73,20 @@ export default class AppController {
     return this;
   }
 
-  setEditingTextureModel;
+  // Replace Texture Modal
+  openReplaceTextureModal;
 
-  setSetEditingTextureModelFunction(setEditingTextureModel) {
-    this.setEditingTextureModel = setEditingTextureModel;
-    return this;
-  }
+  closeReplaceTextureModal;
 
-  setShowTextureEditorModal;
+  // Add Texture Modal
+  addTextureCallback;
 
-  setSetShowTextureEditorModalFunction(setShowTextureEditorModalFunction) {
-    this.setShowTextureEditorModal = setShowTextureEditorModalFunction;
-    return this;
-  }
+  openAddTextureModal;
 
-  openEditTextureModal(textureModel) {
-    this.setEditingTextureModel(textureModel);
-    this.setShowTextureEditorModal(true);
-  }
+  closeAddTextureModal;
 
-  closeEditTextureModal() {
-    this.setShowTextureEditorModal(false);
-    this.setEditingTextureModel(null);
-  }
+  // Select Texture Modal
+  openSelectTextureModal;
+
+  closeSelectTextureModal;
 }

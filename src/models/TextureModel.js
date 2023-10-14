@@ -1,11 +1,14 @@
 export default class TextureModel {
   imageJson;
 
+  textureJson;
+
   bufferModel;
 
-  constructor({ bufferModel, imageJson }) {
+  constructor({ bufferModel, imageJson, textureJson }) {
     this.bufferModel = bufferModel;
     this.imageJson = imageJson;
+    this.textureJson = textureJson;
   }
 
   get name() {

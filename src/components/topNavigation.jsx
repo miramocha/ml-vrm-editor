@@ -5,7 +5,7 @@ import { GltfVrmParserContext } from '../AppContext';
 
 export default function TopNavigation({
   setHideRightOffcanvas,
-  setShowOpenVrmModal,
+  setShowVrmImportModal,
   setShowAboutModal,
 }) {
   const gltfVrmParser = useContext(GltfVrmParserContext);
@@ -24,7 +24,7 @@ export default function TopNavigation({
     document.body.removeChild(tempLink);
   };
 
-  const handleLoadButtonClick = () => setShowOpenVrmModal(true);
+  const handleLoadButtonClick = () => setShowVrmImportModal(true);
 
   const handleAboutButtonClick = () => setShowAboutModal(true);
 
@@ -66,11 +66,11 @@ export default function TopNavigation({
 
 TopNavigation.propTypes = {
   setHideRightOffcanvas: PropTypes.func,
-  setShowOpenVrmModal: PropTypes.func,
+  setShowVrmImportModal: PropTypes.func,
   setShowAboutModal: PropTypes.func,
 };
 TopNavigation.defaultProps = {
   setHideRightOffcanvas: () => {},
-  setShowOpenVrmModal: () => {},
+  setShowVrmImportModal: () => {},
   setShowAboutModal: () => {},
 };

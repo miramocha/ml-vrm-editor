@@ -46,6 +46,14 @@ export default class GltfVrmParser {
 
   bufferModelsCache = null;
 
+  get isUniVrm() {
+    return !!this.json?.extensions?.VRM;
+  }
+
+  get isVrm1() {
+    return !!this.json?.extensions?.VRMC_vrm;
+  }
+
   /**
    *@returns {BufferModel[]}
    */
@@ -63,7 +71,7 @@ export default class GltfVrmParser {
   materialModelCache = null;
 
   /**
-   * @returns {materialModel[]}
+   * @returns {MaterialModel[]}
    */
   get materialModels() {
     if (!this.materialModelCache) {
@@ -102,8 +110,14 @@ export default class GltfVrmParser {
   jsonCache = null;
 
   rebuildBinarychunk(rebuildCaches = true) {
-    const { totalBufferLength, updatedBinaryChunkUint8Array } =
-      GltfParserUtils.recalculateBuffers(this.bufferModels);
+    // Update BufferModel
+    const {
+      totalBufferLength,
+      updatedBufferModels,
+      updatedBinaryChunkUint8Array,
+    } = GltfParserUtils.recalculateBuffers(this.bufferModels);
+
+    this.bufferModelCache = updatedBufferModels;
     this.binaryChunk = new GltfChunkModel({
       chunkLength: totalBufferLength,
       chunkUint8Array: updatedBinaryChunkUint8Array,

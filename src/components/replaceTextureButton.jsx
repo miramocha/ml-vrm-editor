@@ -1,14 +1,13 @@
-/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
-import { Card, Button, Container } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import TextureModel from '../models/TextureModel';
 import { AppControllerContext } from '../AppContext';
 
-export default function EditableTexture({ textureModel }) {
+export default function ReplaceTextureButton({ textureModel }) {
   const appController = useContext(AppControllerContext);
   const handleEditImageClick = () => {
-    appController.openEditTextureModal(textureModel);
+    appController.openReplaceTextureModal(textureModel);
   };
   return (
     <Card className="mb-2" style={{ aspectRatio: '1/1' }}>
@@ -28,9 +27,9 @@ export default function EditableTexture({ textureModel }) {
   );
 }
 
-EditableTexture.propTypes = {
+ReplaceTextureButton.propTypes = {
   textureModel: PropTypes.instanceOf(TextureModel),
 };
-EditableTexture.defaultProps = {
+ReplaceTextureButton.defaultProps = {
   textureModel: null,
 };
