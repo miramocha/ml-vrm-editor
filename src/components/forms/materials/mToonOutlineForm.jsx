@@ -26,6 +26,14 @@ export default function MToonOutlineForm({ materialModel }) {
         />
       </Form.Group>
       <Form.Group>
+        <Form.Label>Outline Scaled Max Distance</Form.Label>
+        <Form.Control
+          name="_OutlineScaledMaxDistance"
+          type="number"
+          defaultValue={materialModel?.getValue('_OutlineScaledMaxDistance')}
+        />
+      </Form.Group>
+      <Form.Group>
         <Form.Label>Outline Lightning Mix</Form.Label>
         <Form.Control
           name="_OutlineLightingMix"
