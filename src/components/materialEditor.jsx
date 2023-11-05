@@ -8,6 +8,7 @@ import MToonRimLightForm from './forms/materials/mToonRimLightForm';
 import MToonEmissionForm from './forms/materials/mToonEmissionForm';
 import MToonTextureForm from './forms/materials/mToonTextureForm';
 import MToonAnimationForm from './forms/materials/mToonAnimationForm';
+import MToonMiscForm from './forms/materials/mToonMiscForm';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
 const REFRESH_FUNCTION_ID = 'material-editor';
@@ -159,7 +160,6 @@ export default function MaterialEditor() {
                   />
                 </Accordion.Body>
               </Accordion.Item>
-
               <Accordion.Item eventKey="animationSettingsAccordionItem">
                 <Accordion.Header>
                   <i className="bi  bi-camera-reels me-2" /> Texture Animation
@@ -173,8 +173,21 @@ export default function MaterialEditor() {
                   />
                 </Accordion.Body>
               </Accordion.Item>
-            </Accordion>
 
+              <Accordion.Item eventKey="miscSettingsAccordionItem">
+                <Accordion.Header>
+                  <i className="bi  bi-three-dots me-2" /> Miscellaneous
+                </Accordion.Header>
+                <Accordion.Body>
+                  <MToonMiscForm
+                    materialModel={gltfVrmParser?.materialModels?.at(
+                      currentMaterialIndex,
+                    )}
+                    key={currentMaterialIndex}
+                  />
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
             <Button variant="primary" type="submit">
               Save Material
             </Button>
