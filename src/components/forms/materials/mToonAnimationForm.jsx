@@ -14,6 +14,7 @@ export default function MToonAnimationForm({ materialModel }) {
         <Form.Control
           key={`_UvAnimScrollX.${materialModel?.getValue('_UvAnimScrollX')}`}
           type="number"
+          step={0.001}
           name="_UvAnimScrollX"
           defaultValue={materialModel?.getValue('_UvAnimScrollX')}
         />
@@ -23,6 +24,7 @@ export default function MToonAnimationForm({ materialModel }) {
         <Form.Control
           key={`_UvAnimScrollY.${materialModel?.getValue('_UvAnimScrollY')}`}
           type="number"
+          step={0.001}
           name="_UvAnimScrollY"
           defaultValue={materialModel?.getValue('_UvAnimScrollY')}
         />
@@ -32,6 +34,7 @@ export default function MToonAnimationForm({ materialModel }) {
         <Form.Control
           key={`_UvAnimRotation.${materialModel?.getValue('_UvAnimRotation')}`}
           type="number"
+          step={0.001}
           name="_UvAnimRotation"
           defaultValue={materialModel?.getValue('_UvAnimRotation')}
         />
