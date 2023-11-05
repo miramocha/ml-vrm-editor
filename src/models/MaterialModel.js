@@ -95,13 +95,16 @@ export default class MaterialModel {
 
   setValue(name, value) {
     if (value) {
+      if (name === 'renderQueue') {
+        this.setRenderQueue(Number(value));
+        return;
+      }
+
       const type = FIELD_NAME_TO_ATTRIBUTE_TYPE[name];
 
       if (type === VECTOR || type === COLOR) {
         this.#setVector(name, value);
-      }
-
-      if (type === FLOAT) {
+      } else if (type === FLOAT) {
         this.#setFloat(name, value);
       }
     }
@@ -109,6 +112,10 @@ export default class MaterialModel {
 
   getValue(name) {
     const type = FIELD_NAME_TO_ATTRIBUTE_TYPE[name];
+
+    if (name === 'renderQueue') {
+      return this.#getRenderQueue();
+    }
 
     if (type === VECTOR) {
       return this.#getVector(name);
@@ -205,6 +212,14 @@ export default class MaterialModel {
 
   setRimTextureIndex(textureIndex) {
     this.vrmMaterialJson.textureProperties._RimTexture = textureIndex;
+  }
+
+  #getRenderQueue() {
+    return this.vrmMaterialJson.renderQueue;
+  }
+
+  #setRenderQueue(renderQueue) {
+    this.renderQueue = renderQueue;
   }
 
   get isMtoon() {

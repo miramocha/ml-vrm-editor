@@ -15,6 +15,14 @@ export default function MToonShadingForm({ materialModel }) {
         />
       </Form.Group>
       <Form.Group>
+        <Form.Label>Receive Shadow Rate</Form.Label>
+        <Form.Control
+          type="number"
+          name="_ReceiveShadowRate"
+          defaultValue={materialModel?.getValue('_ReceiveShadowRate')}
+        />
+      </Form.Group>
+      <Form.Group>
         <Form.Label>Shade Shift</Form.Label>
         <Form.Control
           type="number"
