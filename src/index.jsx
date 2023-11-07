@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 // import 'bootstrap/dist/css/bootstrap.css';
 // import 'bootstrap/dist/css/bootstrap-reboot.css';
 // import 'bootstrap/dist/css/bootstrap-grid.css';
-import 'bootswatch/dist/united/bootstrap.min.css';
+import 'bootswatch/dist/pulse/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import './index.css';

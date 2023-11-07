@@ -5,15 +5,12 @@ import MaterialModel from '../../../models/MaterialModel';
 export default function MToonAnimationForm({ materialModel }) {
   return (
     <Stack gap={2} className="mx-auto">
-      <Form.Text className="text-warning">
-        Animation might not be visible here but it should work in Unity MToon
-        shader.
-      </Form.Text>
       <Form.Group>
         <Form.Label>Scroll X</Form.Label>
         <Form.Control
           key={`_UvAnimScrollX.${materialModel?.getValue('_UvAnimScrollX')}`}
           type="number"
+          step={0.001}
           name="_UvAnimScrollX"
           defaultValue={materialModel?.getValue('_UvAnimScrollX')}
         />
@@ -23,6 +20,7 @@ export default function MToonAnimationForm({ materialModel }) {
         <Form.Control
           key={`_UvAnimScrollY.${materialModel?.getValue('_UvAnimScrollY')}`}
           type="number"
+          step={0.001}
           name="_UvAnimScrollY"
           defaultValue={materialModel?.getValue('_UvAnimScrollY')}
         />
@@ -32,6 +30,7 @@ export default function MToonAnimationForm({ materialModel }) {
         <Form.Control
           key={`_UvAnimRotation.${materialModel?.getValue('_UvAnimRotation')}`}
           type="number"
+          step={0.001}
           name="_UvAnimRotation"
           defaultValue={materialModel?.getValue('_UvAnimRotation')}
         />
