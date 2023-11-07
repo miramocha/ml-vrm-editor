@@ -5,10 +5,6 @@ import MaterialModel from '../../../models/MaterialModel';
 export default function MToonAnimationForm({ materialModel }) {
   return (
     <Stack gap={2} className="mx-auto">
-      <Form.Text className="text-warning">
-        Animation might not be visible here but it should work in Unity MToon
-        shader.
-      </Form.Text>
       <Form.Group>
         <Form.Label>Scroll X</Form.Label>
         <Form.Control

@@ -22,9 +22,9 @@ export default class AppController {
         this.scene.add(vrm.scene);
 
         if (this.vrm) {
-          this.scene.remove(this.vrm);
+          this.scene.remove(this.vrm.scene);
         }
-        this.vrm = vrm.scene;
+        this.vrm = vrm;
         this.setVrmLoadingPercentage(100);
       },
       (progress) => {
