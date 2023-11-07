@@ -64,8 +64,12 @@ export default function ThreeJsVrmRenderer() {
     appController.loader = loader;
     appController.scene = scene;
 
+    const clock = new THREE.Clock();
+
     const animate = () => {
       requestAnimationFrame(animate);
+
+      appController.vrm?.update(clock.getDelta());
       controls.update();
       renderer.render(scene, camera);
     };

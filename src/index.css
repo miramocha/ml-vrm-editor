@@ -1,3 +1,14 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Monomaniac+One&display=swap');
+
+:root {
+  --bs-font-sans-serif: 'Monomaniac One', sans-serif;
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100;200;300;400;500;700&display=swap');
+:root {
+  --bs-font-sans-serif: 'M PLUS 1', sans-serif;
+}
+
 body {
   overflow: hidden;
 }

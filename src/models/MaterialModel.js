@@ -96,7 +96,7 @@ export default class MaterialModel {
   setValue(name, value) {
     if (value) {
       if (name === 'renderQueue') {
-        this.setRenderQueue(Number(value));
+        this.#setRenderQueue(Number(value));
         return;
       }
 
