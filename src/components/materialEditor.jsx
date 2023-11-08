@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { Accordion, Form, Stack, Button } from 'react-bootstrap';
+import { Trans } from 'react-i18next';
 import MToonMainForm from './forms/materials/mToonMainForm';
 import MToonShadingForm from './forms/materials/mToonShadingForm';
 import MToonOutlineForm from './forms/materials/mToonOutlineForm';
@@ -97,7 +98,8 @@ export default function MaterialEditor() {
               </Accordion.Item>
               <Accordion.Item eventKey="shadingSettingsAccordionItem">
                 <Accordion.Header>
-                  <i className="bi bi-shadows me-2" /> Shading
+                  <i className="bi bi-shadows me-2" />{' '}
+                  <Trans i18nKey="materialDescription.shading">Shading</Trans>
                 </Accordion.Header>
                 <Accordion.Body>
                   <MToonShadingForm
@@ -110,7 +112,8 @@ export default function MaterialEditor() {
               </Accordion.Item>
               <Accordion.Item eventKey="outlineSettingsAccordionItem">
                 <Accordion.Header>
-                  <i className="bi bi-circle me-2" /> Outline
+                  <i className="bi bi-circle me-2" />{' '}
+                  <Trans i18nKey="materialDescription.outline">Outline</Trans>
                 </Accordion.Header>
                 <Accordion.Body>
                   <MToonOutlineForm
@@ -149,7 +152,8 @@ export default function MaterialEditor() {
               </Accordion.Item>
               <Accordion.Item eventKey="lightingSettingsAccordionItem">
                 <Accordion.Header>
-                  <i className="bi  bi-lightbulb me-2" /> Lighting
+                  <i className="bi  bi-lightbulb me-2" />{' '}
+                  <Trans i18nKey="materialDescription.lighting">Lighting</Trans>
                 </Accordion.Header>
                 <Accordion.Body>
                   <MToonLightingForm
@@ -189,7 +193,7 @@ export default function MaterialEditor() {
               </Accordion.Item>
             </Accordion>
             <Button variant="primary" type="submit">
-              Save Material
+              <Trans i18nKey="save">Save</Trans>
             </Button>
           </Stack>
         </Form>

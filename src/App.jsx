@@ -111,7 +111,7 @@ export default function App() {
         />
         <ThreeJsVrmRenderer />
         <Offcanvas
-          key={`${renderId}-3`}
+          key={`${renderId}-2`}
           show={!hideRightOffcanvas}
           onHide={handleRightOffcanvasHide}
           placement="end"

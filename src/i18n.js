@@ -18,10 +18,41 @@ i18n
     },
     resources: {
       en: {
+        about: 'About',
+        editor: 'Editor',
+        load: 'Load',
+        save: 'Save',
+        materialDescriptions: {
+          lighting: 'Lighting',
+          outline: 'Outline',
+          shading: 'Shading',
+        },
+      },
+      jp: {
         translation: {
-          actions: {
-            save: 'Save',
-            load: 'Load',
+          about: 'About',
+          close: 'クローズ',
+          editor: 'Editor',
+          load: 'ロード',
+          save: 'セーブ',
+          materialDescription: {
+            lighting: 'ライティング',
+            outline: '輪郭線を',
+            shading: 'シェーディング',
+          },
+        },
+      },
+      th: {
+        translation: {
+          about: 'เกี่ยวกับแอพนี้',
+          close: 'ปิด',
+          editor: 'Editor',
+          load: 'โหลด',
+          save: 'เซฟ',
+          materialDescription: {
+            lighting: 'แสง',
+            outline: 'เส้น',
+            shading: 'เงา',
           },
         },
       },

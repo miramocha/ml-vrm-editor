@@ -1,18 +1,22 @@
 import PropTypes from 'prop-types';
 import { Tab, Tabs, Stack, Button } from 'react-bootstrap';
+import { useTranslation, Trans } from 'react-i18next';
 import GltfJsonEditor from './gltfJsonEditor';
 import MaterialEditor from './materialEditor';
 import TextureBrowser from './textureBrowser';
 import GlobalMaterialEditor from './globalMaterialEditor';
 import VrmMetadataEditor from './vrmMetadataEditor';
+import SettingsEditor from './settingsEditor';
 
 export default function RightTabs({ setHideRightOffcanvas }) {
+  const { i18n } = useTranslation();
+
   const handleCloseEditorButtonClick = () => {
     setHideRightOffcanvas(true);
   };
 
   return (
-    <Stack gap={2}>
+    <Stack gap={2} key={i18n.resolvedLanguage}>
       <Tabs defaultActiveKey="mToonMaterialsEditorTab" variant="underline" fill>
         <Tab
           eventKey="mToonMaterialsEditorTab"
@@ -49,9 +53,12 @@ export default function RightTabs({ setHideRightOffcanvas }) {
         >
           <TextureBrowser />
         </Tab>
+        <Tab eventKey="settingsEditorTab" title="Settings" className="pt-2">
+          <SettingsEditor />
+        </Tab>
       </Tabs>
       <Button variant="danger" onClick={handleCloseEditorButtonClick}>
-        Close Editor
+        <Trans i18nKey="close">Close</Trans>
       </Button>
     </Stack>
   );
