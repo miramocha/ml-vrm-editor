@@ -63,7 +63,7 @@ export default function TopNavigation({
         onClick={handleToggleRightOffCanvasButtonClick}
       >
         <i className="bi bi-arrow-bar-left me-2" />
-        <Trans i18nKey="topNavigation.editor">Editor</Trans>
+        <Trans i18nKey="editor">Editor</Trans>
       </Button>
     </Navbar>
   );

@@ -18,14 +18,17 @@ i18n
     },
     resources: {
       en: {
-        about: 'About',
-        editor: 'Editor',
-        load: 'Load',
-        save: 'Save',
-        materialDescriptions: {
-          lighting: 'Lighting',
-          outline: 'Outline',
-          shading: 'Shading',
+        translation: {
+          about: 'About',
+          close: 'Close',
+          editor: 'Editor',
+          load: 'Load',
+          save: 'Save',
+          materialDescription: {
+            lighting: 'Lighting',
+            outline: 'Outline',
+            shading: 'Shading',
+          },
         },
       },
       jp: {
