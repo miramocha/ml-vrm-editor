@@ -72,7 +72,8 @@ export default function MaterialEditor() {
             <Accordion defaultActiveKey="mainSettingsAccordionItem">
               <Accordion.Item eventKey="textureSettingsAccordionItem">
                 <Accordion.Header>
-                  <i className="bi bi-image me-2" /> Textures
+                  <i className="bi bi-image me-2" />{' '}
+                  <Trans i18nKey="materialDescription.texture">Texture</Trans>
                 </Accordion.Header>
                 <Accordion.Body>
                   <MToonTextureForm
@@ -85,7 +86,8 @@ export default function MaterialEditor() {
               </Accordion.Item>
               <Accordion.Item eventKey="mainSettingsAccordionItem">
                 <Accordion.Header>
-                  <i className="bi bi-circle-fill me-2" /> Main
+                  <i className="bi bi-circle-fill me-2" />{' '}
+                  <Trans i18nKey="materialDescription.main">Main</Trans>
                 </Accordion.Header>
                 <Accordion.Body>
                   <MToonMainForm
@@ -126,7 +128,10 @@ export default function MaterialEditor() {
               </Accordion.Item>
               <Accordion.Item eventKey="rimLightSettingsAccordionItem">
                 <Accordion.Header>
-                  <i className="bi bi-brightness-low me-2" /> Rim Light
+                  <i className="bi bi-brightness-low me-2" />{' '}
+                  <Trans i18nKey="materialDescription.rimLight">
+                    Rim Light
+                  </Trans>
                 </Accordion.Header>
                 <Accordion.Body>
                   <MToonRimLightForm
@@ -139,7 +144,8 @@ export default function MaterialEditor() {
               </Accordion.Item>
               <Accordion.Item eventKey="emissionSettingsAccordionItem">
                 <Accordion.Header>
-                  <i className="bi  bi-brightness-high me-2" /> Emission
+                  <i className="bi  bi-brightness-high me-2" />{' '}
+                  <Trans i18nKey="materialDescription.emission">Emission</Trans>
                 </Accordion.Header>
                 <Accordion.Body>
                   <MToonEmissionForm
@@ -166,7 +172,10 @@ export default function MaterialEditor() {
               </Accordion.Item>
               <Accordion.Item eventKey="animationSettingsAccordionItem">
                 <Accordion.Header>
-                  <i className="bi  bi-camera-reels me-2" /> Texture Animation
+                  <i className="bi  bi-camera-reels me-2" />{' '}
+                  <Trans i18nKey="materialDescription.textureAnimation">
+                    Texture Animation
+                  </Trans>
                 </Accordion.Header>
                 <Accordion.Body>
                   <MToonAnimationForm
@@ -180,7 +189,8 @@ export default function MaterialEditor() {
 
               <Accordion.Item eventKey="miscSettingsAccordionItem">
                 <Accordion.Header>
-                  <i className="bi  bi-three-dots me-2" /> Miscellaneous
+                  <i className="bi  bi-three-dots me-2" />{' '}
+                  <Trans i18nKey="misc">Miscellaneous</Trans>
                 </Accordion.Header>
                 <Accordion.Body>
                   <MToonMiscForm

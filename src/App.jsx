@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import { Offcanvas } from 'react-bootstrap';
+import { Trans } from 'react-i18next';
 
 import defaultVrmPath from './resources/AvatarSampleB.vrm';
 import GltfVrmParser from './utils/GltfVrmParser';
@@ -119,7 +120,9 @@ export default function App() {
           backdrop={false}
         >
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Editor</Offcanvas.Title>
+            <Offcanvas.Title>
+              <Trans i18nKey="editor">Editor</Trans>
+            </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
             <RightTabs

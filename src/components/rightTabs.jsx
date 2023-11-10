@@ -9,7 +9,7 @@ import VrmMetadataEditor from './vrmMetadataEditor';
 import SettingsEditor from './settingsEditor';
 
 export default function RightTabs({ setHideRightOffcanvas }) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const handleCloseEditorButtonClick = () => {
     setHideRightOffcanvas(true);
@@ -20,7 +20,7 @@ export default function RightTabs({ setHideRightOffcanvas }) {
       <Tabs defaultActiveKey="mToonMaterialsEditorTab" variant="underline" fill>
         <Tab
           eventKey="mToonMaterialsEditorTab"
-          title="MToon Material Editor"
+          title={`MToon Material ${t('editor')}`}
           className="pt-2"
         >
           <MaterialEditor />
@@ -34,14 +34,14 @@ export default function RightTabs({ setHideRightOffcanvas }) {
         </Tab>
         <Tab
           eventKey="gltfJsonEditorTab"
-          title="GLTF JSON Editor"
+          title={`GLTF JSON ${t('editor')}`}
           className="pt-2"
         >
           <GltfJsonEditor />
         </Tab>
         <Tab
           eventKey="metadataEditorTab"
-          title="Metadata Editor"
+          title={`Metadata ${t('editor')}`}
           className="pt-2"
         >
           <VrmMetadataEditor />

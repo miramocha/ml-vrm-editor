@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
+import { Trans } from 'react-i18next';
 import { Stack, Container, Row, Col, Button, Card } from 'react-bootstrap';
 import MaterialModel from '../../../models/MaterialModel';
 import {
@@ -60,7 +61,9 @@ export default function MToonTextureForm({ materialModel }) {
       <Container>
         <Row>
           <Col xs={6} md={6}>
-            <h5>Main</h5>
+            <h5>
+              <Trans i18nKey="materialDescription.main">Main</Trans>
+            </h5>
             <Card className="mb-2" style={{ aspectRatio: '1/1' }}>
               {Number.isInteger(materialModel.mainTextureIndex) ? (
                 <Card.Img
@@ -94,7 +97,9 @@ export default function MToonTextureForm({ materialModel }) {
           </Col>
 
           <Col xs={6} md={6}>
-            <h5>Shading</h5>
+            <h5>
+              <Trans i18nKey="materialDescription.shading">Shading</Trans>
+            </h5>
             <Card className="mb-2" style={{ aspectRatio: '1/1' }}>
               {Number.isInteger(materialModel.shadeTextureIndex) ? (
                 <Card.Img
@@ -161,7 +166,9 @@ export default function MToonTextureForm({ materialModel }) {
             </Card>
           </Col>
           <Col xs={6} md={6}>
-            <h5>Emission</h5>
+            <h5>
+              <Trans i18nKey="materialDescription.emission">Emission</Trans>
+            </h5>
             <Card className="mb-2" style={{ aspectRatio: '1/1' }}>
               {Number.isInteger(materialModel.emissiveTextureIndex) ? (
                 <Card.Img
@@ -229,7 +236,9 @@ export default function MToonTextureForm({ materialModel }) {
           </Col>
 
           <Col xs={6} md={6}>
-            <h5>Rim</h5>
+            <h5>
+              <Trans i18nKey="materialDescription.rimLight">Rim Light</Trans>
+            </h5>
             <Card className="mb-2" style={{ aspectRatio: '1/1' }}>
               {Number.isInteger(materialModel.rimTextureIndex) ? (
                 <Card.Img
