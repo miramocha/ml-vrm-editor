@@ -16,7 +16,7 @@ export default function MToonShadingForm({ materialModel }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Receive Shadow Rate</Form.Label>
+        <Form.Label>Shadow Receive Multiplier</Form.Label>
         <Form.Control
           type="number"
           name="_ReceiveShadowRate"
@@ -30,7 +30,7 @@ export default function MToonShadingForm({ materialModel }) {
         </Form.Text>
       </Form.Group>
       <Form.Group>
-        <Form.Label>Shade Shift</Form.Label>
+        <Form.Label>Shading Shift</Form.Label>
         <Form.Control
           type="number"
           name="_ShadeShift"
@@ -63,7 +63,7 @@ export default function MToonShadingForm({ materialModel }) {
         <Form.Text>
           <Trans i18nKey="helpText.shadeToony">
             Set whether to smoothly change the lit color and shade color around
-            the threshold value in Shade Shift.When the value is 0, it becomes
+            the threshold value in Shading Shift.When the value is 0, it becomes
             realistically smooth like a general Lambert model.When the value is
             1, it becomes animation-style lighting. The lit color and shade
             color change rapidly around the threshold value.

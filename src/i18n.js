@@ -37,7 +37,7 @@ i18n
           },
           helpText: {
             shadeToony:
-              'Set whether to smoothly change the lit color and shade color around the threshold value in Shade Shift.When the value is 0, it becomes realistically smooth like a general Lambert model.When the value is 1, it becomes animation-style lighting. The lit color and shade color change rapidly around the threshold value.',
+              'Set whether to smoothly change the lit color and shade color around the threshold value in Shading Shift.When the value is 0, it becomes realistically smooth like a general Lambert model.When the value is 1, it becomes animation-style lighting. The lit color and shade color change rapidly around the threshold value.',
             shadeShift:
               'Adjust the threshold value of the lit color and shade color for how the light ray hits the object.When the value is 0, it is the normal lighting.When the value is negative, it becomes the lighting with anime-like, wide range of lit color. It is necessary to disable the self-shadow with setting the value to 0 in Shadow Receive Multiplier according to the displayed warning message.',
             shadowReceiveMultiplier:
