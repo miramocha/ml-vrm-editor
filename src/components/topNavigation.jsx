@@ -1,6 +1,9 @@
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Navbar, Container, Stack } from 'react-bootstrap';
+import { useTranslation, Trans } from 'react-i18next';
+import LanguageSwitcher from './languageSwitcher';
+
 import { GltfVrmParserContext } from '../AppContext';
 
 export default function TopNavigation({
@@ -8,6 +11,7 @@ export default function TopNavigation({
   setShowVrmImportModal,
   setShowAboutModal,
 }) {
+  const { i18n } = useTranslation();
   const gltfVrmParser = useContext(GltfVrmParserContext);
 
   const handleToggleRightOffCanvasButtonClick = () =>
@@ -29,7 +33,7 @@ export default function TopNavigation({
   const handleAboutButtonClick = () => setShowAboutModal(true);
 
   return (
-    <Navbar className="bg-primary">
+    <Navbar className="bg-primary" key={i18n.resolvedLanguage}>
       <Container>
         <Navbar.Brand>
           <i className="bi bi-brush me-2 text-light" />
@@ -39,16 +43,17 @@ export default function TopNavigation({
           <Stack direction="horizontal" gap={2}>
             <Button variant="outline-light" onClick={handleLoadButtonClick}>
               <i className="bi bi-folder2-open me-2" />
-              Load
+              <Trans i18nKey="load">Load</Trans>
             </Button>
             <Button variant="outline-light" onClick={handleSaveButtonClick}>
               <i className="bi bi-save me-2" />
-              Save
+              <Trans i18nKey="save">Save</Trans>
             </Button>
             <Button variant="outline-light" onClick={handleAboutButtonClick}>
               <i className="bi bi-info-circle me-2" />
-              About
+              <Trans i18nKey="about">About</Trans>
             </Button>
+            <LanguageSwitcher />
           </Stack>
         </Navbar.Collapse>
       </Container>
@@ -58,7 +63,7 @@ export default function TopNavigation({
         onClick={handleToggleRightOffCanvasButtonClick}
       >
         <i className="bi bi-arrow-bar-left me-2" />
-        Editor
+        <Trans i18nKey="editor">Editor</Trans>
       </Button>
     </Navbar>
   );
