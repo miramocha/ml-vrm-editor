@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { Trans } from 'react-i18next';
 import { Form, Container, Col, Row, Stack, Button } from 'react-bootstrap';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 import ReplaceTextureButton from './replaceTextureButton';
@@ -78,7 +79,7 @@ export default function VrmMetadataEditor() {
         </Form.Group>
 
         <Button variant="primary" type="submit">
-          Save Metadata
+          <Trans i18nKey="save">Save</Trans>
         </Button>
       </Stack>
     </Form>

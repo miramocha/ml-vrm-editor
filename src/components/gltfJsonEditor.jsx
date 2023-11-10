@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { Button, Form, Stack } from 'react-bootstrap';
+import { Trans } from 'react-i18next';
 import { GltfVrmParserContext, AppControllerContext } from '../AppContext';
 
 const REFRESH_FUNCTION_ID = 'gltf-json-editor';
@@ -48,7 +49,7 @@ export default function GltfJsonEditor() {
           />
         </Form.Group>
         <Button variant="primary" type="submit">
-          Save JSON
+          <Trans i18nKey="save">Save</Trans>
         </Button>
       </Stack>
     </Form>
